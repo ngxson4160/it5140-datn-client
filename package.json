@@ -11,11 +11,11 @@
     "postinstall": "nuxt prepare",
     "clean": "yarn cache clean && rm -rf node_modules && yarn install",
     "lintfix": "eslint --fix --ext \".ts,.js,.vue\" --ignore-path .eslintignore .",
-    "lint": "run-p -cl lint:*",
-    "lint:prettier": "prettier --check \"./**/*.{js,ts,vue}\"",
-    "lint:eslint": "eslint --config .eslintrc.json --ext .vue,.ts \"./\"",
+    "lint": "eslint --fix --ext \".ts,.js,.vue\" --ignore-path .eslintignore .",
     "typecheck": "nuxt typecheck",
-    "format": "prettier --write --ignore-unknown ."
+    "format": "prettier --write --ignore-unknown",
+    "prepare": "husky",
+    "lint-staged": "lint-staged"
   },
   "devDependencies": {
     "@element-plus/nuxt": "^1.0.6",
@@ -33,7 +33,6 @@
     "eslint-plugin-import": "^2.28.1",
     "eslint-plugin-nuxt": "^4.0.0",
     "eslint-plugin-prettier": "^5.0.0",
-    "husky": "^8.0.3",
     "lint-staged": "^14.0.1",
     "npm-run-all": "^4.1.5",
     "nuxt": "^3.7.4",
@@ -50,6 +49,7 @@
     "@pinia/nuxt": "^0.4.11",
     "crypto-js": "^4.1.1",
     "dompurify": "^3.0.6",
+    "husky": "^9.0.11",
     "jwt-decode": "^3.1.2",
     "luxon": "^3.4.3",
     "nuxt-lazy-load": "^3.0.4",
@@ -58,8 +58,9 @@
   },
   "lint-staged": {
     "**/*.{js,ts,vue}": [
-      "yarn run lint",
-      "yarn run format"
+      "yarn lint",
+      "yarn format",
+      "git add ."
     ]
   }
 }

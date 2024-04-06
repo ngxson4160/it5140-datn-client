@@ -4,12 +4,12 @@ export default defineNuxtConfig({
   ssr: false,
   runtimeConfig: {
     public: {
-      baseURL: process.env['BASE_URL'] || 'http://localhost:3009',
-      awsURL: process.env['AWS_DOWNLOAD_URL'] || 'http://localhost:3009',
+      baseURL: process.env.BASE_URL || 'http://localhost:3009',
+      awsURL: process.env.AWS_DOWNLOAD_URL || 'http://localhost:3009',
       nuxtAuthSecret:
-        process.env['NUXT_AUTH_SECRET'] || '875F92F5BE94E32B6AE6CA7793736',
-      timezone: process.env['TIMEZONE'] || 'Asia/Tokyo',
-      stripePublishableKey: process.env['STRIPE_PUBLISHABLE_KEY'] || '',
+        process.env.NUXT_AUTH_SECRET || '875F92F5BE94E32B6AE6CA7793736',
+      timezone: process.env.TIMEZONE || 'Asia/Tokyo',
+      stripePublishableKey: process.env.STRIPE_PUBLISHABLE_KEY || '',
     },
   },
   modules: [
@@ -78,4 +78,4 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
-})
+});

@@ -36,20 +36,20 @@
 
 <script setup lang="ts">
 interface IEmits {
-  (event: 'click', storyId: number): void
+  (event: 'click', storyId: number): void;
 }
 
 // emit
-const emit = defineEmits<IEmits>()
+const emit = defineEmits<IEmits>();
 
 // data
-const paginationStore = usePaginationStore()
+const paginationStore = usePaginationStore();
 
 // methods
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+
 const handleCurrentChange = () => {
-  emit('click', paginationStore.page)
-}
+  emit('click', paginationStore.page);
+};
 </script>
 
 <style scoped></style>

@@ -45,24 +45,28 @@
               <div class="flex items-start">
                 <div class="flex items-center h-5">
                   <input
-                    disabled
                     id="remember"
+                    disabled
                     aria-describedby="remember"
                     type="checkbox"
                     class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
                   />
                 </div>
                 <div class="ml-3 text-sm">
-                  <label for="remember" class="text-gray-500 dark:text-gray-300"
-                    >Remember me</label
+                  <label
+                    for="remember"
+                    class="text-gray-500 dark:text-gray-300"
                   >
+                    Remember me
+                  </label>
                 </div>
               </div>
               <a
                 href="#"
                 class="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500"
-                >Forgot password?</a
               >
+                Forgot password?
+              </a>
             </div>
 
             <UButton
@@ -79,8 +83,9 @@
               <a
                 href="#"
                 class="font-medium text-primary-600 hover:underline dark:text-primary-500"
-                >Sign up</a
               >
+                Sign up
+              </a>
             </p>
           </UForm>
         </div>
@@ -90,33 +95,33 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from 'vue';
 // eslint-disable-next-line import/named
-import { object, string, InferType } from 'yup'
-import type { FormSubmitEvent } from '@nuxt/ui/dist/runtime/types'
+import { object, string, InferType } from 'yup';
+import type { FormSubmitEvent } from '@nuxt/ui/dist/runtime/types';
 
 // data
-const authStore = useAuthStore()
+const authStore = useAuthStore();
 
 const schema = object({
   email: string().email('Invalid email').required('Required'),
   password: string()
     .min(8, 'Must be at least 8 characters')
     .required('Required'),
-})
+});
 
-type Schema = InferType<typeof schema>
+type Schema = InferType<typeof schema>;
 
 const state = ref({
   email: undefined,
   password: undefined,
-})
+});
 
-const loading = ref(false)
+const loading = ref(false);
 
 const submit = async (event: FormSubmitEvent<Schema>) => {
-  loading.value = true
-  await authStore.systemLogin({ ...event.data })
-  loading.value = false
-}
+  loading.value = true;
+  await authStore.systemLogin({ ...event.data });
+  loading.value = false;
+};
 </script>
