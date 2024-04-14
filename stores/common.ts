@@ -1,19 +1,17 @@
-export type TRole = 'SYSTEM_SUPER_ADMIN' | 'SYSTEM_MANAGER'
-
 type TLink = {
-  label: string
-  icon?: string
-  iconClass?: string
-  avatar?: { src: string }
-  badge?: number
-  to?: string
-  click?: () => void
-  children?: TLink[]
-}
+  label: string;
+  icon?: string;
+  iconClass?: string;
+  avatar?: { src: string };
+  badge?: number;
+  to?: string;
+  click?: () => void;
+  children?: TLink[];
+};
 
 export interface ICommonState {
-  links: TLink[]
-  loading: boolean
+  links: TLink[];
+  loading: boolean;
 }
 
 export const useCommonStore = defineStore(EStoreName.COMMON, {
@@ -54,20 +52,20 @@ export const useCommonStore = defineStore(EStoreName.COMMON, {
         },
       ],
       loading: false,
-    }
+    };
   },
   actions: {
     async templeLogin(body: ISystemLogin) {
-      const data = await handleSignIn('/temple/login', body)
+      const data = await handleSignIn('/temple/login', body);
 
-      if (data?.errorCode) return
+      if (data?.errorCode) return;
 
       return navigateTo('/temple/users', {
         external: true,
-      })
+      });
     },
     async userLogin(body: ISystemLogin) {
-      return await handleSignIn('/user/login', body)
+      return await handleSignIn('/user/login', body);
     },
   },
-})
+});
