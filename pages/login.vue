@@ -6,7 +6,7 @@
       <div
         class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
       >
-        CMS
+        Job Nest
       </div>
 
       <div
@@ -96,9 +96,9 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-// eslint-disable-next-line import/named
-import { object, string, InferType } from 'yup';
-import type { FormSubmitEvent } from '@nuxt/ui/dist/runtime/types';
+
+import { object, string, type InferType } from 'yup';
+import { useAuthStore } from '../stores/auth';
 
 // data
 const authStore = useAuthStore();
@@ -119,9 +119,28 @@ const state = ref({
 
 const loading = ref(false);
 
-const submit = async (event: FormSubmitEvent<Schema>) => {
+const submit = async (event: any) => {
   loading.value = true;
-  await authStore.systemLogin({ ...event.data });
+  const { data, error } = await authStore.systemLogin({ ...event.data });
+
+  if (!error) {
+    if (
+      data.user.roles[0] === ERole.ROOT ||
+      data.user.roles[0] === ERole.ADMIN
+    ) {
+      navigateTo('/admin', {
+        external: true,
+      });
+    } else if (data.user.roles[0] === ERole.COMPANY) {
+      navigateTo('/company', {
+        external: true,
+      });
+    } else if (data.user.roles[0] === ERole.USER) {
+      navigateTo('/user', {
+        external: true,
+      });
+    }
+  }
   loading.value = false;
 };
 </script>

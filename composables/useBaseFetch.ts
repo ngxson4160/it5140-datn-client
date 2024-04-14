@@ -1,33 +1,33 @@
-import { UseFetchOptions } from '#app'
+import { UseFetchOptions } from '#app';
 
 export interface IJwt {
-  token: string
-  refreshToken: string
+  token: string;
+  refreshToken: string;
 }
 
 export async function useBaseFetch<T>(
   request: typeof NitroFetchRequest,
   opts?: UseFetchOptions<T> & {
-    loading?: boolean
+    loading?: boolean;
   },
 ) {
-  const loading = opts?.loading === undefined ? true : opts?.loading
+  const loading = opts?.loading === undefined ? true : opts?.loading;
 
-  const config = useRuntimeConfig()
+  const config = useRuntimeConfig();
 
-  const { tokenClientEncrypt } = handleGetAuthCookie()
+  const { tokenClientEncrypt } = handleGetAuthCookie();
 
-  let token
+  let token;
   if (tokenClientEncrypt) {
-    const client = handleJWTDecrypt(tokenClientEncrypt) as IJwt
-    token = client.token
+    const client = handleJWTDecrypt(tokenClientEncrypt) as IJwt;
+    token = client.token;
   }
 
-  let loadingInstance
+  // let loadingInstance;
 
-  if (loading) {
-    loadingInstance = ElLoading.service({ fullscreen: true })
-  }
+  // if (loading) {
+  //   loadingInstance = ElLoading.service({ fullscreen: true });
+  // }
 
   const {
     data: dataOrigin,
@@ -43,34 +43,35 @@ export async function useBaseFetch<T>(
       },
     }),
     ...opts,
-  })
+  });
 
   if (
     opts &&
     opts.method &&
     ['POST', 'PUT', 'DELETE', 'PATCH'].includes(opts?.method as string)
   ) {
-    sleep(300)
+    sleep(300);
   }
 
-  loadingInstance?.close()
+  // loadingInstance?.close();
 
-  const error: IResponse | null = errorOrigin?.value?.data || null
+  const error: IResponse | null = errorOrigin?.value?.data || null;
 
-  if (error) useNotificationError({ title: error?.errorMessage })
+  // if (error) useNotificationError({ title: error?.errorMessage })
+  if (error) useNotificationError({ title: error?.meta.message });
 
   // @ts-expect-error
-  const data = dataOrigin?.value?.data as T
+  const data = dataOrigin?.value?.data as T;
 
-  return { error, pending, refresh, data }
+  return { error, pending, refresh, data };
 }
 
 function sleep(ms: number) {
-  const start = new Date().getTime()
-  const expire = start + ms
-  let i = 0
+  const start = new Date().getTime();
+  const expire = start + ms;
+  let i = 0;
   while (new Date().getTime() < expire) {
-    i++
+    i++;
   }
-  return i
+  return i;
 }

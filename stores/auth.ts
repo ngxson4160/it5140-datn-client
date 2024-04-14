@@ -1,16 +1,19 @@
-export type TRole = 'SYSTEM_SUPER_ADMIN' | 'SYSTEM_MANAGER'
+import type {
+  ICompanyInformation,
+  ICompanyRegisterAccount,
+} from '~/types/auth';
 
 export interface IAuthState {
-  id: string | null
-  email: string
-  roles: TRole[]
-  firstName?: string | undefined
-  lastName?: string | undefined
+  id: string | null;
+  email: string;
+  roles: TRole[];
+  firstName?: string;
+  lastName?: string;
 }
 
 export interface ISystemLogin {
-  email: string
-  password: string
+  email: string;
+  password: string;
 }
 
 export const useAuthStore = defineStore(EStoreName.AUTH, {
@@ -21,24 +24,37 @@ export const useAuthStore = defineStore(EStoreName.AUTH, {
       roles: [],
       firstName: '',
       lastName: '',
-    }
+    };
   },
   actions: {
     updateAuthStore(params: IAuthState) {
-      this.id = params.id
-      this.email = params.email
-      this.roles = params.roles
-      this.firstName = params.firstName
-      this.lastName = params.lastName
+      this.id = params.id;
+      this.email = params.email;
+      this.roles = params.roles;
+      this.firstName = params.firstName;
+      this.lastName = params.lastName;
     },
+
     async systemLogin(body: ISystemLogin) {
-      const data = await handleSignIn('/system/login', body)
+      const data = await handleSignIn('/auth/sign-in', body);
+      return data;
+    },
 
-      if (data?.errorCode) return
+    async companySignUp(data: {
+      user: ICompanyRegisterAccount;
+      company: ICompanyInformation;
+    }) {
+      return await useBaseFetch('/auth/company/sign-up', {
+        method: 'POST',
+        body: data,
+      });
+    },
 
-      return navigateTo('/', {
-        external: true,
-      })
+    async checkEmailExist(email: string) {
+      return await useBaseFetch('/auth/check-email', {
+        method: 'POST',
+        body: { email },
+      });
     },
   },
-})
+});

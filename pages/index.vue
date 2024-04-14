@@ -11,10 +11,10 @@
 definePageMeta({
   layout: 'auth',
   middleware: ['system-only'],
-  roles: [ERole.SYSTEM_SUPER_ADMIN, ERole.SYSTEM_MANAGER],
-})
+  roles: [ERole.ROOT, ERole.ADMIN],
+});
 
-const authStore = useAuthStore()
+const authStore = useAuthStore();
 </script>
 
 <style scoped></style>

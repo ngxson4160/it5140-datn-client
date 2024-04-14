@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts" setup>
-const commonStore = useCommonStore()
+const commonStore = useCommonStore();
 </script>
 
 <style lang="scss" scoped></style>
