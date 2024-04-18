@@ -5,7 +5,7 @@
   >
     <Sidebar />
     <div class="flex flex-col flex-1">
-      <Header />
+      <HeaderAdmin />
       <div class="flex flex-col flex-1">
         <slot />
       </div>

@@ -5,6 +5,9 @@
     'primary': (
       'base': variables.$color-primary,
     ),
+    'gray': (
+      'base': variables.$color-gray,
+    ),
   )
 );
 
@@ -13,4 +16,12 @@
   .active {
     @apply bg-lime-100 text-lime-500;
   }
+}
+
+.card-job-category {
+  @apply bg-white p-4 w-[200px] h-[200px] flex flex-col items-center justify-center rounded-lg;
+}
+
+.text-one-line {
+  @apply overflow-hidden whitespace-nowrap overflow-ellipsis;
 }

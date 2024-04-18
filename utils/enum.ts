@@ -10,4 +10,5 @@ export enum EStoreName {
   COMMON = 'common',
   PAGINATION = 'pagination',
   UPLOAD = 'upload',
+  JOB_CATEGORY_PARENT = 'jobCategoryParent',
 }

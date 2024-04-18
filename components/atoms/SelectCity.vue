@@ -1,6 +1,9 @@
 <template>
   <el-select
     v-model="value"
+    multiple
+    collapse-tags
+    show-checkbox
     placeholder="Chọn tỉnh/thành phố"
     size="large"
     class="!h-11 !w-[240px]"
@@ -10,7 +13,9 @@
       :key="item.id"
       :label="item.name"
       :value="item.name"
-    />
+    >
+      {{ item.name }}
+    </el-option>
   </el-select>
 </template>
 
@@ -21,5 +26,3 @@ const listCity = ref<any>({});
 const { data } = await useBaseFetch('cities');
 listCity.value = data;
 </script>
-
-<style scoped></style>
