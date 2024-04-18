@@ -47,21 +47,4 @@ const test1 = ref('');
     }
   }
 }
-.search-job-select {
-  .el-select__wrapper {
-    box-shadow: none;
-    &:hover {
-      box-shadow: none;
-    }
-    &:focus-within {
-      box-shadow: none;
-    }
-  }
-  span {
-    font-size: 16px;
-  }
-  .el-select__icon {
-    font-size: 24px;
-  }
-}
 </style>

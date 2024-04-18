@@ -5,10 +5,23 @@ export enum ERole {
   USER = 4,
 }
 
+export enum EGender {
+  MALE,
+  FEMALE,
+  OTHER,
+}
+
+export enum EJobStatus {
+  DRAFT,
+  PUBLIC,
+  DELETED,
+}
+
 export enum EStoreName {
   AUTH = 'auth',
   COMMON = 'common',
   PAGINATION = 'pagination',
   UPLOAD = 'upload',
   JOB_CATEGORY_PARENT = 'jobCategoryParent',
+  JOB = 'job',
 }

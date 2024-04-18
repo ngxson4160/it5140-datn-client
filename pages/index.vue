@@ -158,22 +158,22 @@
           height="550px"
           arrow="always"
           trigger="click"
-          interval="5000"
+          interval="4000"
         >
           <el-carousel-item v-for="item in 4" :key="item">
             <div class="grid grid-cols-4 gap-4">
-              <card-job />
-              <card-job />
-              <card-job />
-              <card-job />
-              <card-job />
-              <card-job />
-              <card-job />
-              <card-job />
-              <card-job />
-              <card-job />
-              <card-job />
-              <card-job />
+              <card-job-home />
+              <card-job-home />
+              <card-job-home />
+              <card-job-home />
+              <card-job-home />
+              <card-job-home />
+              <card-job-home />
+              <card-job-home />
+              <card-job-home />
+              <card-job-home />
+              <card-job-home />
+              <card-job-home />
             </div>
           </el-carousel-item>
         </el-carousel>

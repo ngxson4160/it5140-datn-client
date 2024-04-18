@@ -1,7 +1,9 @@
 <template>
-  <div class="max-auto">
+  <div class="mx-auto">
     <header-guest />
-    <slot />
+    <div class="bg-[#F2F5F8] h-full">
+      <slot />
+    </div>
   </div>
 </template>
 

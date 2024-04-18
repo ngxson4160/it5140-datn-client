@@ -3,12 +3,13 @@
     v-model="valueStrictly"
     :data="options"
     :render-after-expand="false"
-    class="!w-[300px] !text-base"
+    class="!w-[300px]"
     multiple
     show-checkbox
     collapse-tags
     check-on-click-node
     placeholder="Chọn nghề nghiệp"
+    size="large"
   />
 </template>
 

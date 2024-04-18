@@ -4,7 +4,7 @@
     multiple
     collapse-tags
     show-checkbox
-    placeholder="Chọn tỉnh/thành phố"
+    placeholder="Chọn kiểu làm việc"
     size="large"
   >
     <el-option
