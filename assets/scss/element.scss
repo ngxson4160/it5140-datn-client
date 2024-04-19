@@ -5,6 +5,9 @@
     'primary': (
       'base': variables.$color-primary,
     ),
+    'gray': (
+      'base': variables.$color-gray,
+    ),
   )
 );
 
@@ -13,4 +16,46 @@
   .active {
     @apply bg-lime-100 text-lime-500;
   }
+}
+
+.card-job-category {
+  @apply bg-white p-4 w-[200px] h-[200px] flex flex-col items-center justify-center rounded-lg;
+}
+
+.text-one-line {
+  @apply overflow-hidden whitespace-nowrap overflow-ellipsis;
+}
+
+.search-job-select {
+  .el-input__wrapper {
+    box-shadow: none;
+    &:hover {
+      box-shadow: none !important;
+    }
+    &:focus-within {
+      box-shadow: none !important;
+    }
+  }
+  .el-input__inner {
+    font-size: 16px;
+    box-shadow: none !important;
+  }
+  span {
+    font-size: 16px !important;
+  }
+  .el-select__icon {
+    font-size: 24px !important;
+  }
+}
+
+.custom-tag {
+  @apply mr-1 border rounded-md px-2 py-1 text-xs;
+}
+
+.el-tag--info{
+  @apply max-w-[210px];
+}
+
+.el-select__tags-text{
+  @apply max-w-[180px] #{!important};
 }

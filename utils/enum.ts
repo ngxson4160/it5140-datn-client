@@ -1,16 +1,28 @@
 export enum ERole {
-  SYSTEM_SUPER_ADMIN = 'SYSTEM_SUPER_ADMIN',
-  SYSTEM_MANAGER = 'SYSTEM_MANAGER',
-  TEMPLE_SUPER_ADMIN = 'TEMPLE_SUPER_ADMIN',
-  TEMPLE_MANAGER = 'TEMPLE_MANAGER',
-  FAMILY_ADMIN = 'FAMILY_ADMIN',
-  FAMILY_MEMBER = 'FAMILY_MEMBER',
-  PUBLIC_USER = 'PUBLIC_USER',
-  GUEST = 'GUEST',
+  ROOT = 1,
+  ADMIN = 2,
+  COMPANY = 3,
+  USER = 4,
+}
+
+export enum EGender {
+  MALE,
+  FEMALE,
+  OTHER,
+}
+
+export enum EJobStatus {
+  DRAFT,
+  PUBLIC,
+  DELETED,
 }
 
 export enum EStoreName {
   AUTH = 'auth',
   COMMON = 'common',
   PAGINATION = 'pagination',
+  UPLOAD = 'upload',
+  JOB_CATEGORY_PARENT = 'jobCategoryParent',
+  JOB = 'job',
+  City = 'city',
 }

@@ -41,9 +41,9 @@
 <script setup lang="ts">
 definePageMeta({
   layout: 'auth',
-  middleware: ['system-only'],
-  roles: [ERole.SYSTEM_SUPER_ADMIN, ERole.SYSTEM_MANAGER],
-})
+  // middleware: ['system-only'],
+  roles: [ERole.ROOT, ERole.ADMIN],
+});
 
 // data
 const columns = [
@@ -74,7 +74,7 @@ const columns = [
   {
     key: 'actions',
   },
-]
+];
 
 const people = [
   {
@@ -119,9 +119,9 @@ const people = [
     email: 'floyd.miles@example.com',
     role: 'Member',
   },
-]
+];
 
-const selected = ref([])
+const selected = ref([]);
 
 const items = (row: { id: any }) => [
   [
@@ -135,7 +135,7 @@ const items = (row: { id: any }) => [
       icon: 'i-heroicons-trash-20-solid',
     },
   ],
-]
+];
 </script>
 
 <style scoped></style>

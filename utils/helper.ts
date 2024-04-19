@@ -1,145 +1,145 @@
-import CryptoJS from 'crypto-js'
-import { useLocalStorage } from '@vueuse/core'
+import CryptoJS from 'crypto-js';
+import { useLocalStorage } from '@vueuse/core';
 
 interface IUser extends IAuthState {}
 
 interface ILogin {
-  user: IUser
-  token: string
-  refreshToken: string
+  user: IUser;
+  token: string;
+  refreshToken: string;
 }
 
 export interface IAuthLocalStorage {
-  tokenClientEncrypt: string
-  dataClientEncrypt: string
+  tokenClientEncrypt: string;
+  dataClientEncrypt: string;
 }
 
 export function handleJWTEncrypt(payload: Object) {
-  const runtimeConfig = useRuntimeConfig()
+  const runtimeConfig = useRuntimeConfig();
 
   return CryptoJS.AES.encrypt(
     JSON.stringify(payload),
     runtimeConfig.public.nuxtAuthSecret,
-  ).toString()
+  ).toString();
 }
 
 export function handleJWTDecrypt(token: string) {
-  const runtimeConfig = useRuntimeConfig()
+  const runtimeConfig = useRuntimeConfig();
 
   return JSON.parse(
     CryptoJS.AES.decrypt(token, runtimeConfig.public.nuxtAuthSecret).toString(
       CryptoJS.enc.Utf8,
     ),
-  )
+  );
 }
 
 export function generateIdFromString(inputString: string) {
-  const hash = CryptoJS.SHA256(inputString)
-  const id = hash.toString(CryptoJS.enc.Hex)
-  return id
+  const hash = CryptoJS.SHA256(inputString);
+  const id = hash.toString(CryptoJS.enc.Hex);
+  return id;
 }
 
 /**
  * set auth localStorage
  */
 export function handleSetAuthLocalStorage(payload: IAuthLocalStorage) {
-  const tokenClientEncrypt = useLocalStorage('auth.session-token', '')
-  tokenClientEncrypt.value = payload.tokenClientEncrypt
+  const tokenClientEncrypt = useLocalStorage('auth.session-token', '');
+  tokenClientEncrypt.value = payload.tokenClientEncrypt;
 
-  const dataClientEncrypt = useLocalStorage('auth.user-data', '')
-  dataClientEncrypt.value = payload.dataClientEncrypt
+  const dataClientEncrypt = useLocalStorage('auth.user-data', '');
+  dataClientEncrypt.value = payload.dataClientEncrypt;
 }
 
 /**
  * get auth localStorage
  */
 export function handleGetAuthLocalStorage() {
-  const tokenClientEncrypt = useLocalStorage('auth.session-token', '')
-  const dataClientEncrypt = useLocalStorage('auth.user-data', '')
+  const tokenClientEncrypt = useLocalStorage('auth.session-token', '');
+  const dataClientEncrypt = useLocalStorage('auth.user-data', '');
 
   return {
     tokenClientEncrypt,
     dataClientEncrypt,
-  }
+  };
 }
 
 /**
  * remove auth localStorage
  */
 export function handleRemoveAuthLocalStorage() {
-  const tokenClientEncrypt = useLocalStorage('auth.session-token', '')
-  tokenClientEncrypt.value = null
-  const dataClientEncrypt = useLocalStorage('auth.user-data', '')
-  dataClientEncrypt.value = null
-  const dataTemple = useLocalStorage('templeId', '')
-  dataTemple.value = null
-  const tokenSwitchAccount = useLocalStorage('switchAccountToken', '')
-  tokenSwitchAccount.value = null
+  const tokenClientEncrypt = useLocalStorage('auth.session-token', '');
+  tokenClientEncrypt.value = null;
+  const dataClientEncrypt = useLocalStorage('auth.user-data', '');
+  dataClientEncrypt.value = null;
+  const dataTemple = useLocalStorage('templeId', '');
+  dataTemple.value = null;
+  const tokenSwitchAccount = useLocalStorage('switchAccountToken', '');
+  tokenSwitchAccount.value = null;
 }
 
 /**
  * set auth localStorage
  */
 export function handleSetAuthCookie(payload: IAuthLocalStorage) {
-  const tokenClientEncrypt = useCookie('auth.session-token')
-  tokenClientEncrypt.value = payload.tokenClientEncrypt
+  const tokenClientEncrypt = useCookie('auth.session-token');
+  tokenClientEncrypt.value = payload.tokenClientEncrypt;
 
-  const dataClientEncrypt = useCookie('auth.user-data')
-  dataClientEncrypt.value = payload.dataClientEncrypt
+  const dataClientEncrypt = useCookie('auth.user-data');
+  dataClientEncrypt.value = payload.dataClientEncrypt;
 }
 
 /**
  * get auth localStorage
  */
 export function handleGetAuthCookie() {
-  const tokenClientEncrypt = useCookie('auth.session-token')
-  const dataClientEncrypt = useCookie('auth.user-data')
+  const tokenClientEncrypt = useCookie('auth.session-token');
+  const dataClientEncrypt = useCookie('auth.user-data');
 
   return {
     tokenClientEncrypt: tokenClientEncrypt.value,
     dataClientEncrypt: dataClientEncrypt.value,
-  }
+  };
 }
 
 /**
  * remove auth localStorage
  */
 export function handleRemoveAuthCookie() {
-  const tokenClientEncrypt = useCookie('auth.session-token')
-  tokenClientEncrypt.value = null
-  const dataClientEncrypt = useCookie('auth.user-data')
-  dataClientEncrypt.value = null
+  const tokenClientEncrypt = useCookie('auth.session-token');
+  tokenClientEncrypt.value = null;
+  const dataClientEncrypt = useCookie('auth.user-data');
+  dataClientEncrypt.value = null;
 }
 
 /**
  * get auth middleware
  */
 export function handleGetProviders() {
-  const authStore = useAuthStore()
+  const authStore = useAuthStore();
 
   /**
    * get cookie
    */
-  const cookieSessionAuth = useCookie('auth.session-token').value
-  const cookieUserData = useCookie('auth.user-data').value
+  const cookieSessionAuth = useCookie('auth.session-token').value;
+  const cookieUserData = useCookie('auth.user-data').value;
 
-  if (!cookieUserData || !cookieSessionAuth) return
+  if (!cookieUserData || !cookieSessionAuth) return;
   /**
    * set localStorage
    */
   handleSetAuthLocalStorage({
     tokenClientEncrypt: cookieSessionAuth,
     dataClientEncrypt: cookieUserData,
-  })
+  });
   /**
    * set pinia
    */
-  const userData = handleJWTDecrypt(cookieUserData)
+  const userData = handleJWTDecrypt(cookieUserData);
 
-  authStore.updateAuthStore(userData)
-  localStorage.setItem('templeId', userData.templeId)
+  authStore.updateAuthStore(userData);
+  localStorage.setItem('templeId', userData.templeId);
 
-  return true
+  return true;
 }
 
 /**
@@ -148,25 +148,27 @@ export function handleGetProviders() {
 export async function handleSignIn(
   endpoint: string,
   body: any, // FIXME: any
-): Promise<IResponse | null> {
+) {
+  handleRemoveAuthCookie();
+  handleRemoveAuthLocalStorage();
+
   const { data, error } = await useBaseFetch<ILogin>(endpoint, {
     method: 'POST',
     body,
     loading: false,
-  })
-  if (error) return error
-
-  handleAuthData(data)
-  return null
+  });
+  // if (error) return error;
+  if (!error) handleAuthData(data);
+  return { data, error };
 }
 
 export function handleAuthData(data: ILogin) {
   const payloadToken = {
     token: data.token,
     refreshToken: data.refreshToken,
-  }
+  };
 
-  const tokenClientEncrypt = handleJWTEncrypt(payloadToken)
+  const tokenClientEncrypt = handleJWTEncrypt(payloadToken);
 
   const payloadUserData: IAuthState = {
     id: data.user.id,
@@ -174,9 +176,9 @@ export function handleAuthData(data: ILogin) {
     roles: data.user.roles,
     firstName: data.user.firstName,
     lastName: data.user.lastName,
-  }
+  };
 
-  const dataClientEncrypt = handleJWTEncrypt(payloadUserData)
+  const dataClientEncrypt = handleJWTEncrypt(payloadUserData);
 
   /**
    * step 1: set local storage
@@ -188,33 +190,33 @@ export function handleAuthData(data: ILogin) {
   /**
    * set localStorage
    */
-  handleRemoveAuthLocalStorage()
+  handleRemoveAuthLocalStorage();
 
-  handleSetAuthLocalStorage({ tokenClientEncrypt, dataClientEncrypt })
+  handleSetAuthLocalStorage({ tokenClientEncrypt, dataClientEncrypt });
 
   /**
    * set cookie
    */
 
-  handleRemoveAuthCookie()
+  handleRemoveAuthCookie();
 
-  handleSetAuthCookie({ tokenClientEncrypt, dataClientEncrypt })
+  handleSetAuthCookie({ tokenClientEncrypt, dataClientEncrypt });
 
   /**
    * set pinia
    */
-  const authStore = useAuthStore()
+  const authStore = useAuthStore();
 
-  authStore.updateAuthStore(payloadUserData)
+  authStore.updateAuthStore(payloadUserData);
 }
 
 /**
  * logout
  */
 export function handleLogout() {
-  handleRemoveAuthCookie()
+  handleRemoveAuthCookie();
 
-  handleRemoveAuthLocalStorage()
+  handleRemoveAuthLocalStorage();
 
-  location.reload()
+  location.reload();
 }

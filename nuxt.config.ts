@@ -18,6 +18,7 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@element-plus/nuxt',
     'nuxt-lazy-load',
+    '@nuxtjs/tailwindcss',
   ],
   imports: {
     dirs: ['stores'],
@@ -67,6 +68,13 @@ export default defineNuxtConfig({
           additionalData: `@use "@/assets/scss/element.scss" as element;`,
         },
       },
+      postcss: {
+        plugins: [
+          require('tailwindcss/nesting'),
+          require('tailwindcss'),
+          require('autoprefixer'),
+        ],
+      },
     },
   },
   typescript: {
@@ -74,6 +82,7 @@ export default defineNuxtConfig({
   },
   postcss: {
     plugins: {
+      'tailwindcss/nesting': {},
       tailwindcss: {},
       autoprefixer: {},
     },

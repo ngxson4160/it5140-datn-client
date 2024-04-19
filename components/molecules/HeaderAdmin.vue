@@ -22,20 +22,22 @@
                 :class="{ active: $i18n.locale === 'ja' }"
                 @click="
                   () => {
-                    $i18n.locale = 'ja'
+                    $i18n.locale = 'ja';
                   }
                 "
-                >Japanese</el-dropdown-item
               >
+                Japanese
+              </el-dropdown-item>
               <el-dropdown-item
                 :class="{ active: $i18n.locale === 'en' }"
                 @click="
                   () => {
-                    $i18n.locale = 'en'
+                    $i18n.locale = 'en';
                   }
                 "
-                >English</el-dropdown-item
               >
+                English
+              </el-dropdown-item>
             </el-dropdown-menu>
           </template>
         </el-dropdown>
@@ -70,24 +72,24 @@
 </template>
 
 <script setup lang="ts">
-import type { DropdownInstance } from 'element-plus'
+import type { DropdownInstance } from 'element-plus';
 
 // data
-const route = useRoute()
+const route = useRoute();
 
-const commonStore = useCommonStore()
-const links = commonStore.links
+const commonStore = useCommonStore();
+const links = commonStore.links;
 
-const dropdownLanguage = ref<DropdownInstance>()
+const dropdownLanguage = ref<DropdownInstance>();
 
 // computed
 const routeCurrentLabel = computed(
   () => links.find((link) => link.to === route.path)?.label || '',
-)
+);
 
 // method
 const showClick = () => {
-  if (!dropdownLanguage.value) return
-  dropdownLanguage.value.handleOpen()
-}
+  if (!dropdownLanguage.value) return;
+  dropdownLanguage.value.handleOpen();
+};
 </script>

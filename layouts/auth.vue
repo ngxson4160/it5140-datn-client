@@ -5,7 +5,7 @@
   >
     <Sidebar />
     <div class="flex flex-col flex-1">
-      <Header />
+      <HeaderAdmin />
       <div class="flex flex-col flex-1">
         <slot />
       </div>
@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts" setup>
-const commonStore = useCommonStore()
+const commonStore = useCommonStore();
 </script>
 
 <style lang="scss" scoped></style>
