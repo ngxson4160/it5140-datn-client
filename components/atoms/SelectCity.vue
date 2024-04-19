@@ -4,11 +4,12 @@
     multiple
     collapse-tags
     show-checkbox
+    clearable
     placeholder="Chọn tỉnh/thành phố"
     size="large"
   >
     <el-option
-      v-for="item in listCity"
+      v-for="item in useCity.listCities"
       :key="item.id"
       :label="item.name"
       :value="item.name"
@@ -21,7 +22,7 @@
 <script setup lang="ts">
 const value = ref('');
 
-const listCity = ref<any>({});
-const { data } = await useBaseFetch('cities');
-listCity.value = data;
+const useCity = useCityStore();
+
+await useCity.getListCities();
 </script>

@@ -3,7 +3,7 @@
   <div
     class="bg-[#007c32b3] h-[750px] flex flex-col items-center justify-center"
   >
-    <div class="w-[1125px]">
+    <div class="w-[1175px]">
       <div
         class="mt-[104px] mb-10 text-white text-[64px] font-bold text-center"
       >
@@ -14,11 +14,12 @@
           khẳng định bản thân.
         </p>
       </div>
+
       <search-job />
 
       <div class="flex justify-between mt-6">
         <div
-          class="w-[350px] h-[200px] bg-white rounded-md flex flex-col justify-center items-center"
+          class="w-[365px] h-[200px] bg-white rounded-md flex flex-col justify-center items-center"
         >
           <img
             class="h-16 text-primary"
@@ -28,7 +29,7 @@
           <p class="text-xl text-[#a3a8ad]">Công việc</p>
         </div>
         <div
-          class="w-[350px] h-[200px] bg-white rounded-md flex flex-col justify-center items-center"
+          class="w-[365px] h-[200px] bg-white rounded-md flex flex-col justify-center items-center"
         >
           <img
             class="h-16 text-primary"
@@ -38,7 +39,7 @@
           <p class="text-xl text-[#a3a8ad]">Công ty</p>
         </div>
         <div
-          class="w-[350px] h-[200px] bg-white rounded-md flex flex-col justify-center items-center"
+          class="w-[365px] h-[200px] bg-white rounded-md flex flex-col justify-center items-center"
         >
           <img
             class="h-16 text-primary"

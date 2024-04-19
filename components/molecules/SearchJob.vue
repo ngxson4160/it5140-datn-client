@@ -21,8 +21,9 @@
       </div>
       <div class="h-[60px] border-l-2 mx-4"></div>
 
-      <div class="search-job-select flex items-center bg-white">
-        <select-job-category />
+      <div class="flex items-center bg-white">
+        <img src="@/assets/images/category.svg" class="w-7 mr-1" />
+        <select-job-category class="search-job-select !w-[335px]" />
       </div>
     </div>
 
