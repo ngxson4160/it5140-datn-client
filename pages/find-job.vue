@@ -8,12 +8,12 @@
   <job-filter class="mx-auto" />
 
   <div class="flex flex-col items-center mt-2">
-    <card-job-full class="mt-1 w-[1220px]" />
-    <card-job-full class="mt-1 w-[1220px]" />
-    <card-job-full class="mt-1 w-[1220px]" />
-    <card-job-full class="mt-1 w-[1220px]" />
-    <card-job-full class="mt-1 w-[1220px]" />
-    <card-job-full class="mt-1 w-[1220px]" />
+    <card-job-full class="mt-1 w-[1050px]" />
+    <card-job-full class="mt-1 w-[1050px]" />
+    <card-job-full class="mt-1 w-[1050px]" />
+    <card-job-full class="mt-1 w-[1050px]" />
+    <card-job-full class="mt-1 w-[1050px]" />
+    <card-job-full class="mt-1 w-[1050px]" />
   </div>
 </template>
 

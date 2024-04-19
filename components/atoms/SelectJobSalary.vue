@@ -1,12 +1,5 @@
 <template>
-  <el-select
-    v-model="value"
-    multiple
-    collapse-tags
-    show-checkbox
-    placeholder="Hình thức"
-    size="large"
-  >
+  <el-select v-model="value" show-checkbox placeholder="Mức lương" size="large">
     <el-option
       v-for="item in listCity"
       :key="item.id"

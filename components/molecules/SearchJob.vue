@@ -35,17 +35,3 @@
 const test = ref('');
 const test1 = ref('');
 </script>
-
-<style>
-.search-job-el-input {
-  .el-input__wrapper {
-    box-shadow: none;
-    &:hover {
-      box-shadow: none;
-    }
-    &:focus-within {
-      box-shadow: none;
-    }
-  }
-}
-</style>

@@ -4,7 +4,7 @@
     multiple
     collapse-tags
     show-checkbox
-    placeholder="Hình thức"
+    placeholder="Số năm kinh nghiệm"
     size="large"
   >
     <el-option

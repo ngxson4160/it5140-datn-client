@@ -4,7 +4,7 @@
     multiple
     collapse-tags
     show-checkbox
-    placeholder="Chọn cấp bậc"
+    placeholder="Cấp bậc"
     size="large"
   >
     <el-option
