@@ -94,7 +94,7 @@ export const CJobExperienceValue = [
       yearExperienceMin: 0,
       yearExperienceMax: 1,
     },
-    name: 'Dưới 1 năm kinh nghiệm',
+    name: 'Dưới 1 năm',
   },
   {
     value: {

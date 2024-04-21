@@ -1,5 +1,7 @@
 <template>
-  <div>Company Page</div>
+  <div>
+    <card-blog />
+  </div>
 </template>
 
 <script setup lang="ts"></script>

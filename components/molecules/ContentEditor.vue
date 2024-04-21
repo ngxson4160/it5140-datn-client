@@ -1,276 +1,172 @@
-<!-- <template>
-    <div
-      class="w-full message-editor"
-      :class="{
-        'placeholder-custom': isCustomPlaceholder,
-        'disable-edit': props.isDisableEdit,
-      }"
+<template>
+  <div>
+    <section
+      v-if="editor"
+      class="buttons text-gray-700 flex items-center flex-wrap gap-x-4 border-t border-x border-gray-400 p-4 !rounded-s-sm"
     >
-      <editor-content :editor="editor" />
-    </div>
-  </template>
-  
-  <script setup lang="ts">
-  import { Extension } from '@tiptap/core';
-  import { Editor, EditorContent } from '@tiptap/vue-3';
-  import { Placeholder } from '@tiptap/extension-placeholder';
-  import { StarterKit } from '@tiptap/starter-kit';
-  import { Link } from '@tiptap/extension-link';
-  import TemplateTextEmployerName from '~/plugins/utils/templateTextEmployerName';
-  import TemplateTextUserName from '~/plugins/utils/templateTextUserName';
-  import TemplateTextEntryNumber from '~/plugins/utils/templateTextEntryNumber';
-  import TemplateTextJobTitle from '~/plugins/utils/templateTextJobTitle';
-  import TemplateTextSelectionStep from '~/plugins/utils/templateTextSelectionStep';
-  import TemplateTextSelectionDate from '~/plugins/utils/templateTextSelectionDate';
-  import TemplateTextJobCategory from '~/plugins/utils/templateTextJobCategory';
-  import { ETemplateTextType } from '~~/utils/enum';
-  
-  const props = defineProps({
-    modelValue: {
-      type: String,
-      default: '',
-    },
-    templateText: {
-      type: String,
-      default: '',
-    },
-    placeholder: {
-      type: String,
-      default: '',
-    },
-    isSetContent: {
-      type: Boolean,
-      default: false,
-    },
-    isDisableEnter: {
-      type: Boolean,
-      default: false,
-    },
-    isCustomPlaceholder: {
-      type: Boolean,
-      default: false,
-    },
-    editable: {
-      type: Boolean,
-      default: true,
-    },
-    isDisableEdit: {
-      type: Boolean,
-      default: false,
-    },
-    isCreateJob: {
-      type: Boolean,
-      default: false,
-    },
-  });
-  const emit = defineEmits([
-    'update:modelValue',
-    'resetTemplateText',
-    'resetIsSetContent',
-    'onFocus',
-  ]);
-  const editor = ref<any>(null);
-  
-  const DisableEnter = Extension.create({
-    addKeyboardShortcuts() {
-      return {
-        Enter: () => true,
-      };
-    },
-  });
-  const BreakLineCustom = Extension.create({
-    addKeyboardShortcuts() {
-      return {
-        Enter: () => this.editor.commands.setHardBreak(),
-      };
-    },
-  });
-  
-  watch(
-    () => props.modelValue,
-    async (value, prev) => {
-      if (props.isSetContent) {
-        editor.value.commands.setContent(
-          await fixContentMessageEditor(value?.replace('\u00A0', '')),
-        );
-        emit('resetIsSetContent');
-      } else if (!prev) {
-        editor.value &&
-          editor.value.commands.setContent(await fixContentMessageEditor(value));
-      }
-      await fixParseHTMLTemplateText();
-    },
-  );
-  const editable = ref(props.editable);
-  watch(
-    () => props.editable,
-    (newValue) => {
-      if (editor.value) {
-        editor.value.setEditable(newValue);
-      }
-    },
-  );
-  onMounted(() => {
-    editor.value = new Editor({
-      content: props.modelValue?.replace('\u00A0', ''),
-      extensions: props.isDisableEnter
-        ? [
-            DisableEnter,
-            StarterKit,
-            TemplateTextUserName,
-            TemplateTextEmployerName,
-            TemplateTextEntryNumber,
-            TemplateTextJobTitle,
-            TemplateTextSelectionStep,
-            TemplateTextSelectionDate,
-            TemplateTextJobCategory,
-            Placeholder.configure({
-              placeholder: props.placeholder,
-            }),
-            Link.configure({
-              openOnClick: true,
-              autolink: true,
-            }),
-          ]
-        : props.isCreateJob
-        ? [
-            BreakLineCustom,
-            StarterKit,
-            Placeholder.configure({
-              placeholder: props.placeholder,
-            }),
-            Link.configure({
-              openOnClick: true,
-              autolink: true,
-            }),
-          ]
-        : [
-            BreakLineCustom,
-            StarterKit,
-            TemplateTextUserName,
-            TemplateTextEmployerName,
-            TemplateTextEntryNumber,
-            TemplateTextJobTitle,
-            TemplateTextSelectionStep,
-            TemplateTextSelectionDate,
-            TemplateTextJobCategory,
-            Placeholder.configure({
-              placeholder: props.placeholder,
-            }),
-            Link.configure({
-              openOnClick: true,
-              autolink: true,
-            }),
-          ],
-      editable: editable.value,
-      onUpdate: async ({ editor }) => {
-        if (!props.isSetContent) {
-          const html = editor.getHTML();
-          emit('update:modelValue', await fixContentMessageEditor(html));
-        }
+      <button
+        type="button"
+        :class="{ 'bg-gray-200 rounded': editor.isActive('bold') }"
+        class="p-1"
+        @click="editor.chain().focus().toggleBold().run()"
+      >
+        <BoldIcon title="Bold" />
+      </button>
+      <button
+        type="button"
+        :class="{ 'bg-gray-200 rounded': editor.isActive('italic') }"
+        class="p-1"
+        @click="editor.chain().focus().toggleItalic().run()"
+      >
+        <ItalicIcon title="Italic" />
+      </button>
+      <button
+        type="button"
+        :class="{ 'bg-gray-200 rounded': editor.isActive('underline') }"
+        class="p-1"
+        @click="editor.chain().focus().toggleUnderline().run()"
+      >
+        <UnderlineIcon title="Underline" />
+      </button>
+      <button
+        type="button"
+        :class="{
+          'bg-gray-200 rounded': editor.isActive('heading', { level: 1 }),
+        }"
+        class="p-1"
+        @click="editor.chain().focus().toggleHeading({ level: 1 }).run()"
+      >
+        <H1Icon title="H1" />
+      </button>
+      <button
+        type="button"
+        :class="{
+          'bg-gray-200 rounded': editor.isActive('heading', { level: 2 }),
+        }"
+        class="p-1"
+        @click="editor.chain().focus().toggleHeading({ level: 2 }).run()"
+      >
+        <H2Icon title="H2" />
+      </button>
+      <button
+        type="button"
+        :class="{ 'bg-gray-200 rounded': editor.isActive('bulletList') }"
+        class="p-1"
+        @click="editor.chain().focus().toggleBulletList().run()"
+      >
+        <ListIcon title="Bullet List" />
+      </button>
+      <button
+        type="button"
+        :class="{ 'bg-gray-200 rounded': editor.isActive('orderedList') }"
+        class="p-1"
+        @click="editor.chain().focus().toggleOrderedList().run()"
+      >
+        <OrderedListIcon title="Ordered List" />
+      </button>
+      <!-- <button
+        type="button"
+        @click="editor.chain().focus().toggleBlockquote().run()"
+        :class="{ 'bg-gray-200 rounded': editor.isActive('blockquote') }"
+        class="p-1"
+      >
+        <BlockquoteIcon title="Blockquote" />
+      </button>
+      <button
+        type="button"
+        @click="editor.chain().focus().toggleCode().run()"
+        :class="{ 'bg-gray-200 rounded': editor.isActive('code') }"
+        class="p-1"
+      >
+        <CodeIcon title="Code" />
+      </button> -->
+      <!-- <button
+        type="button"
+        @click="editor.chain().focus().setHorizontalRule().run()"
+        class="p-1"
+      >
+        <HorizontalRuleIcon title="Horizontal Rule" />
+      </button> -->
+      <button
+        type="button"
+        class="p-1 disabled:text-gray-400"
+        :disabled="!editor.can().chain().focus().undo().run()"
+        @click="editor.chain().focus().undo().run()"
+      >
+        <UndoIcon title="Undo" />
+      </button>
+      <button
+        type="button"
+        :disabled="!editor.can().chain().focus().redo().run()"
+        class="p-1 disabled:text-gray-400"
+        @click="editor.chain().focus().redo().run()"
+      >
+        <RedoIcon title="Redo" />
+      </button>
+    </section>
+    <EditorContent :editor="editor" />
+  </div>
+</template>
+
+<script setup>
+// import { Head, Link, useForm } from '@inertiajs/vue3'
+import { useEditor, EditorContent } from '@tiptap/vue-3';
+import StarterKit from '@tiptap/starter-kit';
+import Underline from '@tiptap/extension-underline';
+import HardBreak from '@tiptap/extension-hard-break';
+import Placeholder from '@tiptap/extension-placeholder';
+
+import BoldIcon from 'vue-material-design-icons/FormatBold.vue';
+import ItalicIcon from 'vue-material-design-icons/FormatItalic.vue';
+import UnderlineIcon from 'vue-material-design-icons/FormatUnderline.vue';
+import H1Icon from 'vue-material-design-icons/FormatHeader1.vue';
+import H2Icon from 'vue-material-design-icons/FormatHeader2.vue';
+import ListIcon from 'vue-material-design-icons/FormatListBulleted.vue';
+import OrderedListIcon from 'vue-material-design-icons/FormatListNumbered.vue';
+import BlockquoteIcon from 'vue-material-design-icons/FormatQuoteClose.vue';
+import CodeIcon from 'vue-material-design-icons/CodeTags.vue';
+import HorizontalRuleIcon from 'vue-material-design-icons/Minus.vue';
+import UndoIcon from 'vue-material-design-icons/Undo.vue';
+import RedoIcon from 'vue-material-design-icons/Redo.vue';
+
+const props = defineProps({
+  modelValue: {
+    type: String,
+    default: '',
+  },
+  placeholder: {
+    type: String,
+    default: '',
+  },
+});
+
+const emit = defineEmits(['update:modelValue']);
+
+const editor = useEditor({
+  content: props.modelValue,
+  onUpdate: ({ editor }) => {
+    // console.log(editor.getHTML())
+    emit('update:modelValue', editor.getHTML());
+  },
+  extensions: [
+    StarterKit,
+    Underline,
+    HardBreak.extend({
+      addKeyboardShortcuts() {
+        return {
+          Enter: () => this.editor.commands.setHardBreak(),
+        };
       },
-      onFocus: () => {
-        emit('onFocus');
-      },
-    });
-  });
-  onBeforeUnmount(() => {
-    if (editor.value) {
-      editor.value.destroy();
-    }
-  });
-  
-  const handleAddText = (textSample: string) => {
-    switch (textSample) {
-      case ETemplateTextType.USER_NAME:
-        editor.value
-          .chain()
-          .focus()
-          .insertContent({ type: 'templateTextUserName' })
-          .run();
-        break;
-      case ETemplateTextType.EMPLOYER_NAME:
-        editor.value
-          .chain()
-          .focus()
-          .insertContent({ type: 'templateTextEmployerName' })
-          .run();
-        break;
-      case ETemplateTextType.ENTRY_NUMBER:
-        editor.value
-          .chain()
-          .focus()
-          .insertContent({ type: 'templateTextEntryNumber' })
-          .run();
-        break;
-      case ETemplateTextType.JOB_TITLE:
-        editor.value
-          .chain()
-          .focus()
-          .insertContent({ type: 'templateTextJobTitle' })
-          .run();
-        break;
-      case ETemplateTextType.SELECTION_DATE:
-        editor.value
-          .chain()
-          .focus()
-          .insertContent({ type: 'templateTextSelectionDate' })
-          .run();
-        break;
-      case ETemplateTextType.SELECTION_STEP:
-        editor.value
-          .chain()
-          .focus()
-          .insertContent({ type: 'templateTextSelectionStep' })
-          .run();
-        break;
-      case ETemplateTextType.JOB_CATEGORY:
-        editor.value
-          .chain()
-          .focus()
-          .insertContent({ type: 'templateTextJobCategory' })
-          .run();
-        break;
-      default:
-        break;
-    }
-    emit('resetTemplateText');
-  };
-  watch(
-    () => props.templateText,
-    (newValue) => {
-      if (newValue) {
-        handleAddText(newValue);
-      }
+    }),
+    Placeholder.configure({
+      placeholder: props.placeholder,
+    }),
+  ],
+  editorProps: {
+    attributes: {
+      class:
+        'border border-gray-400 p-4 min-h-[200px] max-h-[500px] overflow-y-auto outline-none max-w-none',
     },
-  );
-  </script>
-  
-  <style lang="scss">
-  .message-editor {
-    .ProseMirror {
-      @apply overflow-y-auto rounded min-h-[56px] p-4 hover:outline-0 bg-white;
-      &:focus-visible {
-        @apply outline-0;
-      }
-    }
-    .ProseMirror p.is-editor-empty:first-child::before {
-      content: attr(data-placeholder);
-      float: left;
-      color: #a3a8ad;
-      pointer-events: none;
-      height: 0;
-    }
-  }
-  .placeholder-custom {
-    .ProseMirror p.is-editor-empty:first-child::before {
-      @apply mobile:w-[190px];
-    }
-  }
-  .disable-edit {
-    .ProseMirror {
-      @apply bg-gray-secondary rounded-b-none pointer-events-none #{!important};
-    }
-  }
-  </style>
-   -->
+  },
+});
+</script>
