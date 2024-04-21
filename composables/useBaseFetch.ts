@@ -63,7 +63,10 @@ export async function useBaseFetch<T>(
   // @ts-expect-error
   const data = dataOrigin?.value?.data as T;
 
-  return { error, pending, refresh, data };
+  // @ts-expect-error
+  const meta = dataOrigin?.value?.meta;
+
+  return { error, pending, refresh, data, meta };
 }
 
 function sleep(ms: number) {

@@ -12,7 +12,7 @@
       v-for="item in useCity.listCities"
       :key="item.id"
       :label="item.name"
-      :value="item.name"
+      :value="item.id"
     >
       {{ item.name }}
     </el-option>

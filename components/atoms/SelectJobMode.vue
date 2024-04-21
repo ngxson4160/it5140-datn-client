@@ -1,8 +1,8 @@
 <template>
-  <el-select v-model="value" clearable placeholder="Cấp bậc" size="large">
+  <el-select v-model="value" clearable placeholder="Hình thức" size="large">
     <el-option
       v-for="item in data"
-      :key="item.name"
+      :key="item.value"
       :value="item.value"
       :label="item.name"
     >
@@ -12,9 +12,9 @@
 </template>
 
 <script setup lang="ts">
-import { CJobLevel } from '~/utils/constant/job';
+import { CJobMode } from '~/utils/constant/job';
 
 const value = ref();
 
-const data = CJobLevel;
+const data = CJobMode;
 </script>

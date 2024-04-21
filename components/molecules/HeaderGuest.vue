@@ -20,28 +20,28 @@
 
       <p
         class="hover:cursor-pointer hover:text-primary font-medium"
-        @click="router.push('/jobs')"
+        @click="router.push('/find-job')"
       >
         Tìm việc
       </p>
 
       <p
         class="hover:cursor-pointer hover:text-primary font-medium"
-        @click="router.push('/companies')"
+        @click="router.push('/company')"
       >
         Công ty
       </p>
 
       <p
         class="hover:cursor-pointer hover:text-primary font-medium"
-        @click="router.push('/candidates')"
+        @click="router.push('/candidate')"
       >
         Ứng viên
       </p>
 
       <p
         class="hover:cursor-pointer hover:text-primary font-medium"
-        @click="router.push('/blogs')"
+        @click="router.push('/blog')"
       >
         Blog
       </p>

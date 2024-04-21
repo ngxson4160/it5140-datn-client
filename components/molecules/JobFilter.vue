@@ -7,7 +7,7 @@
         <div class="flex">
           <img src="@/assets/images/search.svg" class="w-6 mr-2" />
           <el-input
-            v-model="test"
+            v-model="filterData.filter"
             class="search-job-el-input h-[60px]"
             placeholder="Nhập từ khóa tìm kiếm"
           />
@@ -15,29 +15,44 @@
         <div class="h-[60px] border-l-2 mx-4"></div>
         <div class="flex items-center bg-white">
           <select-city
-            v-model="test1"
+            v-model="filterData.cityIds"
             class="job-filter-select !text-base !w-[270px]"
           />
         </div>
         <div class="h-[60px] border-l-2 mx-4"></div>
 
         <div class="flex items-center bg-white">
-          <select-job-category class="job-filter-select !w-[315px]" />
+          <select-job-category
+            v-model="filterData.jobCategoryIds"
+            class="job-filter-select !w-[315px]"
+          />
         </div>
       </div>
 
-      <el-button type="primary" class="!h-11">Tìm kiếm</el-button>
+      <el-button type="primary" class="!h-11" @click="emitSearch">
+        Tìm kiếm
+      </el-button>
     </div>
 
     <div
       class="w-[1050px] mt-2 flex items-center border justify-center gap-x-2 rounded-lg h-[60px] bg-white px-6 shadow-md"
     >
-      <!-- <div class="flex items-center"> -->
-      <select-job-type class="job-filter-select !w-[220px]" />
-      <select-job-salary class="job-filter-select !w-[220px]" />
-      <select-job-experience class="job-filter-select !w-[220px]" />
-      <select-job-level class="job-filter-select !w-[220px]" />
-      <!-- </div> -->
+      <select-job-mode
+        v-model="filterData.jobMode"
+        class="job-filter-select !w-[220px]"
+      />
+      <select-job-salary
+        v-model:value="filterData.salary"
+        class="job-filter-select !w-[220px]"
+      />
+      <select-job-experience
+        v-model:value="filterData.yearExperience"
+        class="job-filter-select !w-[220px]"
+      />
+      <select-job-level
+        v-model="filterData.level"
+        class="job-filter-select !w-[220px]"
+      />
 
       <el-button class="">Xóa bộ lọc</el-button>
     </div>
@@ -45,8 +60,100 @@
 </template>
 
 <script setup lang="ts">
-const test = ref('');
-const test1 = ref('');
+import type { EJobLevel, EJobMode } from '~/types/job';
+
+export interface IFilterJob {
+  filter: string;
+  cityIds: number[];
+  jobCategoryIds: number[];
+  jobMode: EJobMode | null;
+  level: EJobLevel | null;
+  salary: {
+    salaryMin: number | null;
+    salaryMax: number | null;
+  };
+  yearExperience: {
+    yearExperienceMin: number | null;
+    yearExperienceMax: number | null;
+  };
+}
+
+const initFilterJob = {
+  filter: '',
+  cityIds: [] as number[],
+  jobCategoryIds: [] as number[],
+  jobMode: null,
+  level: null,
+  salary: {
+    salaryMin: null,
+    salaryMax: null,
+  },
+  yearExperience: {
+    yearExperienceMin: null,
+    yearExperienceMax: null,
+  },
+};
+
+const filterData = ref<IFilterJob>({
+  filter: '',
+  cityIds: [] as number[],
+  jobCategoryIds: [] as number[],
+  jobMode: null,
+  level: null,
+  salary: {
+    salaryMin: null,
+    salaryMax: null,
+  },
+  yearExperience: {
+    yearExperienceMin: null,
+    yearExperienceMax: null,
+  },
+});
+
+const emits = defineEmits([
+  'search',
+  'jobMode',
+  'level',
+  'salary',
+  'yearExperience',
+]);
+
+watch(
+  () => filterData.value.jobMode,
+  (newVal) => {
+    emits('jobMode', newVal);
+  },
+);
+
+watch(
+  () => filterData.value.level,
+  (newVal) => {
+    emits('level', newVal);
+  },
+);
+
+watch(
+  () => filterData.value.salary,
+  (newVal) => {
+    emits('salary', newVal);
+  },
+);
+
+watch(
+  () => filterData.value.yearExperience,
+  (newVal) => {
+    emits('yearExperience', newVal);
+  },
+);
+
+const emitSearch = () => {
+  const data = {
+    filter: filterData.value.filter,
+    cityIds: filterData.value.cityIds.join(','),
+    jobCategoryIds: filterData.value.jobCategoryIds.join(','),
+  };
+  emits('search', data);
+};
 </script>
 
 <style lang="scss">
@@ -58,7 +165,7 @@ const test1 = ref('');
     font-size: 14 !important;
   }
   .el-select__icon {
-    font-size: 24px !important;
+    font-size: 16px !important;
   }
   .el-select__tags-text {
     font-size: 14px !important;

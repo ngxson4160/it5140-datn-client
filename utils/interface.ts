@@ -18,10 +18,10 @@ export interface IResponse {
   data: any;
 }
 
-export interface IPaginationResponse<T> {
-  data: T;
-  totalItems: number;
-  page: number;
-  totalPages: number;
-  take: number;
-}
+// export interface IPaginationResponse<T> {
+//   data: T;
+//   totalItems: number;
+//   page: number;
+//   totalPages: number;
+//   take: number;
+// }

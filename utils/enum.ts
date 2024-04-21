@@ -5,16 +5,15 @@ export enum ERole {
   USER = 4,
 }
 
+export enum EOrderPaging {
+  ASC = 'asc',
+  DESC = 'desc',
+}
+
 export enum EGender {
   MALE,
   FEMALE,
   OTHER,
-}
-
-export enum EJobStatus {
-  DRAFT,
-  PUBLIC,
-  DELETED,
 }
 
 export enum EStoreName {

@@ -27,7 +27,7 @@ const jobCategoryParent =
 
 const options = jobCategoryParent.map((jobParent: any) => {
   const jobCategory = jobParent.jobCategories.map((jobCategory: any) => ({
-    value: jobCategory.name,
+    value: jobCategory.id,
     label: jobCategory.name,
   }));
 

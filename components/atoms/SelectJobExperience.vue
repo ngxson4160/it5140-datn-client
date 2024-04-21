@@ -1,17 +1,15 @@
 <template>
   <el-select
     v-model="value"
-    multiple
-    collapse-tags
-    show-checkbox
+    clearable
     placeholder="Số năm kinh nghiệm"
     size="large"
   >
     <el-option
-      v-for="item in listCity"
-      :key="item.id"
+      v-for="item in data"
+      :key="item.value"
+      :value="item.value"
       :label="item.name"
-      :value="item.name"
     >
       {{ item.name }}
     </el-option>
@@ -19,9 +17,22 @@
 </template>
 
 <script setup lang="ts">
-const value = ref('');
+import { CJobExperience, CJobExperienceValue } from '~/utils/constant/job';
 
-const listCity = ref<any>({});
-const { data } = await useBaseFetch('cities');
-listCity.value = data;
+const value = ref();
+
+const data = CJobExperience;
+
+const emits = defineEmits(['update:value']);
+
+watch(
+  () => value.value,
+  (newVal) => {
+    if (newVal !== '') {
+      emits('update:value', CJobExperienceValue[newVal].value);
+    } else {
+      emits('update:value', undefined);
+    }
+  },
+);
 </script>
