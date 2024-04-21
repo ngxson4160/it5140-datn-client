@@ -1,0 +1,133 @@
+<template>
+  <div class="h-[200px] bg-[#007c32b8] flex items-center justify-center">
+    <span class="text-6xl font-bold text-center text-white">
+      Find Your Dream Job
+    </span>
+  </div>
+
+  <div class="w-[1050px] mx-auto">
+    <job-filter
+      class="mx-auto"
+      @job-mode="handleChangeJobMode"
+      @salary="handleChangeSalary"
+      @year-experience="handleChangeYearExperience"
+      @level="handleChangeLevel"
+      @search="handleSearch"
+    />
+    <div v-if="listJob.length === 0" class="text-center mt-6">
+      Không tìm thấy kết quả phù hợp
+    </div>
+    <div v-else>
+      <div class="flex flex-col items-center mt-2">
+        <card-job-full
+          v-for="(job, index) in listJob"
+          :key="index"
+          class="mt-1 w-full"
+          :data="job"
+        />
+      </div>
+      <div class="w-full flex justify-center mt-4 mb-16">
+        <el-pagination
+          :current-page="currentPage"
+          :page-size="meta.pagination.pageSize"
+          :total="meta.pagination.totalPage * meta.pagination.pageSize"
+          :pager-count="9"
+          layout="prev, pager, next"
+          background
+          @current-change="setCurrentPage"
+        />
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import type { IGetListJobParams, IJob } from '~/types/job';
+
+definePageMeta({
+  layout: 'guest',
+});
+
+const jobStore = useJobStore();
+
+const { query: queryUrl } = useRoute();
+
+const currentPage = ref<number>(1);
+const query = ref<IGetListJobParams>({ ...queryUrl });
+const listJob = ref<IJob[]>([]);
+const meta = ref<any>({});
+
+const setCurrentPage = async (page: number) => {
+  currentPage.value = page;
+  const data = await jobStore.getListJob({
+    ...query.value,
+    page,
+  });
+  listJob.value = data.data as IJob[];
+  meta.value = data.meta;
+};
+
+query.value.limit = 15;
+
+const data = await jobStore.getListJob({
+  ...query.value,
+});
+
+listJob.value = data.data as Array<IJob>;
+meta.value = data.meta;
+
+const handleChangeJobMode = async (jobMode: any) => {
+  query.value.jobMode = jobMode;
+  query.value.page = 1;
+
+  await callGetListJob();
+};
+
+const handleChangeSalary = async (salary: any) => {
+  if (salary) {
+    query.value.salaryMin = salary.salaryMin;
+    query.value.salaryMax = salary.salaryMax;
+  } else {
+    delete query.value.salaryMin;
+    delete query.value.salaryMax;
+  }
+
+  query.value.page = 1;
+  await callGetListJob();
+};
+
+const handleChangeYearExperience = async (yearExperience: any) => {
+  if (yearExperience) {
+    query.value.yearExperienceMin = yearExperience.yearExperienceMin;
+    query.value.yearExperienceMax = yearExperience.yearExperienceMax;
+  } else {
+    delete query.value.yearExperienceMin;
+    delete query.value.yearExperienceMax;
+  }
+
+  query.value.page = 1;
+  await callGetListJob();
+};
+
+const handleChangeLevel = async (level: any) => {
+  query.value.level = level;
+
+  query.value.page = 1;
+  await callGetListJob();
+};
+
+const handleSearch = (data: any) => {
+  query.value = { ...query.value, ...data };
+  console.log(query.value);
+};
+
+const callGetListJob = async () => {
+  const data = await jobStore.getListJob({
+    ...query.value,
+  });
+  listJob.value = data.data as IJob[];
+  meta.value = data.meta;
+};
+</script>
+
+<style scoped></style>

@@ -14,8 +14,7 @@
           khẳng định bản thân.
         </p>
       </div>
-
-      <search-job />
+      <search-job @search="handleSearchJob" />
 
       <div class="flex justify-between mt-6">
         <div
@@ -287,7 +286,26 @@
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import type { ISearchJobHome } from '~/components/molecules/SearchJob.vue';
+
+const handleSearchJob = (data: ISearchJobHome) => {
+  const filter = data.filter ? data.filter : undefined;
+  const cityIds = data.cityIds.length ? data.cityIds.join(',') : undefined;
+  const jobCategoryIds = data.jobCategoryIds.length
+    ? data.jobCategoryIds.join(',')
+    : undefined;
+
+  navigateTo({
+    path: 'job/list',
+    query: {
+      filter,
+      cityIds,
+      jobCategoryIds,
+    },
+  });
+};
+</script>
 <style>
 .el-carousel {
   .el-carousel__arrow {

@@ -61,9 +61,12 @@ export async function useBaseFetch<T>(
   if (error) useNotificationError({ title: error?.meta.message });
 
   // @ts-expect-error
-  const data = dataOrigin?.value?.data as T;
+  const data = dataOrigin?.value?.data as any;
 
-  return { error, pending, refresh, data };
+  // @ts-expect-error
+  const meta = dataOrigin?.value?.meta as any;
+
+  return { error, pending, refresh, data, meta };
 }
 
 function sleep(ms: number) {
