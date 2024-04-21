@@ -1,6 +1,7 @@
 <template>
   <div
     class="bg-white flex items-center border h-[150px] rounded-lg py-2 px-4 hover:bg-[#1caf5705] hover:border-[#1caf573f] cursor-pointer"
+    @click="router.push(`/job/${data.id}`)"
   >
     <div class="w-full flex items-center justify-between">
       <div class="flex">
@@ -75,9 +76,7 @@ const props = defineProps({
   },
 });
 
-const formatDate = (data: string) => {
-  return moment(data).format('HH:ss [ngày] DD/MM/YYYY');
-};
+const router = useRouter();
 </script>
 
 <style scoped></style>

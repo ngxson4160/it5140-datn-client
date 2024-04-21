@@ -64,10 +64,14 @@
   @apply mr-1 border rounded-md px-2 py-1 text-xs;
 }
 
-.el-tag--info{
+.el-tag--info {
   @apply max-w-[210px];
 }
 
-.el-select__tags-text{
+.el-select__tags-text {
   @apply max-w-[180px] #{!important};
+}
+
+.border-l-title {
+  @apply border-l-4 border-primary pl-1 text-lg font-bold mb-4;
 }

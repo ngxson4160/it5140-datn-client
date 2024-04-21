@@ -24,4 +24,5 @@ export enum EStoreName {
   JOB_CATEGORY_PARENT = 'jobCategoryParent',
   JOB = 'job',
   City = 'city',
+  COMPANY = 'company',
 }

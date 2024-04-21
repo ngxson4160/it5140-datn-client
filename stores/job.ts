@@ -9,8 +9,8 @@ export const InitJob: IJob = {
   salaryMin: 0,
   salaryMax: 0,
   images: [],
-  hours: null,
-  workMode: null,
+  jobMode: null,
+  level: null,
   officeName: '',
   city: [],
   address: [],
@@ -20,9 +20,9 @@ export const InitJob: IJob = {
   benefits: '',
   description: '',
   requirement: '',
+  time: '',
   gender: null,
-  yearExperienceMin: 0,
-  yearExperienceMax: 0,
+  yearExperience: 0,
   hiringStartDate: '',
   hiringEndDate: '',
   status: EJobStatus.DRAFT,
@@ -30,26 +30,14 @@ export const InitJob: IJob = {
   createdBy: '',
   updatedAt: '',
   updatedBy: '',
-  jobHasTags: [],
-  creator: {
-    id: null,
-    email: '',
-    avatar: null,
-    firstName: '',
-    lastName: '',
-    company: {
-      id: null,
-      jobCategoryParentId: null,
-      name: '',
-      avatar: null,
-    },
-  },
+  tags: [],
+  cities: [],
 };
 
 export const useJobStore = defineStore(EStoreName.JOB, {
   state: () => ({}),
   actions: {
-    async getJob(id: String) {
+    async getJob(id: number) {
       return await useBaseFetch(`/jobs/${id}`);
     },
 

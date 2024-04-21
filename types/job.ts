@@ -64,8 +64,8 @@ export interface IJob {
   salaryMin: number;
   salaryMax: number;
   images: Array<string>;
-  hours: number | null;
-  workMode: number | null;
+  jobMode: EJobMode | null;
+  level: EJobLevel | null;
   officeName: string;
   city: Array<string>;
   address: Array<string>;
@@ -75,9 +75,9 @@ export interface IJob {
   benefits: string;
   description: string;
   requirement: string;
+  time: string;
   gender: EGender | null;
-  yearExperienceMin: number;
-  yearExperienceMax: number;
+  yearExperience: number;
   hiringStartDate: string;
   hiringEndDate: string;
   status: EJobStatus;
@@ -85,24 +85,8 @@ export interface IJob {
   createdBy: string;
   updatedAt: string;
   updatedBy: string;
-  jobHasTags: Array<{
-    id: number;
-    tagId: number;
-    jobId: number;
-  }>;
-  creator: {
-    id: number | null;
-    email: string;
-    avatar: string | null;
-    firstName: string;
-    lastName: string;
-    company: {
-      id: number | null;
-      jobCategoryParentId: number | null;
-      name: string;
-      avatar: string | null;
-    };
-  };
+  tags: Array<{ id: number; name: string }>;
+  cities: Array<{ id: number; name: string }>;
 }
 
 export interface IGetListJobParams extends IPagination {

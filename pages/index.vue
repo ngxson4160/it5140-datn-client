@@ -297,7 +297,7 @@ const handleSearchJob = (data: ISearchJobHome) => {
     : undefined;
 
   navigateTo({
-    path: 'find-job',
+    path: 'job/list',
     query: {
       filter,
       cityIds,
