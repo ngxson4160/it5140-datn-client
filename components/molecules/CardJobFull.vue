@@ -5,13 +5,13 @@
   >
     <div class="w-full flex items-center justify-between">
       <div class="flex">
-        <img :src="data.company.avatar" class="w-24 object-contain" />
+        <img :src="data.company?.avatar" class="w-24 object-contain" />
         <div class="ml-4">
           <p class="font-bold text-one-line text-lg">
             {{ data.title }}
           </p>
           <p class="w-[270px] text-one-line">
-            {{ data.company.name }}
+            {{ data.company?.name }}
           </p>
           <p
             v-if="data.salaryMin && data.salaryMax"
@@ -24,6 +24,12 @@
             class="text-sm text-danger text-one-line"
           >
             {{ `$ Lên tới ${data.salaryMax}` }}
+          </p>
+          <p
+            v-if="data.salaryMin && !data.salaryMax"
+            class="text-sm text-danger text-one-line"
+          >
+            {{ `$ Ít nhất ${data.salaryMin}` }}
           </p>
           <p
             v-if="!data.salaryMin && !data.salaryMax"
@@ -55,7 +61,7 @@
       <div class="flex flex-col justify-between items-end">
         <img src="@/assets/images/heart-gray.svg" class="w-10" />
         <p class="text-gray mt-10">
-          Kết thúc: {{ formatDate(data.hiringEndDate) }}
+          Kết thúc: {{ formatDateFull(data.hiringEndDate) }}
         </p>
       </div>
     </div>

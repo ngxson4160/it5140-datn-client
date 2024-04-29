@@ -4,6 +4,8 @@ export enum EGender {
   OTHER,
 }
 
+export const VGender = ['Nam', 'Nữ', 'Khác'];
+
 export enum EOrderPaging {
   ASC = 'asc',
   DESC = 'desc',

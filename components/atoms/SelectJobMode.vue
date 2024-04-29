@@ -1,5 +1,5 @@
 <template>
-  <el-select v-model="value" clearable placeholder="Hình thức" size="large">
+  <el-select v-model="value" clearable placeholder="Hình thức" :size="size">
     <el-option
       v-for="item in data"
       :key="item.value"
@@ -13,6 +13,13 @@
 
 <script setup lang="ts">
 import { CJobMode } from '~/utils/constant/job';
+
+const props = defineProps({
+  size: {
+    type: String,
+    default: 'large',
+  },
+});
 
 const value = ref();
 
