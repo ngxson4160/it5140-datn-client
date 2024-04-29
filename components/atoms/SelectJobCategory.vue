@@ -1,12 +1,12 @@
 <template>
   <el-tree-select
     v-model="valueStrictly"
+    class="!w-[300px]"
     :data="options"
     :render-after-expand="false"
-    class="!w-[300px]"
-    multiple
-    show-checkbox
-    collapse-tags
+    :multiple="isMultiple"
+    :show-checkbox="isMultiple"
+    :collapse-tags="isMultiple"
     clearable
     check-on-click-node
     placeholder="Chọn nghề nghiệp"
@@ -17,7 +17,13 @@
 <script setup lang="ts">
 import { useJobCategoryParentStore } from '~/stores/job-category-parent';
 
-const value = ref();
+const props = defineProps({
+  isMultiple: {
+    type: Boolean,
+    default: true,
+  },
+});
+
 const valueStrictly = ref();
 
 const jobCategoryParentStore = useJobCategoryParentStore();

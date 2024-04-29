@@ -2,7 +2,7 @@
   <div>
     <section
       v-if="editor"
-      class="buttons text-gray-700 flex items-center flex-wrap gap-x-4 border-t border-x border-gray-400 p-4 !rounded-s-sm"
+      class="buttons text-[#374151] flex items-center flex-wrap gap-x-4 border-t border-x border-gray-400 p-4 !rounded-s-sm"
     >
       <button
         type="button"
@@ -28,7 +28,7 @@
       >
         <UnderlineIcon title="Underline" />
       </button>
-      <button
+      <!-- <button
         type="button"
         :class="{
           'bg-gray-200 rounded': editor.isActive('heading', { level: 1 }),
@@ -47,7 +47,7 @@
         @click="editor.chain().focus().toggleHeading({ level: 2 }).run()"
       >
         <H2Icon title="H2" />
-      </button>
+      </button> -->
       <button
         type="button"
         :class="{ 'bg-gray-200 rounded': editor.isActive('bulletList') }"
@@ -151,13 +151,13 @@ const editor = useEditor({
   extensions: [
     StarterKit,
     Underline,
-    HardBreak.extend({
-      addKeyboardShortcuts() {
-        return {
-          Enter: () => this.editor.commands.setHardBreak(),
-        };
-      },
-    }),
+    // HardBreak.extend({
+    //   addKeyboardShortcuts() {
+    //     return {
+    //       Enter: () => this.editor.commands.setHardBreak(),
+    //     };
+    //   },
+    // }),
     Placeholder.configure({
       placeholder: props.placeholder,
     }),

@@ -1,6 +1,7 @@
 export interface ICity {
   id: number;
   name: string;
+  districts?: Array<{ id: number; name: string }>;
 }
 
 export interface IListCities extends IResponse {
@@ -16,6 +17,17 @@ export const useCityStore = defineStore(EStoreName.City, {
       try {
         if (!this.listCities.length) {
           const { data } = await useBaseFetch('/cities');
+          this.listCities = data as ICity[];
+        }
+      } catch (error: any) {
+        console.log(error);
+      }
+    },
+
+    async getListCityAndDistrict() {
+      try {
+        if (!this.listCities.length) {
+          const { data } = await useBaseFetch('/cities/districts');
           this.listCities = data as ICity[];
         }
       } catch (error: any) {

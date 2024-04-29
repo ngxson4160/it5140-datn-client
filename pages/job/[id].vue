@@ -27,6 +27,12 @@
                 {{ `$ Lên tới ${job.salaryMax}` }}
               </p>
               <p
+                v-if="job.salaryMin && !job.salaryMax"
+                class="text-sm text-danger text-one-line"
+              >
+                {{ `$ Ít nhất ${job.salaryMin}` }}
+              </p>
+              <p
                 v-if="!job.salaryMin && !job.salaryMax"
                 class="text-sm text-danger text-one-line"
               >
@@ -35,7 +41,7 @@
               <div class="flex text-sm gap-x-2">
                 <div class="flex items-center gap-x-1">
                   <img src="@/assets/images/time-gray.svg" class="w-5" />
-                  <span>Kết thúc: {{ formatDate(job.hiringEndDate) }}</span>
+                  <span>Kết thúc: {{ formatDateFull(job.hiringEndDate) }}</span>
                 </div>
                 <div class="flex items-center gap-x-1">
                   <img src="@/assets/images/view-gray.svg" class="w-6" />
@@ -70,27 +76,30 @@
 
             <div class="mt-10">
               <h2 class="border-l-title">Mô tả công việc</h2>
-              <div class="text-sm">
+              <div class="tiptap" v-html="job.description"></div>
+              <!-- <div class="text-sm">
                 {{ job.description }}
-              </div>
+              </div> -->
               <h2 class="border-l-title mt-6">Yêu cầu công việc</h2>
-              <div class="text-sm">
+              <div class="tiptap" v-html="job.requirement"></div>
+              <!-- <div class="text-sm">
                 {{ job.requirement }}
-              </div>
+              </div> -->
               <h2 class="border-l-title mt-6">Phúc lợi cho bạn</h2>
-              <div class="text-sm">
+              <div class="tiptap" v-html="job.benefits"></div>
+              <!-- <div class="text-sm">
                 {{ job.benefits }}
-              </div>
+              </div> -->
               <h2 class="border-l-title mt-6">Địa điểm làm việc</h2>
               <div class="text-sm">
-                <p v-for="(city, index) in job.cities" :key="index">
-                  {{ `• ${city.name}` }}
+                <p v-for="(address, index) in job.address" :key="index">
+                  {{ `• ${address.data}` }}
                 </p>
               </div>
 
               <h2 class="border-l-title mt-6">Thời gian làm việc</h2>
               <div class="text-sm">
-                <p>{{ job.time }}</p>
+                <p>{{ `• ${job.time}` }}</p>
               </div>
             </div>
           </div>
@@ -101,12 +110,12 @@
             <div class="grid grid-cols-3 gap-x-4 gap-y-2">
               <div class="col-span-1">
                 <img
-                  :src="company.avatar"
+                  :src="company?.avatar"
                   class="w-[88px] h-[88px] object-contain border rounded-md"
                 />
               </div>
               <div class="col-span-2">
-                <p class="font-bold">{{ company.name }}</p>
+                <p class="font-bold">{{ company?.name }}</p>
               </div>
               <div class="col-span-1">
                 <div class="flex">
@@ -114,14 +123,14 @@
                 </div>
               </div>
               <div class="col-span-2">
-                <p class="font-bold text-sm">{{ company.totalStaff }}</p>
+                <p class="font-bold text-sm">{{ company?.totalStaff }}</p>
               </div>
               <div class="col-span-1">
                 <div class="flex"></div>
                 <p class="text-sm text-gray">Địa điểm:</p>
               </div>
               <div class="col-span-2">
-                <p class="font-bold text-sm">{{ company.primaryAddress }}</p>
+                <p class="font-bold text-sm">{{ company?.primaryAddress }}</p>
               </div>
             </div>
             <div
@@ -202,6 +211,15 @@
                 {{ job.quantity }}
               </div>
             </div>
+            <div class="grid grid-cols-2 mt-3">
+              <div class="flex items-center gap-x-2">
+                <img src="@/assets/images/gender-primary.svg" class="w-6" />
+                <span class="text-sm">Giới tính:</span>
+              </div>
+              <div class="flex items-center text-sm font-bold">
+                {{ VGender[job.gender] ?? 'Không yêu cầu' }}
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -210,6 +228,7 @@
 </template>
 
 <script setup lang="ts">
+import { VGender } from '~/types/common';
 import { CJobExperience, CJobLevel, CJobMode } from '~/utils/constant/job';
 
 // const props = defineProps({

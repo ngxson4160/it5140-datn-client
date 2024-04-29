@@ -3,7 +3,7 @@
     v-model="value"
     clearable
     placeholder="Số năm kinh nghiệm"
-    size="large"
+    :size="size"
   >
     <el-option
       v-for="item in data"
@@ -18,6 +18,13 @@
 
 <script setup lang="ts">
 import { CJobExperience, CJobExperienceValue } from '~/utils/constant/job';
+
+const props = defineProps({
+  size: {
+    type: String,
+    default: 'large',
+  },
+});
 
 const value = ref();
 

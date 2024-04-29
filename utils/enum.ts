@@ -10,12 +10,6 @@ export enum EOrderPaging {
   DESC = 'desc',
 }
 
-export enum EGender {
-  MALE,
-  FEMALE,
-  OTHER,
-}
-
 export enum EStoreName {
   AUTH = 'auth',
   COMMON = 'common',
@@ -25,4 +19,32 @@ export enum EStoreName {
   JOB = 'job',
   City = 'city',
   COMPANY = 'company',
+  User = 'User',
+}
+
+export enum EGender {
+  MALE,
+  FEMALE,
+  OTHER,
+}
+
+export enum EMaritalStatus {
+  SINGLE,
+  MARRIED,
+}
+
+export enum EUserStatus {
+  INACTIVE,
+  ACTIVE,
+}
+
+export enum EEducationLevel {
+  ELEMENTARY,
+  JUNIOR_HIGHT_SCHOOL,
+  HIGHT_SCHOOL,
+  COLLEGE,
+  BACHELOR,
+  ENGINEER,
+  MASTER,
+  DOCTOR,
 }

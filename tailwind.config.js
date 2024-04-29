@@ -1,6 +1,5 @@
-import type { Config } from 'tailwindcss';
-
-export default <Partial<Config>>{
+/** @type {import('tailwindcss').Config} */
+export default {
   content: [
     './components/**/*.{js,vue,ts}',
     './layouts/*.vue',
@@ -16,7 +15,7 @@ export default <Partial<Config>>{
         '275px': '275px',
       },
       colors: {
-        primary: { DEFAULT: '#1CAF57' },
+        primary: '#1CAF57',
         danger: '#f56c6c',
         gray: '#a3a8ad',
         'gray-text': '#A3A8AD',
@@ -28,4 +27,5 @@ export default <Partial<Config>>{
       },
     },
   },
+  plugins: [require('tailwindcss/nesting')],
 };
