@@ -28,7 +28,7 @@ const props = defineProps({
     default: () => ({}),
   },
 });
-const emits = defineEmits(['update:dataUpload']);
+const emits = defineEmits(['update:dataUpload', 'onSuccess']);
 const syncDataUpload = computed({
   get: () => props.dataUpload,
   set: (value: object) => {
@@ -43,8 +43,9 @@ const uploadImage = async () => {
   formData.append('file', file);
 
   const { data } = await uploadStore.uploadPdf(formData);
-
   syncDataUpload.value = data as IFileInformation;
+
+  emits('onSuccess', data);
 };
 </script>
 

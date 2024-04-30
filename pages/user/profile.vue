@@ -14,42 +14,46 @@
           <div class="col-span-1">
             <p class="font-bold">Họ và tên</p>
             <p class="text-sm">
-              {{ `${userProfile.firstName} ${userProfile.lastName}` }}
+              {{
+                `${userStore.myProfile.firstName} ${userStore.myProfile.lastName}`
+              }}
             </p>
           </div>
           <div class="col-span-1">
             <p class="font-bold">Tỉnh/Thành phố</p>
-            <p class="text-sm">{{ userProfile.city.name }}</p>
+            <p class="text-sm">{{ userStore.myProfile.city.name }}</p>
           </div>
 
           <div class="col-span-1">
             <p class="font-bold">Số điện thoại</p>
-            <p class="text-sm">{{ userProfile.phoneNumber }}</p>
+            <p class="text-sm">{{ userStore.myProfile.phoneNumber }}</p>
           </div>
           <div class="col-span-1">
             <p class="font-bold">Quận/Huyện</p>
-            <p class="text-sm">{{ userProfile.district }}</p>
+            <p class="text-sm">{{ userStore.myProfile.district }}</p>
           </div>
 
           <div class="col-span-1">
             <p class="font-bold">Giới tính</p>
-            <p class="text-sm">{{ CGender[userProfile.gender].name }}</p>
+            <p class="text-sm">
+              {{ CGender[userStore.myProfile.gender].name }}
+            </p>
           </div>
           <div class="col-span-1">
             <p class="font-bold">Địa chỉ</p>
-            <p class="text-sm">{{ userProfile.address }}</p>
+            <p class="text-sm">{{ userStore.myProfile.address }}</p>
           </div>
 
           <div class="col-span-1">
             <p class="font-bold">Ngày sinh</p>
             <p class="text-sm">
-              {{ formatDateShort(userProfile.dob) }}
+              {{ formatDateShort(userStore.myProfile.dob) }}
             </p>
           </div>
           <div class="col-span-1">
             <p class="font-bold">Tình trạng hôn nhân</p>
             <p class="text-sm">
-              {{ CMaritalStatus[userProfile.maritalStatus].name }}
+              {{ CMaritalStatus[userStore.myProfile.maritalStatus].name }}
             </p>
           </div>
         </div>
@@ -66,19 +70,21 @@
         </div>
         <p class="font-bold">Mục tiêu nghề nghiệp</p>
         <p class="text-sm">
-          {{ userProfile.candidateInformation.target }}
+          {{ userStore.myProfile.candidateInformation.target }}
         </p>
         <div class="grid grid-cols-2 mt-6 gap-y-6">
           <div class="col-span-1">
             <p class="font-bold">Ví trị mong muốn</p>
             <p class="text-sm">
-              {{ userProfile.candidateInformation.desiredJobCategory.name }}
+              {{
+                userStore.myProfile.candidateInformation.desiredJobCategory.name
+              }}
             </p>
           </div>
           <div class="col-span-1">
             <p class="font-bold">Địa điểm làm việc mong muốn</p>
             <p class="text-sm">
-              {{ userProfile.candidateInformation.desiredCity.name }}
+              {{ userStore.myProfile.candidateInformation.desiredCity.name }}
             </p>
           </div>
 
@@ -86,34 +92,40 @@
             <p class="font-bold">Cấp bậc mong muốn</p>
             <p class="text-sm">
               {{
-                CJobLevel[userProfile.candidateInformation.desiredJobLevel].name
+                CJobLevel[
+                  userStore.myProfile.candidateInformation.desiredJobLevel
+                ].name
               }}
             </p>
           </div>
           <div class="col-span-1">
             <p class="font-bold">Mức lương mong muốn</p>
             <p class="text-sm">
-              {{ userProfile.candidateInformation.desiredSalary }} VND
+              {{ userStore.myProfile.candidateInformation.desiredSalary }} VND
             </p>
           </div>
 
           <div class="col-span-1">
             <p class="font-bold">Trình độ học vấn</p>
             <p class="text-sm">
-              {{ CEducationLevel[userProfile.educationalLevel].name }}
+              {{ CEducationLevel[userStore.myProfile.educationalLevel].name }}
             </p>
           </div>
           <div class="col-span-1">
             <p class="font-bold">Hình thức làm việc mong muốn</p>
             <p class="text-sm">
-              {{ CJobMode[userProfile.candidateInformation.desiredMode].name }}
+              {{
+                CJobMode[
+                  userStore.myProfile.candidateInformation.desiredJobMode
+                ].name
+              }}
             </p>
           </div>
 
           <div class="col-span-1">
             <p class="font-bold">Số năm kinh nghiệp</p>
             <p class="text-sm">
-              {{ userProfile.candidateInformation.yearExperience }}
+              {{ userStore.myProfile.candidateInformation.yearExperience }}
             </p>
           </div>
         </div>
@@ -125,15 +137,16 @@
           <img
             src="@/assets/images/add-primary.svg"
             class="cursor-pointer w-10"
-            @click="showWorkExperience = true"
+            @click="onShowDialogAddWorkExperience"
           />
         </div>
         <el-timeline style="max-width: 600px">
           <el-timeline-item
-            v-for="(workExperience, index) in userProfile.candidateInformation
-              .workExperience"
+            v-for="(workExperience, index) in userStore.myProfile
+              .candidateInformation.workExperience"
             :key="index"
-            :timestamp="formatDateShort(workExperience.start)"
+            class="relative"
+            :timestamp="`${formatDateShort(workExperience.start)} - ${workExperience.end ? formatDateShort(workExperience.end) : 'Hiện tại'} `"
             placement="top"
           >
             <div>
@@ -142,6 +155,12 @@
               </p>
               <p>{{ workExperience.companyName }}</p>
               <p>{{ workExperience.description }}</p>
+            </div>
+            <div class="absolute top-0 left-[250px]">
+              <action
+                @edit="onShowDialogEditWorkExperience(workExperience, index)"
+                @delete="onDeleteWorkExperience(index)"
+              />
             </div>
           </el-timeline-item>
         </el-timeline>
@@ -153,15 +172,16 @@
           <img
             src="@/assets/images/add-primary.svg"
             class="cursor-pointer w-10"
-            @click="showEducation = true"
+            @click="onShowDialogAddEducation"
           />
         </div>
         <el-timeline style="max-width: 600px">
           <el-timeline-item
-            v-for="(education, index) in userProfile.candidateInformation
-              .education"
+            v-for="(education, index) in userStore.myProfile
+              .candidateInformation.education"
             :key="index"
-            :timestamp="formatDateShort(education.start)"
+            class="relative"
+            :timestamp="`${formatDateShort(education.start)} - ${education.end ? formatDateShort(education.end) : 'Hiện tại'}`"
             placement="top"
           >
             <div>
@@ -171,6 +191,12 @@
               <p class="text-sm">{{ education.organization }}</p>
               <p class="text-sm">{{ education.major }}</p>
               <p class="text-sm">{{ education.description }}</p>
+            </div>
+            <div class="absolute top-0 left-[250px]">
+              <action
+                @edit="onShowDialogEditEducation(education, index)"
+                @delete="onDeleteEducation(index)"
+              />
             </div>
           </el-timeline-item>
         </el-timeline>
@@ -182,15 +208,16 @@
           <img
             src="@/assets/images/add-primary.svg"
             class="cursor-pointer w-10"
-            @click="showCertificate = true"
+            @click="onShowDialogAddCertificate"
           />
         </div>
         <el-timeline style="max-width: 600px">
           <el-timeline-item
-            v-for="(certificate, index) in userProfile.candidateInformation
-              .certificate"
+            v-for="(certificate, index) in userStore.myProfile
+              .candidateInformation.certificate"
             :key="index"
-            :timestamp="formatDateShort(certificate.start)"
+            class="relative"
+            :timestamp="`${formatDateShort(certificate.start)} - ${certificate.end ? formatDateShort(certificate.end) : 'Vô thời hạn'}`"
             placement="top"
           >
             <div>
@@ -198,8 +225,13 @@
                 {{ certificate.name }}
               </p>
               <p class="text-sm">{{ certificate.organization }}</p>
-              <p class="text-sm">{{ certificate.major }}</p>
               <p class="text-sm">{{ certificate.description }}</p>
+            </div>
+            <div class="absolute top-0 left-[250px]">
+              <action
+                @edit="onShowDialogEditCertificate(certificate, index)"
+                @delete="onDeleteCertificate(index)"
+              />
             </div>
           </el-timeline-item>
         </el-timeline>
@@ -211,7 +243,7 @@
           <img
             src="@/assets/images/add-primary.svg"
             class="cursor-pointer w-10"
-            @click="showAdvancedSkill = true"
+            @click="onShowDialogAddAdvancedSkill"
           />
         </div>
         <div class="pb-1 grid grid-cols-3 gap-y-2 gap-x-4 border-b">
@@ -220,8 +252,8 @@
           <p class="col-span-1">Hành động</p>
         </div>
         <div
-          v-for="(advancedSkill, index) in userProfile.candidateInformation
-            .advancedSkill"
+          v-for="(advancedSkill, index) in userStore.myProfile
+            .candidateInformation.advancedSkill"
           :key="index"
           class="grid grid-cols-3 border-b py-1 gap-x-4 items-center"
         >
@@ -231,14 +263,10 @@
             status="success"
             :show-text="false"
           />
-          <div class="col-span-1 flex">
-            <img
-              src="@/assets/images/pencil-primary.svg"
-              class="w-6 cursor-pointer"
-            />
-            <img
-              src="@/assets/images/bin-danger.svg"
-              class="w-6 ml-2 cursor-pointer"
+          <div class="col-span-1">
+            <action
+              @edit="onShowDialogEditAdvancedSkill(advancedSkill, index)"
+              @delete="onDeleteAdvancedSkill(index)"
             />
           </div>
         </div>
@@ -250,7 +278,7 @@
           <img
             src="@/assets/images/add-primary.svg"
             class="cursor-pointer w-10"
-            @click="showLanguageSkill = true"
+            @click="onShowDialogAddLanguageSkill"
           />
         </div>
         <div class="pb-1 grid grid-cols-3 gap-y-2 gap-x-4 border-b">
@@ -260,8 +288,8 @@
         </div>
 
         <div
-          v-for="(languageSkill, index) in userProfile.candidateInformation
-            .languageSkill"
+          v-for="(languageSkill, index) in userStore.myProfile
+            .candidateInformation.languageSkill"
           :key="index"
           class="grid grid-cols-3 border-b py-1 gap-x-4 items-center"
         >
@@ -271,240 +299,125 @@
             status="success"
             :show-text="false"
           />
-          <div class="col-span-1 flex">
-            <img
-              src="@/assets/images/pencil-primary.svg"
-              class="w-6 cursor-pointer"
-            />
-            <img
-              src="@/assets/images/bin-danger.svg"
-              class="w-6 ml-2 cursor-pointer"
+          <div class="col-span-1">
+            <action
+              @edit="onShowDialogEditLanguageSkill(languageSkill, index)"
+              @delete="onDeleteLanguageSkill(index)"
             />
           </div>
         </div>
       </div>
+
+      <div id="part8" class="w-full rounded-sm bg-white px-6 py-4 mt-6 mb-20">
+        <div class="flex mb-6 t justify-between items-center">
+          <p class="font-bold text-xl">Hồ sơ đính kèm</p>
+          <img
+            src="@/assets/images/add-primary.svg"
+            class="cursor-pointer w-10"
+          />
+        </div>
+        <div class="flex gap-4 flex-wrap">
+          <div
+            v-for="(cv, index) in userStore.myProfile.candidateInformation.cv"
+            :key="index"
+            class="relative"
+          >
+            <iframe
+              :src="`${cv.url}#toolbar=0&navpanes=0&scrolling=0`"
+              class="border rounded-lg !overflow-hidden w-[220px] h-[283px]"
+            ></iframe>
+            <div class="absolute inset-0 bg-[#a3a8ad2a]"></div>
+            <el-button
+              type="danger"
+              :icon="Delete"
+              circle
+              class="absolute right-4 top-4"
+              @click="isShowDialogConfirmDeleteCV = true"
+            />
+            <dialog-confirm-delete
+              v-model:dialogVisible="isShowDialogConfirmDeleteCV"
+              @on-confirm="onDeleteCV(index)"
+            />
+            <div class="absolute inset-x-0 bottom-6">
+              <p class="text-center mb-4 font-bold text-base">{{ cv.title }}</p>
+              <div class="flex justify-between px-4">
+                <el-button
+                  class="w-[180px] !h-[30] !text-xs"
+                  round
+                  type="warning"
+                >
+                  Xem như nhà tuyển dụng
+                </el-button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mt-6">
+          <drag-to-upload @on-success="onAddCV" />
+        </div>
+      </div>
     </div>
 
-    <dialog-form
+    <!-- Information General -->
+    <dialog-edit-information
+      v-if="showEditInformationGeneral"
       v-model:dialogVisible="showEditInformationGeneral"
-      title="Thông tin cá nhân"
+      :data="formDataEditInformation"
       @on-confirm="onSaveEditInformationGeneral"
-    >
-      <div class="grid grid-cols-2 gap-y-4 gap-x-10 mt-4">
-        <div class="col-span-1">
-          <p class="mb-2">Họ</p>
-          <el-input />
-        </div>
+    />
 
-        <div class="col-span-1">
-          <p class="mb-2">Tên</p>
-          <el-input />
-        </div>
-
-        <div class="col-span-1">
-          <p class="mb-2">Số điện thoại</p>
-          <el-input />
-        </div>
-
-        <div class="col-span-1">
-          <p class="mb-2">Ngày sinh</p>
-          <el-date-picker class="!w-full" />
-        </div>
-
-        <div class="col-span-1">
-          <p class="mb-2">Giới tính</p>
-          <el-select class="w-full" />
-        </div>
-
-        <div class="col-span-1">
-          <p class="mb-2">Tình trạng hôn nhân</p>
-          <el-select class="w-full" />
-        </div>
-
-        <div class="col-span-1">
-          <p class="mb-2">Tỉnh/Thành phố</p>
-          <el-select class="w-full" />
-        </div>
-
-        <div class="col-span-1">
-          <p class="mb-2">Quận/Huyện</p>
-          <el-select class="w-full" />
-        </div>
-      </div>
-      <div class="mt-4">
-        <p>Địa chỉ</p>
-        <el-input class="mt-2 !h-10" />
-      </div>
-    </dialog-form>
-
-    <dialog-form
+    <!-- Information General -->
+    <dialog-information-general
+      v-if="showEditProfile"
       v-model:dialogVisible="showEditProfile"
-      title="Thông tin hồ sơ"
+      :data="formDataInformationGeneral"
       @on-confirm="onSaveEditInformationGeneral"
-    >
-      <div>
-        <p>Mục tiêu nghề nghiệp</p>
-        <el-input class="mt-2 !h-10" />
-      </div>
-
-      <div class="grid grid-cols-2 gap-y-4 gap-x-10 mt-4">
-        <div class="col-span-1">
-          <p class="mb-2">Vị trí mong muốn</p>
-          <el-input />
-        </div>
-
-        <div class="col-span-1">
-          <p class="mb-2">Địa điểm làm việc mong muốn</p>
-          <el-date-picker class="!w-full" />
-        </div>
-
-        <div class="col-span-1">
-          <p class="mb-2">Cấp bậc mong muốn</p>
-          <el-select class="w-full" />
-        </div>
-
-        <div class="col-span-1">
-          <p class="mb-2">Mức lương mong muốn</p>
-          <el-select class="w-full" />
-        </div>
-
-        <div class="col-span-1">
-          <p class="mb-2">Trình độ học vấn</p>
-          <el-select class="w-full" />
-        </div>
-
-        <div class="col-span-1">
-          <p class="mb-2">Hình thức làm việc</p>
-          <el-select class="w-full" />
-        </div>
-
-        <div class="col-span-1">
-          <p>Kinh nghiệm</p>
-          <el-input class="mt-2 !h-10" />
-        </div>
-      </div>
-    </dialog-form>
+    />
 
     <!-- Work Experience -->
-    <dialog-form
+    <dialog-work-experience
+      v-if="showWorkExperience"
       v-model:dialogVisible="showWorkExperience"
-      title="Kinh nghiệm làm việc"
-      @on-confirm="onSaveEditInformationGeneral"
-    >
-      <p>Vị trí công việc</p>
-      <el-input class="mt-2 !h-10" />
-
-      <p class="mt-4">Tên công ty</p>
-      <el-input class="mt-2 !h-10" />
-
-      <div class="grid grid-cols-2 gap-y-4 gap-x-10 mt-4">
-        <div class="col-span-1">
-          <p class="mb-2">Ngày bắt đầu</p>
-          <el-date-picker class="!w-full" />
-        </div>
-
-        <div class="col-span-1">
-          <p class="mb-2">Ngày kết thúc</p>
-          <el-date-picker class="!w-full" />
-        </div>
-      </div>
-
-      <p class="mt-4">Mô tả thêm</p>
-      <el-input class="mt-2 !h-10" />
-    </dialog-form>
+      :data="formDataWorkExperience"
+      @on-confirm="onAddWorkExperience"
+    />
 
     <!-- Education-->
-    <dialog-form
+    <dialog-education
+      v-if="showEducation"
       v-model:dialogVisible="showEducation"
-      title="Thông tin học vấn"
-      @on-confirm="onSaveEditInformationGeneral"
-    >
-      <p>Tên bằng cấp/Chứng chỉ</p>
-      <el-input class="mt-2 !h-10" />
-
-      <p class="mt-4">Chuyên ngành đào tạo</p>
-      <el-input class="mt-2 !h-10" />
-
-      <p class="mt-4">Trường/Trung tâm đào tạo</p>
-      <el-input class="mt-2 !h-10" />
-
-      <div class="grid grid-cols-2 gap-y-4 gap-x-10 mt-4">
-        <div class="col-span-1">
-          <p class="mb-2">Ngày bắt đầu</p>
-          <el-date-picker class="!w-full" />
-        </div>
-
-        <div class="col-span-1">
-          <p class="mb-2">Ngày kết thúc</p>
-          <el-date-picker class="!w-full" />
-        </div>
-      </div>
-
-      <p class="mt-4">Mô tả thêm</p>
-      <el-input class="mt-2 !h-10" />
-    </dialog-form>
+      :data="formDataEducation"
+      @on-confirm="onUpdateEducation"
+    />
 
     <!-- Certificate-->
-    <dialog-form
+    <dialog-certificate
+      v-if="showCertificate"
       v-model:dialogVisible="showCertificate"
-      title="Chứng chỉ"
-      @on-confirm="onSaveEditInformationGeneral"
-    >
-      <p>Tên chứng chỉ</p>
-      <el-input class="mt-2 !h-10" />
-
-      <p class="mt-4">Trường/Trung tâm đào tạo</p>
-      <el-input class="mt-2 !h-10" />
-
-      <div class="grid grid-cols-2 gap-y-4 gap-x-10 mt-4">
-        <div class="col-span-1">
-          <p class="mb-2">Ngày bắt đầu</p>
-          <el-date-picker class="!w-full" />
-        </div>
-
-        <div class="col-span-1">
-          <p class="mb-2">Ngày hết hạn</p>
-          <el-date-picker class="!w-full" />
-        </div>
-      </div>
-
-      <p class="mt-4">Mô tả thêm</p>
-      <el-input class="mt-2 !h-10" />
-    </dialog-form>
-
-    <!-- Language skill -->
-    <dialog-form
-      v-model:dialogVisible="showLanguageSkill"
-      title="Kỹ năng ngoại ngữ"
-      @on-confirm="onSaveEditInformationGeneral"
-    >
-      <p>Tên Kỹ năng</p>
-      <el-input class="mt-2 !h-10" />
-
-      <p class="mt-4">Trình độ</p>
-      <div class="mx-1">
-        <el-slider v-model="value1" :step="10" />
-      </div>
-    </dialog-form>
+      :data="formDataCertificate"
+      @on-confirm="onUpdateCertificate"
+    />
 
     <!-- Advanced skill -->
-    <dialog-form
+    <dialog-advanced-skill
+      v-if="showAdvancedSkill"
       v-model:dialogVisible="showAdvancedSkill"
-      title="Kỹ năng chuyên môn"
-      @on-confirm="onSaveEditInformationGeneral"
-    >
-      <p>Tên Kỹ năng</p>
-      <el-input class="mt-2 !h-10" />
+      :data="formDataAdvancedSkill"
+      @on-confirm="onUpdateAdvancedSkill"
+    />
 
-      <p class="mt-4">Trình độ</p>
-      <div class="mx-1">
-        <el-slider v-model="value1" :step="10" />
-      </div>
-    </dialog-form>
+    <!-- Language skill -->
+    <dialog-language-skill
+      v-if="showLanguageSkill"
+      v-model:dialogVisible="showLanguageSkill"
+      :data="formDataLanguageSkill"
+      @on-confirm="onUpdateLanguageSkill"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
+import { Delete } from '@element-plus/icons-vue';
 import {
   CMaritalStatus,
   CGender,
@@ -523,16 +436,255 @@ const showEditProfile = ref(false);
 const showWorkExperience = ref(false);
 const showEducation = ref(false);
 const showCertificate = ref(false);
-const showLanguageSkill = ref(false);
 const showAdvancedSkill = ref(false);
+const showLanguageSkill = ref(false);
 
-const value1 = ref();
+await userStore.getMyProfile();
 
-const onSaveEditInformationGeneral = () => {};
+const formDataEditInformation = ref({
+  firstName: userStore.myProfile.firstName,
+  lastName: userStore.myProfile.lastName,
+  phoneNumber: userStore.myProfile.phoneNumber,
+  dob: userStore.myProfile.dob,
+  gender: userStore.myProfile.gender,
+  cityId: userStore.myProfile.cityId,
+  district: userStore.myProfile.district,
+  address: userStore.myProfile.address,
+  maritalStatus: userStore.myProfile.maritalStatus,
+});
 
-const userProfile = ref();
-const { data } = await userStore.getMyProfile();
-userProfile.value = data;
+const formDataInformationGeneral = ref({
+  target: userStore.myProfile.candidateInformation.target,
+  desiredJobCategoryId:
+    userStore.myProfile.candidateInformation.desiredJobCategoryId,
+  educationalLevel: userStore.myProfile.educationalLevel,
+  desiredCityId: userStore.myProfile.candidateInformation.desiredCityId,
+  desiredJobLevel: userStore.myProfile.candidateInformation.desiredJobLevel,
+  desiredSalary: userStore.myProfile.candidateInformation.desiredSalary,
+  desiredJobMode: userStore.myProfile.candidateInformation.desiredJobMode,
+  yearExperience: userStore.myProfile.candidateInformation.yearExperience,
+});
+
+const onSaveEditInformationGeneral = async (data: any) => {
+  await userStore.updateMyProfile(data);
+};
+
+/**
+ * Work Experience
+ */
+const intiDataWorkExperience = {
+  end: '',
+  start: '',
+  position: '',
+  companyName: '',
+  description: '',
+};
+const formDataWorkExperience = ref(intiDataWorkExperience);
+const indexEditWorkExperience = ref<number | null>(null);
+const onShowDialogAddWorkExperience = () => {
+  showWorkExperience.value = true;
+  formDataWorkExperience.value = intiDataWorkExperience;
+  indexEditWorkExperience.value = null;
+};
+const onShowDialogEditWorkExperience = (data: any, index: number) => {
+  showWorkExperience.value = true;
+  formDataWorkExperience.value = data;
+  indexEditWorkExperience.value = index;
+};
+const onAddWorkExperience = async (data: any) => {
+  if (indexEditWorkExperience.value !== null) {
+    userStore.myProfile.candidateInformation.workExperience.splice(
+      indexEditWorkExperience.value,
+      1,
+    );
+  }
+  const body = sortObjectByStartDate([
+    ...userStore.myProfile.candidateInformation.workExperience,
+    data,
+  ]);
+  await userStore.updateMyProfile({ workExperience: body });
+};
+const onDeleteWorkExperience = async (index: number) => {
+  const workExperience =
+    userStore.myProfile.candidateInformation.workExperience;
+  workExperience.splice(index, 1);
+  await userStore.updateMyProfile({ workExperience });
+};
+
+/**
+ * Education
+ */
+const intiDataEducation = {
+  name: '',
+  major: '',
+  organization: '',
+  start: '',
+  end: '',
+  description: '',
+};
+const formDataEducation = ref(intiDataEducation);
+const indexEditEducation = ref<number | null>(null);
+const onShowDialogAddEducation = () => {
+  showEducation.value = true;
+  formDataEducation.value = intiDataEducation;
+  indexEditEducation.value = null;
+};
+const onShowDialogEditEducation = (data: any, index: number) => {
+  showEducation.value = true;
+  formDataEducation.value = data;
+  indexEditEducation.value = index;
+};
+const onUpdateEducation = async (data: any) => {
+  if (indexEditEducation.value !== null) {
+    userStore.myProfile.candidateInformation.education.splice(
+      indexEditEducation.value,
+      1,
+    );
+  }
+  const body = sortObjectByStartDate([
+    ...userStore.myProfile.candidateInformation.education,
+    data,
+  ]);
+  await userStore.updateMyProfile({ education: body });
+};
+const onDeleteEducation = async (index: number) => {
+  const education = userStore.myProfile.candidateInformation.education;
+  education.splice(index, 1);
+  await userStore.updateMyProfile({ education });
+};
+
+/**
+ * Certificate
+ */
+const intiDataCertificate = {
+  name: '',
+  organization: '',
+  start: '',
+  end: '',
+  description: '',
+};
+const formDataCertificate = ref(intiDataCertificate);
+const indexEditCertificate = ref<number | null>(null);
+const onShowDialogAddCertificate = () => {
+  showCertificate.value = true;
+  formDataCertificate.value = intiDataCertificate;
+  indexEditCertificate.value = null;
+};
+const onShowDialogEditCertificate = (data: any, index: number) => {
+  showCertificate.value = true;
+  formDataCertificate.value = data;
+  indexEditCertificate.value = index;
+};
+const onUpdateCertificate = async (data: any) => {
+  if (indexEditCertificate.value !== null) {
+    userStore.myProfile.candidateInformation.certificate.splice(
+      indexEditCertificate.value,
+      1,
+    );
+  }
+  const body = sortObjectByStartDate([
+    ...userStore.myProfile.candidateInformation.certificate,
+    data,
+  ]);
+  await userStore.updateMyProfile({ certificate: body });
+};
+const onDeleteCertificate = async (index: number) => {
+  const certificate = userStore.myProfile.candidateInformation.certificate;
+  certificate.splice(index, 1);
+  await userStore.updateMyProfile({ certificate });
+};
+
+/**
+ * Advanced Skill
+ */
+const intiDataAdvancedSkill = {
+  name: '',
+  level: 0,
+};
+const formDataAdvancedSkill = ref(intiDataAdvancedSkill);
+const indexEditAdvancedSkill = ref<number | null>(null);
+const onShowDialogAddAdvancedSkill = () => {
+  showAdvancedSkill.value = true;
+  formDataAdvancedSkill.value = intiDataAdvancedSkill;
+  indexEditAdvancedSkill.value = null;
+};
+const onShowDialogEditAdvancedSkill = (data: any, index: number) => {
+  showAdvancedSkill.value = true;
+  formDataAdvancedSkill.value = data;
+  indexEditAdvancedSkill.value = index;
+};
+const onUpdateAdvancedSkill = async (data: any) => {
+  if (indexEditAdvancedSkill.value !== null) {
+    userStore.myProfile.candidateInformation.advancedSkill.splice(
+      indexEditAdvancedSkill.value,
+      1,
+    );
+  }
+  const body = [
+    ...userStore.myProfile.candidateInformation.advancedSkill,
+    data,
+  ];
+  await userStore.updateMyProfile({ advancedSkill: body });
+};
+const onDeleteAdvancedSkill = async (index: number) => {
+  const advancedSkill = userStore.myProfile.candidateInformation.advancedSkill;
+  advancedSkill.splice(index, 1);
+  await userStore.updateMyProfile({ advancedSkill });
+};
+
+/**
+ * Language Skill
+ */
+const intiDataLanguageSkill = {
+  name: '',
+  level: 0,
+};
+const formDataLanguageSkill = ref(intiDataLanguageSkill);
+const indexEditLanguageSkill = ref<number | null>(null);
+const onShowDialogAddLanguageSkill = () => {
+  showLanguageSkill.value = true;
+  formDataLanguageSkill.value = intiDataLanguageSkill;
+  indexEditLanguageSkill.value = null;
+};
+const onShowDialogEditLanguageSkill = (data: any, index: number) => {
+  showLanguageSkill.value = true;
+  formDataLanguageSkill.value = data;
+  indexEditLanguageSkill.value = index;
+};
+const onUpdateLanguageSkill = async (data: any) => {
+  if (indexEditLanguageSkill.value !== null) {
+    userStore.myProfile.candidateInformation.languageSkill.splice(
+      indexEditLanguageSkill.value,
+      1,
+    );
+  }
+  const body = [
+    ...userStore.myProfile.candidateInformation.languageSkill,
+    data,
+  ];
+  await userStore.updateMyProfile({ languageSkill: body });
+};
+const onDeleteLanguageSkill = async (index: number) => {
+  const languageSkill = userStore.myProfile.candidateInformation.languageSkill;
+  languageSkill.splice(index, 1);
+  await userStore.updateMyProfile({ languageSkill });
+};
+
+/**
+ * Upload CV
+ */
+const isShowDialogConfirmDeleteCV = ref(false);
+const onAddCV = async (data: any) => {
+  const cvUpload = { title: data.baseName, url: data.absolutePath };
+  const body = [...userStore.myProfile.candidateInformation.cv, cvUpload];
+  await userStore.updateMyProfile({ cv: body });
+};
+
+const onDeleteCV = async (index: number) => {
+  const cv = userStore.myProfile.candidateInformation.cv;
+  cv.splice(index, 1);
+  await userStore.updateMyProfile({ cv });
+};
 </script>
 
 <style lang="scss">
@@ -542,5 +694,9 @@ userProfile.value = data;
 
 .el-timeline-item__tail {
   @apply border-[#1caf5757]  #{!important};
+}
+
+.custom-iframe {
+  pointer-events: none;
 }
 </style>

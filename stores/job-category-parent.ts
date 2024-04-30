@@ -24,16 +24,12 @@ export const useJobCategoryParentStore = defineStore(
       listJobCategory: [] as IJobCategory[],
     }),
     actions: {
-      async getListJobCategoryParent() {
-        try {
-          if (!this.listJobCategory.length) {
-            const { data } = await useBaseFetch('/job-category-parents');
-            this.listJobCategory = data as IJobCategory[];
-          }
-          return this.listJobCategory;
-        } catch (error: any) {
-          console.log(error);
+      async getListJobCategoryParent(): Promise<IJobCategory[]> {
+        if (!this.listJobCategory.length) {
+          const { data } = await useBaseFetch('/job-category-parents');
+          this.listJobCategory = data as IJobCategory[];
         }
+        return this.listJobCategory;
       },
     },
   },

@@ -1,18 +1,15 @@
 <template>
   <el-select
     v-model="value"
-    :multiple="isMultiple"
-    :collapse-tags="isMultiple"
-    :show-checkbox="isMultiple"
     clearable
-    placeholder="Chọn tỉnh/thành phố"
+    placeholder="Chọn trình độ học vấn"
     :size="size"
   >
     <el-option
-      v-for="item in useCity.listCities"
-      :key="item.id"
+      v-for="item in CEducationLevel"
+      :key="item.value"
       :label="item.name"
-      :value="item.id"
+      :value="item.value"
     >
       {{ item.name }}
     </el-option>
@@ -20,6 +17,8 @@
 </template>
 
 <script setup lang="ts">
+import { CEducationLevel } from '~/utils/constant/common';
+
 const props = defineProps({
   isMultiple: {
     type: Boolean,
@@ -32,8 +31,4 @@ const props = defineProps({
 });
 
 const value = ref('');
-
-const useCity = useCityStore();
-
-await useCity.getListCities();
 </script>
