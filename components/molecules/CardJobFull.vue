@@ -60,7 +60,7 @@
       </div>
       <div class="flex flex-col justify-between items-end">
         <img src="@/assets/images/heart-gray.svg" class="w-10" />
-        <p class="text-gray mt-10">
+        <p class="text-gray mt-10 text-sm">
           Kết thúc: {{ formatDateFull(data.hiringEndDate) }}
         </p>
       </div>
@@ -69,8 +69,6 @@
 </template>
 
 <script setup lang="ts">
-import moment from 'moment';
-
 const props = defineProps({
   data: {
     type: Object,

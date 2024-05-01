@@ -21,7 +21,9 @@
         >
           <div class="flex justify-between !w-full grow-1">
             <p>{{ cv.title }}</p>
-            <p class="font-bold">Xem hồ sơ</p>
+            <p class="font-bold" @click="handleShowPreviewCV(cv.url)">
+              Xem hồ sơ
+            </p>
           </div>
         </el-radio>
       </el-radio-group>
@@ -57,6 +59,11 @@
       </el-button>
     </template>
   </el-dialog>
+
+  <dialog-preview-cv
+    v-model:dialog-visible="showCVPreview"
+    :url="urlCVPreview"
+  />
 </template>
 
 <script setup lang="ts">
@@ -78,6 +85,8 @@ const props = defineProps({
 const emits = defineEmits(['update:dialogVisible', 'onConfirm']);
 
 const formData = ref({ ...props.data });
+const urlCVPreview = ref('');
+const showCVPreview = ref(false);
 
 const syncDialogVisible = computed({
   get: () => props.dialogVisible,
@@ -89,6 +98,11 @@ const syncDialogVisible = computed({
 const listCV = ref(formData.value.candidateCv);
 formData.value.candidateCv = listCV.value[0].url;
 
+const handleShowPreviewCV = (url: string) => {
+  urlCVPreview.value = url;
+  showCVPreview.value = true;
+};
+
 const handleConfirm = () => {
   emits('onConfirm', formData.value);
   syncDialogVisible.value = false;
@@ -96,10 +110,6 @@ const handleConfirm = () => {
 </script>
 
 <style lang="scss">
-.el-dialog__body {
-  @apply py-4 #{!important};
-}
-
 .custom-radio {
   .el-radio__label {
     @apply w-full;

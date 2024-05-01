@@ -308,13 +308,9 @@
         </div>
       </div>
 
-      <div id="part8" class="w-full rounded-sm bg-white px-6 mt-6 mb-20">
+      <div id="part8" class="w-full rounded-sm bg-white px-6 py-4 mt-6 mb-20">
         <div class="flex mb-6 t justify-between items-center">
           <p class="font-bold text-xl">Hồ sơ đính kèm</p>
-          <img
-            src="@/assets/images/add-primary.svg"
-            class="cursor-pointer w-10"
-          />
         </div>
         <div class="flex gap-4 flex-wrap">
           <div
@@ -616,16 +612,15 @@ const onShowDialogEditAdvancedSkill = (data: any, index: number) => {
   indexEditAdvancedSkill.value = index;
 };
 const onUpdateAdvancedSkill = async (data: any) => {
+  let body;
   if (indexEditAdvancedSkill.value !== null) {
-    userStore.myProfile.candidateInformation.advancedSkill.splice(
-      indexEditAdvancedSkill.value,
-      1,
-    );
+    userStore.myProfile.candidateInformation.advancedSkill[
+      indexEditAdvancedSkill.value
+    ] = data;
+    body = [...userStore.myProfile.candidateInformation.advancedSkill];
+  } else {
+    body = [...userStore.myProfile.candidateInformation.advancedSkill, data];
   }
-  const body = [
-    ...userStore.myProfile.candidateInformation.advancedSkill,
-    data,
-  ];
   await userStore.updateMyProfile({ advancedSkill: body });
 };
 const onDeleteAdvancedSkill = async (index: number) => {
@@ -654,16 +649,16 @@ const onShowDialogEditLanguageSkill = (data: any, index: number) => {
   indexEditLanguageSkill.value = index;
 };
 const onUpdateLanguageSkill = async (data: any) => {
+  let body;
   if (indexEditLanguageSkill.value !== null) {
-    userStore.myProfile.candidateInformation.languageSkill.splice(
-      indexEditLanguageSkill.value,
-      1,
-    );
+    userStore.myProfile.candidateInformation.languageSkill[
+      indexEditLanguageSkill.value
+    ] = data;
+    body = [...userStore.myProfile.candidateInformation.languageSkill];
+  } else {
+    body = [...userStore.myProfile.candidateInformation.languageSkill, data];
   }
-  const body = [
-    ...userStore.myProfile.candidateInformation.languageSkill,
-    data,
-  ];
+
   await userStore.updateMyProfile({ languageSkill: body });
 };
 const onDeleteLanguageSkill = async (index: number) => {

@@ -20,7 +20,7 @@
 
       <p
         class="hover:cursor-pointer hover:text-primary font-medium"
-        @click="router.push('/find-job')"
+        @click="router.push('/job/list')"
       >
         Tìm việc
       </p>

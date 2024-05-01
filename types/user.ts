@@ -1,3 +1,4 @@
+import type { IPagination } from './common';
 import type { EEducationLevel } from '#imports';
 
 export interface IUserProfile {
@@ -84,6 +85,44 @@ export interface IUserProfile {
   };
 }
 
+export interface IJobApplication {
+  id: number | null;
+  userId: number | null;
+  jobId: number | null;
+  status: number | null;
+  interviewSchedule: null;
+  createdAt: string;
+  createdBy: number | null;
+  updatedAt: string;
+  updatedBy: number | null;
+  candidateCv: string;
+  job: {
+    id: number | null;
+    title: string;
+    salaryMin: number | null;
+    salaryMax: number | null;
+    hiringEndDate: string;
+    company: {
+      id: number | null;
+      name: string;
+      avatar: string;
+      coverImage: null;
+    };
+    cities: Array<{
+      id: number | null;
+      name: string;
+    }>;
+    tags: Array<{
+      id: number | null;
+      name: string;
+    }>;
+  };
+}
+
 export interface IUserProfileResponse extends IResponse {
   data: IUserProfile;
+}
+
+export interface IGetListJobApplication extends IPagination {
+  status?: number;
 }

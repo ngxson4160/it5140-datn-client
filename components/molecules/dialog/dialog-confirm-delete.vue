@@ -50,9 +50,3 @@ const handleConfirm = () => {
   syncDialogVisible.value = false;
 };
 </script>
-
-<style lang="scss">
-.el-dialog__body {
-  @apply py-4 #{!important};
-}
-</style>

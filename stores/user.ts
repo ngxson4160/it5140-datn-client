@@ -1,4 +1,4 @@
-import type { IUserProfile } from '~/types/user';
+import type { IGetListJobApplication, IUserProfile } from '~/types/user';
 
 export const useUserStore = defineStore(EStoreName.User, {
   state: () => ({
@@ -30,6 +30,10 @@ export const useUserStore = defineStore(EStoreName.User, {
       });
       useNotificationSuccess({ title: 'Thành công!' });
       return data;
+    },
+
+    async getListJobApplication(query: IGetListJobApplication) {
+      return await useBaseFetch(`/users/applications`, { query });
     },
 
     setMyProfile(data: IUserProfile) {
