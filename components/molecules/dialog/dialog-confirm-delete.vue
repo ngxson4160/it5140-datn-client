@@ -38,8 +38,6 @@ const props = defineProps({
 
 const emits = defineEmits(['update:dialogVisible', 'onConfirm']);
 
-const formData = ref(props.data);
-
 const syncDialogVisible = computed({
   get: () => props.dialogVisible,
   set: (value: boolean) => {

@@ -272,7 +272,7 @@
         </div>
       </div>
 
-      <div id="part7" class="w-full rounded-sm bg-white px-6 py-4 mt-6 mb-20">
+      <div id="part7" class="w-full rounded-sm bg-white px-6 py-4 mt-6">
         <div class="flex mb-6 t justify-between items-center">
           <p class="font-bold text-xl">Kỹ năng ngoại ngữ</p>
           <img
@@ -308,7 +308,7 @@
         </div>
       </div>
 
-      <div id="part8" class="w-full rounded-sm bg-white px-6 py-4 mt-6 mb-20">
+      <div id="part8" class="w-full rounded-sm bg-white px-6 mt-6 mb-20">
         <div class="flex mb-6 t justify-between items-center">
           <p class="font-bold text-xl">Hồ sơ đính kèm</p>
           <img
@@ -326,17 +326,13 @@
               :src="`${cv.url}#toolbar=0&navpanes=0&scrolling=0`"
               class="border rounded-lg !overflow-hidden w-[220px] h-[283px]"
             ></iframe>
-            <div class="absolute inset-0 bg-[#a3a8ad2a]"></div>
+            <div class="absolute inset-0 bg-[#0000001a]"></div>
             <el-button
               type="danger"
               :icon="Delete"
               circle
               class="absolute right-4 top-4"
-              @click="isShowDialogConfirmDeleteCV = true"
-            />
-            <dialog-confirm-delete
-              v-model:dialogVisible="isShowDialogConfirmDeleteCV"
-              @on-confirm="onDeleteCV(index)"
+              @click="onShowDeleteCV(index)"
             />
             <div class="absolute inset-x-0 bottom-6">
               <p class="text-center mb-4 font-bold text-base">{{ cv.title }}</p>
@@ -412,6 +408,12 @@
       v-model:dialogVisible="showLanguageSkill"
       :data="formDataLanguageSkill"
       @on-confirm="onUpdateLanguageSkill"
+    />
+
+    <!-- Delete CV -->
+    <dialog-confirm-delete
+      v-model:dialogVisible="isShowDialogConfirmDeleteCV"
+      @on-confirm="onDeleteCV()"
     />
   </div>
 </template>
@@ -674,15 +676,19 @@ const onDeleteLanguageSkill = async (index: number) => {
  * Upload CV
  */
 const isShowDialogConfirmDeleteCV = ref(false);
+const indexDeleteCV = ref<number>(0);
 const onAddCV = async (data: any) => {
   const cvUpload = { title: data.baseName, url: data.absolutePath };
   const body = [...userStore.myProfile.candidateInformation.cv, cvUpload];
   await userStore.updateMyProfile({ cv: body });
 };
-
-const onDeleteCV = async (index: number) => {
+const onShowDeleteCV = (index: number) => {
+  isShowDialogConfirmDeleteCV.value = true;
+  indexDeleteCV.value = index;
+};
+const onDeleteCV = async () => {
   const cv = userStore.myProfile.candidateInformation.cv;
-  cv.splice(index, 1);
+  cv.splice(indexDeleteCV.value, 1);
   await userStore.updateMyProfile({ cv });
 };
 </script>

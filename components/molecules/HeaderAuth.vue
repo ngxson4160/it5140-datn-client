@@ -66,13 +66,13 @@
         />
         <template #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item @click="router.push('user/profile')">
+            <el-dropdown-item @click="router.push('/user/profile')">
               Hồ sơ
             </el-dropdown-item>
-            <el-dropdown-item @click="router.push('user/jobs')">
+            <el-dropdown-item @click="router.push('/user/job/application')">
               Ứng tuyển
             </el-dropdown-item>
-            <el-dropdown-item @click="router.push('user/jobs')">
+            <el-dropdown-item @click="router.push('/user/message')">
               Tin nhắn
             </el-dropdown-item>
             <el-dropdown-item>Đăng xuất</el-dropdown-item>
