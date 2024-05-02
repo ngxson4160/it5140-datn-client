@@ -49,7 +49,7 @@ export const initCreateJob: IJobCreate = {
   level: null,
   officeName: '',
   address: [],
-  quantity: 0,
+  quantity: null,
   totalViews: 0,
   totalCandidate: 0,
   benefits: '',

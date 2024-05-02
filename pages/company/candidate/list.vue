@@ -1,5 +1,5 @@
 <template>
-  <div>Company Home Page</div>
+  <div>Manage Candidate</div>
 </template>
 
 <script setup lang="ts">

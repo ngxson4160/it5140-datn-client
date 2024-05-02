@@ -9,5 +9,13 @@ export interface ICompany {
 
 export const useCompanyStore = defineStore(EStoreName.COMPANY, {
   state: () => ({}),
-  actions: {},
+  actions: {
+    async getListJobs(query?: any) {
+      return await useBaseFetch(`companies/jobs`, { query });
+    },
+
+    async getListApplication(id: number, query: any) {
+      return await useBaseFetch(`companies/jobs/${id}/applications`, { query });
+    },
+  },
 });

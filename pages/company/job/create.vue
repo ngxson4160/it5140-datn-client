@@ -1,7 +1,7 @@
 <template>
-  <header-guest />
-  <div class="bg-[#f2f5f8] pt-4 pb-20">
-    <div class="w-[1200px] mx-auto">
+  <!-- <header-guest /> -->
+  <div class="bg-[#f2f5f8] pb-20">
+    <div class="w-[1200px]">
       <div class="mx-auto bg-white flex gap-x-4 px-4 py-6 rounded-lg">
         <img src="@/assets/images/edit-title-primary.svg" class="w-8 h-8" />
         <div>
@@ -179,6 +179,12 @@ import type { IJobRegion } from '~/components/atoms/SelectJobRegion.vue';
 import { EGender } from '~/types/common';
 import type { IJobCreate } from '~/types/job';
 
+definePageMeta({
+  layout: 'company-dashboard',
+});
+
+const router = useRouter();
+
 const genderOption = [
   {
     id: EGender.MALE,
@@ -221,7 +227,7 @@ const region = ref<IJobRegion[]>([
     ],
   },
 ]);
-const data = ref<IJobCreate>(initCreateJob);
+const data = ref<IJobCreate>({ ...initCreateJob });
 
 const handleAddRegion = () => {
   region.value.push({
@@ -277,6 +283,8 @@ const handleSubmitCreateJob = async () => {
     status: 1,
     address: addressData ?? [],
   });
+
+  router.push('/company/job/list');
 };
 </script>
 

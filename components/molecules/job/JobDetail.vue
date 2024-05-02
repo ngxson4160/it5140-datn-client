@@ -1,4 +1,3 @@
-import type jobsVue from '~/pages/user/jobs.vue';
 <template>
   <div>
     <div class="h-[125px] bg-[#007c32b8] flex items-center justify-center">
@@ -196,6 +195,12 @@ import type jobsVue from '~/pages/user/jobs.vue';
                   class="text-sm text-danger text-one-line"
                 >
                   {{ `$ Lên tới ${job.salaryMax}` }}
+                </p>
+                <p
+                  v-if="job.salaryMin && !job.salaryMax"
+                  class="text-sm text-danger text-one-line"
+                >
+                  {{ `$ Ít nhất ${job.salaryMin}` }}
                 </p>
                 <p
                   v-if="!job.salaryMin && !job.salaryMax"

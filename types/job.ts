@@ -102,7 +102,7 @@ export interface IJobCreate {
   jobMode: null;
   level: null;
   officeName: string;
-  quantity: number;
+  quantity: number | null;
   totalViews: number;
   totalCandidate: number;
   benefits: string;
