@@ -45,9 +45,9 @@
             <template #dropdown>
               <el-dropdown-menu>
                 <el-dropdown-item disabled>Contact</el-dropdown-item>
-                <el-dropdown-item @click="handleLogout"
-                  >Logout</el-dropdown-item
-                >
+                <el-dropdown-item @click="handleLogout">
+                  Logout
+                </el-dropdown-item>
               </el-dropdown-menu>
             </template>
           </el-dropdown>
@@ -62,26 +62,26 @@
 </template>
 
 <script setup lang="ts">
-import type { DropdownInstance } from 'element-plus'
-import logo from '~/assets/images/logo.jpg'
+import type { DropdownInstance } from 'element-plus';
+import logo from '~/assets/images/logo.jpg';
 
 // data
-const commonStore = useCommonStore()
-const authStore = useAuthStore()
+const commonStore = useCommonStore();
+const authStore = useAuthStore();
 
-const links = commonStore.links
-const route = useRoute()
+const links = commonStore.links;
+const route = useRoute();
 
-const dropdownLogout = ref<DropdownInstance>()
+const dropdownLogout = ref<DropdownInstance>();
 
 // computed
-const routeCurrent = computed(() => route.path)
+const routeCurrent = computed(() => route.path);
 
 // method
 const showClick = () => {
-  if (!dropdownLogout.value) return
-  dropdownLogout.value.handleOpen()
-}
+  if (!dropdownLogout.value) return;
+  dropdownLogout.value.handleOpen();
+};
 </script>
 
 <style lang="scss"></style>

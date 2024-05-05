@@ -46,6 +46,11 @@ watchEffect(() => {
       img: ApplicationIcon,
     },
     {
+      label: 'Quản lý ứng viên',
+      link: ['/company/candidate/list'],
+      img: CandidateIcon,
+    },
+    {
       label: 'Tin nhắn',
       link: ['/company/message'],
       img: MessageIcon,
@@ -54,11 +59,6 @@ watchEffect(() => {
       label: 'Quản lý Blog',
       link: ['/company/blog/list'],
       img: BlogIcon,
-    },
-    {
-      label: 'Quản lý ứng viên',
-      link: ['/company/candidate/list'],
-      img: CandidateIcon,
     },
     {
       label: 'Quản lý tài khoản',

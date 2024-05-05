@@ -50,7 +50,7 @@
             </div>
           </div>
           <p class="text-gray text-sm">
-            Kết thúc: {{ formatDateFull(data.job.hiringEndDate) }}
+            Kết thúc: {{ formatDateShort(data.job.hiringEndDate) }}
           </p>
           <el-tag
             v-for="(tag, index) in data.job.tags"
@@ -67,7 +67,7 @@
         <div class="flex items-center">
           <img src="@/assets/images/tick-gray.svg" class="w-6" />
           <p class="text-sm text-[#a3a8ad] rounded-xl italic">
-            Ứng tuyển lúc {{ formatDateShort(data.job.createdAt) }}
+            Ứng tuyển lúc {{ formatDateFull(data.createdAt) }}
           </p>
           <img src="@/assets/images/heart-gray.svg" class="w-10 ml-4" />
         </div>

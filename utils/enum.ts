@@ -57,5 +57,11 @@ export enum EApplicationStatus {
   PROCESSING,
   SUCCESS,
   FAILURE,
-  DELETED,
+  // DELETED,
+}
+
+export enum EJobType {
+  NOT_YET,
+  IN_PROGRESS,
+  EXPIRED,
 }

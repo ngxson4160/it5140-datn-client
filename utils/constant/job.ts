@@ -233,3 +233,18 @@ export const CJobSalaryValue = [
     name: 'Thỏa thuận',
   },
 ];
+
+export const CJobType = [
+  // {
+  //   value: EJobType.NOT_YET,
+  //   name: 'Chưa bắt đầu',
+  // },
+  {
+    value: EJobType.IN_PROGRESS,
+    name: 'Đang tuyển',
+  },
+  {
+    value: EJobType.EXPIRED,
+    name: 'Kết thúc',
+  },
+];

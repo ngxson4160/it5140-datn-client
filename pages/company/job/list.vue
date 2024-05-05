@@ -1,19 +1,46 @@
 <template>
   <div class="bg-white h-full mr-4 p-4 shadow-md rounded-md">
-    <div class="flex gap-x-4 justify-between items-center">
-      <p>Bộ lọc</p>
-      <el-input size="large" style="width: 500px" />
-      <el-select size="large" style="width: 390px" />
-      <el-select size="large" style="width: 375px" />
-      <el-button size="large" type="warning" class="w-[121px]">
-        Tìm kiếm
-      </el-button>
-    </div>
+    <p class="font-bold text-xl mb-10 pb-2 border-b">Công việc tuyển dụng</p>
 
-    <div class="flex justify-end mt-4">
+    <div class="flex gap-x-4 justify-between items-center">
+      <p class="w-[100px]">Bộ lọc</p>
+      <el-input
+        v-model="query.title"
+        size="large"
+        style="width: 350px"
+        placeholder="Nhập từ khóa"
+        clearable
+      />
+      <el-select
+        v-model:model-value="query.type"
+        size="large"
+        style="width: 350px"
+        placeholder="Trạng thái tuyển dụng"
+        clearable
+      >
+        <el-option
+          v-for="(el, index) in CJobType"
+          :key="index"
+          :value="el.value"
+          :label="el.name"
+        />
+      </el-select>
+      <el-select
+        size="large"
+        style="width: 350px"
+        placeholder="Trạng thái phê duyệt"
+        clearable
+      />
       <el-button
         size="large"
         type="primary"
+        class="w-[121px]"
+        @click="onSearchJob"
+      >
+        Tìm kiếm
+      </el-button>
+      <el-button
+        size="large"
         :icon="Plus"
         @click="navigateTo('/company/job/create')"
       >
@@ -21,23 +48,43 @@
       </el-button>
     </div>
 
+    <div class="flex justify-end mt-4"></div>
+
     <div class="mt-10">
       <el-table
         :data="listJobs"
         style=""
         class="!text-black relative"
-        :class="test ? 'custom-table-sort-up' : 'custom-table-sort-down'"
         stripe
-        @sort-change="onHeaderClick"
+        row-class-name="custom-row-table"
       >
         <el-table-column>
           <template #header><p>Tiêu đề</p></template>
           <template #default="scoped">
-            <p>{{ scoped.row.title }}</p>
+            <p
+              class="cursor-pointer underline text-blue"
+              @click="router.push(`/company/job/${scoped.row.id}`)"
+            >
+              {{ scoped.row.title }}
+            </p>
           </template>
         </el-table-column>
-        <el-table-column width="200" sortable>
-          <template #header><p>Ngày đăng</p></template>
+        <el-table-column width="200">
+          <template #header>
+            <div class="flex cursor-pointer" @click="onOrderCreated">
+              <p class="mr-2">Ngày đăng</p>
+              <img
+                v-if="query.sortCreatedAt === EOrderPaging.DESC"
+                class="w-[22px]"
+                src="@/assets/images/sort-up-black.svg"
+              />
+              <img
+                v-else
+                class="w-[22px]"
+                src="@/assets/images/sort-down-black.svg"
+              />
+            </div>
+          </template>
           <template #default="scoped">
             <p>{{ formatDateShort(scoped.row.createdAt) }}</p>
           </template>
@@ -49,30 +96,91 @@
           </template>
         </el-table-column>
         <el-table-column width="120">
-          <template #header><p>Lượt xem</p></template>
+          <template #header><p class="text-center">Lượt xem</p></template>
           <template #default="scoped">
-            <p>{{ scoped.row.totalViews }}</p>
+            <p class="text-center">{{ scoped.row.totalViews }}</p>
           </template>
         </el-table-column>
         <el-table-column width="120">
-          <template #header><p>Lượt nộp</p></template>
+          <template #header><p class="text-center">Lượt nộp</p></template>
           <template #default="scoped">
-            <p>{{ scoped.row.totalCandidate }}</p>
+            <p
+              class="cursor-pointer underline text-blue text-center"
+              @click="
+                router.push({
+                  path: '/company/candidate/list',
+                  query: { jobId: scoped.row.id },
+                })
+              "
+            >
+              {{ scoped.row.totalCandidate }}
+            </p>
           </template>
         </el-table-column>
         <el-table-column width="135">
-          <template #header><p>Trạng thái</p></template>
+          <template #header><p class="text-center">Trạng thái</p></template>
           <template #default="scoped">
-            <p>{{ scoped.row.status }}</p>
+            <p class="text-center">{{ scoped.row.status }}</p>
           </template>
         </el-table-column>
-        <el-table-column width="150">
-          <template #header><p>Hành động</p></template>
+        <el-table-column width="120">
+          <template #header><p class="text-center">Hành động</p></template>
           <template #default="scoped">
-            <p>{{ scoped.row.status }}</p>
+            <!-- <p>{{ scoped.row.status }}</p> -->
+
+            <!-- <div class="flex justify-center">
+              <img
+                src="@/assets/images/option-black.svg"
+                class="w-7 cursor-pointer"
+              />
+            </div> -->
+            <div class="flex justify-center">
+              <el-dropdown trigger="click">
+                <img
+                  src="@/assets/images/option-black.svg"
+                  class="w-7 cursor-pointer"
+                />
+                <template #dropdown>
+                  <el-dropdown-menu>
+                    <el-dropdown-item>
+                      <div class="flex">
+                        <img
+                          src="@/assets/images/time-black.svg"
+                          class="w-5 mr-2"
+                        />
+                        <p>Kết thúc sớm</p>
+                      </div>
+                    </el-dropdown-item>
+                    <el-dropdown-item
+                      @click="
+                        router.push({
+                          path: `/company/job/${scoped.row.id}/edit`,
+                        })
+                      "
+                    >
+                      <div class="flex">
+                        <img
+                          src="@/assets/images/pencil-black.svg"
+                          class="w-5 mr-2"
+                        />
+                        <p>Sửa</p>
+                      </div>
+                    </el-dropdown-item>
+                    <el-dropdown-item>
+                      <div class="flex">
+                        <img
+                          src="@/assets/images/bin-danger.svg"
+                          class="w-5 mr-2"
+                        />
+                        <p class="text-danger">Xóa</p>
+                      </div>
+                    </el-dropdown-item>
+                  </el-dropdown-menu>
+                </template>
+              </el-dropdown>
+            </div>
           </template>
         </el-table-column>
-        <div><Plus /></div>
       </el-table>
     </div>
 
@@ -93,20 +201,17 @@
 <script setup lang="ts">
 import { Plus } from '@element-plus/icons-vue';
 import type { IJob } from '~/types/job';
-import type { IGetListJobApplication } from '~/types/user';
+import type { IGetListJob } from '~/types/company';
+import { CJobType } from '~/utils/constant/job';
 
 definePageMeta({
   layout: 'company-dashboard',
 });
 
-const test = ref(false);
-const onHeaderClick = () => {
-  test.value = !test.value;
-  console.log('run onHeaderClick');
-};
+const router = useRouter();
 
 const currentPage = ref<number>(1);
-const query = ref<IGetListJobApplication>({});
+const query = ref<IGetListJob>({ sortCreatedAt: EOrderPaging.DESC });
 const listJobs = ref<IJob[]>([]);
 const meta = ref<any>({});
 
@@ -128,48 +233,35 @@ const setCurrentPage = async (page: number) => {
   listJobs.value = data.data as IJob[];
   meta.value = data.meta;
 };
+
+const onSearchJob = async () => {
+  const data = await companyStore.getListJobs({
+    ...query.value,
+    page: 1,
+  });
+  currentPage.value = 1;
+  listJobs.value = data.data as IJob[];
+  meta.value = data.meta;
+};
+
+const onOrderCreated = async () => {
+  if (query.value.sortCreatedAt === EOrderPaging.ASC) {
+    query.value.sortCreatedAt = EOrderPaging.DESC;
+  } else {
+    query.value.sortCreatedAt = EOrderPaging.ASC;
+  }
+  const data = await companyStore.getListJobs({
+    ...query.value,
+    page: 1,
+  });
+  currentPage.value = 1;
+  listJobs.value = data.data as IJob[];
+  meta.value = data.meta;
+};
 </script>
 
 <style lang="scss">
-.custom-table-sort-up {
-  tr th:nth-of-type(2) {
-    position: relative;
-
-    .caret-wrapper {
-      display: none;
-    }
-  }
-
-  tr th:nth-of-type(2)::after {
-    content: url('@/assets/images/sort-up-black.svg');
-    position: absolute;
-    top: 60%;
-    transform: translateY(-50%);
-    left: 100px;
-  }
-}
-
-.custom-table-sort-down {
-  tr th:nth-of-type(2) {
-    position: relative;
-
-    .caret-wrapper {
-      display: none;
-    }
-  }
-
-  tr th:nth-of-type(2)::after {
-    content: url('@/assets/images/sort-down-black.svg');
-    position: absolute;
-    top: 60%;
-    transform: translateY(-50%);
-    left: 100px;
-  }
-}
-
-.el-table__header {
-  th {
-    @apply text-black text-[15px];
-  }
+.custom-row-table {
+  @apply h-16 #{!important};
 }
 </style>

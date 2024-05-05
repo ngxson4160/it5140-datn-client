@@ -165,8 +165,27 @@
         </div>
       </div>
 
-      <div class="flex justify-end mt-10">
-        <el-button type="primary" class="!h-10" @click="handleSubmitCreateJob">
+      <div v-if="isEdit" class="flex gap-x-6 mt-4 justify-end">
+        <el-button class="w-[200px]" size="large" @click="emits('onBack')">
+          Quay lại
+        </el-button>
+        <el-button
+          class="w-[200px]"
+          type="primary"
+          size="large"
+          @click="handleOnSave"
+        >
+          Lưu
+        </el-button>
+      </div>
+
+      <div v-else class="flex justify-end mt-10">
+        <el-button
+          class="!h-10"
+          type="primary"
+          size="large"
+          @click="handleOnSave"
+        >
           Đăng tin tuyển dụng
         </el-button>
       </div>
@@ -175,6 +194,7 @@
 </template>
 
 <script setup lang="ts">
+import type { PropType } from 'vue';
 import type { IJobRegion } from '~/components/atoms/SelectJobRegion.vue';
 import { EGender } from '~/types/common';
 import type { IJobCreate } from '~/types/job';
@@ -183,7 +203,18 @@ definePageMeta({
   layout: 'company-dashboard',
 });
 
-const router = useRouter();
+const props = defineProps({
+  value: {
+    type: Object as PropType<IJobCreate>,
+    default: initCreateJob,
+  },
+  isEdit: {
+    type: Boolean,
+    default: false,
+  },
+});
+
+const emits = defineEmits(['onBack', 'onSave']);
 
 const genderOption = [
   {
@@ -208,26 +239,33 @@ const genderOption = [
   },
 ];
 
-const jobStore = useJobStore();
-
 const salary = ref({
-  salaryMin: null,
-  salaryMax: null,
+  salaryMin: props.value.salaryMin,
+  salaryMax: props.value.salaryMax,
 });
-const region = ref<IJobRegion[]>([
-  {
-    cityId: null,
-    cityName: '',
-    address: [
-      {
-        districtId: null,
-        districtName: '',
-        data: '',
-      },
-    ],
-  },
-]);
-const data = ref<IJobCreate>({ ...initCreateJob });
+
+let regionData = [...props.value.address];
+
+if (props.value.address.length) {
+  regionData = [...props.value.address];
+} else {
+  regionData = [
+    {
+      cityId: null,
+      cityName: '',
+      address: [
+        {
+          districtId: null,
+          districtName: '',
+          data: '',
+        },
+      ],
+    },
+  ];
+}
+
+const region = ref<IJobRegion[]>(regionData);
+const data = ref<IJobCreate>({ ...props.value });
 
 const handleAddRegion = () => {
   region.value.push({
@@ -243,49 +281,39 @@ const handleAddRegion = () => {
   });
 };
 
-const handleSubmitCreateJob = async () => {
-  // if (region.value?.cityId) data.value.cityIds = [region.value?.cityId];
-
+const handleOnSave = () => {
+  data.value.cityIds = [];
   region.value.forEach((el) => {
     if (el.cityId) data.value.cityIds.push(el.cityId);
   });
 
   data.value.salaryMin = salary.value.salaryMin ? +salary.value.salaryMin : 0;
   data.value.salaryMax = salary.value.salaryMax ? +salary.value.salaryMax : 0;
-  data.value.quantity = +data.value.quantity;
+  if (data.value.quantity) {
+    data.value.quantity = +data.value.quantity;
+  }
 
   const dateFormat = new Date(data.value.hiringEndDate);
   data.value.hiringEndDate = dateFormat.toISOString();
   const timeNow = new Date();
   data.value.hiringStartDate = timeNow.toISOString();
 
-  // const address = region.value?.address.map((el) => {
-  //   return {
-  //     cityId: region.value?.cityId,
-  //     cityName: region.value?.cityName,
-  //     data: `${el.data}, ${el.districtName}, ${region.value?.cityName}`,
-  //   };
-  // });
+  //   const addressData = [] as object[];
+  //   region.value.forEach((el) => {
+  //     el.address.forEach((address) => {
+  //       addressData.push({
+  //         cityId: el.cityId,
+  //         cityName: el.cityName,
+  //         data: `${address.data}, ${address.districtName}, ${el.cityName}`,
+  //       });
+  //     });
+  //   });
 
-  const addressData = [] as object[];
-  region.value.forEach((el) => {
-    el.address.forEach((address) => {
-      addressData.push({
-        cityId: el.cityId,
-        cityName: el.cityName,
-        data: `${address.data}, ${address.districtName}, ${el.cityName}`,
-      });
-    });
-  });
-
-  await jobStore.createJob({
+  emits('onSave', {
     ...data.value,
     status: 1,
-    // address: addressData ?? [],
     address: region.value ?? [],
   });
-
-  router.push('/company/job/list');
 };
 </script>
 

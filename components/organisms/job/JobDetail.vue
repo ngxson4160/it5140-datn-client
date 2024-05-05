@@ -39,7 +39,9 @@
               <div class="flex text-sm gap-x-2">
                 <div class="flex items-center gap-x-1">
                   <img src="@/assets/images/time-gray.svg" class="w-5" />
-                  <span>Kết thúc: {{ formatDateFull(job.hiringEndDate) }}</span>
+                  <span>
+                    Kết thúc: {{ formatDateShort(job.hiringEndDate) }}
+                  </span>
                 </div>
                 <div class="flex items-center gap-x-1">
                   <img src="@/assets/images/view-gray.svg" class="w-6" />
@@ -60,7 +62,7 @@
               </div>
               <div class="grid grid-cols-4">
                 <el-button
-                  v-if="job.application.status"
+                  v-if="job.application.status !== null"
                   type="info"
                   class="col-span-3 !h-10"
                   disabled
@@ -136,7 +138,7 @@
               </div>
             </div>
             <div
-              class="flex items-center justify-center gap-x-1 mt-4 text-sm text-primary cursor-pointer"
+              class="flex items-center justify-center gap-x-1 mt-4 text-sm text-green cursor-pointer"
             >
               <p>Xem chi tiết công ty</p>
               <img

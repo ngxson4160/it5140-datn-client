@@ -16,8 +16,10 @@ export default {
       },
       colors: {
         primary: '#1CAF57',
+        green: '#1CAF57',
         danger: '#f56c6c',
-        gray: '#a3a8ad',
+        grey: '#a3a8ad',
+        blue: '#0871e1',
         'gray-text': '#A3A8AD',
         'stone-cs': '#fafaf5',
         'stone-bold-cs': '#f5f5eb',

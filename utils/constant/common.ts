@@ -43,5 +43,5 @@ export const CApplicationStatus = [
   { value: EApplicationStatus.PROCESSING, name: 'Chờ kết quả' }, // yellow
   { value: EApplicationStatus.SUCCESS, name: 'Trúng tuyển' }, // green
   { value: EApplicationStatus.FAILURE, name: 'Từ chối' }, // red
-  { value: EApplicationStatus.DELETED, name: 'Đã hủy' }, // gray
+  // { value: EApplicationStatus.DELETED, name: 'Đã hủy' },
 ];
