@@ -102,7 +102,7 @@ export interface IJobCreate {
   jobMode: null;
   level: null;
   officeName: string;
-  quantity: number;
+  quantity: number | null;
   totalViews: number;
   totalCandidate: number;
   benefits: string;
@@ -119,7 +119,15 @@ export interface IJobCreate {
   updatedAt: string;
   updatedBy: string;
   cityIds: number[];
-  address: object[];
+  address: Array<{
+    cityId: number | null;
+    cityName: string;
+    address: Array<{
+      districtId: number | null;
+      districtName: string;
+      data: string;
+    }>;
+  }>;
 }
 
 export interface IGetListJobParams extends IPagination {

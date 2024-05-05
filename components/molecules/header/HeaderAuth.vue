@@ -7,47 +7,47 @@
       @click="router.push('/')"
     >
       Job
-      <span class="text-primary">Nest</span>
+      <span class="text-green">Nest</span>
     </div>
 
     <div class="flex gap-x-10">
       <p
-        class="hover:cursor-pointer hover:text-primary font-medium"
+        class="hover:cursor-pointer hover:text-green font-medium"
         @click="router.push('/')"
       >
         Trang chủ
       </p>
 
       <p
-        class="hover:cursor-pointer hover:text-primary font-medium"
-        @click="router.push('/jobs')"
+        class="hover:cursor-pointer hover:text-green font-medium"
+        @click="router.push('/job/list')"
       >
         Tìm việc
       </p>
 
       <p
-        class="hover:cursor-pointer hover:text-primary font-medium"
+        class="hover:cursor-pointer hover:text-green font-medium"
         @click="router.push('/companies')"
       >
         Công ty
       </p>
 
       <p
-        class="hover:cursor-pointer hover:text-primary font-medium"
+        class="hover:cursor-pointer hover:text-green font-medium"
         @click="router.push('/candidates')"
       >
         Ứng viên
       </p>
 
       <p
-        class="hover:cursor-pointer hover:text-primary font-medium"
+        class="hover:cursor-pointer hover:text-green font-medium"
         @click="router.push('/blogs')"
       >
         Blog
       </p>
 
       <p
-        class="hover:cursor-pointer hover:text-primary font-medium"
+        class="hover:cursor-pointer hover:text-green font-medium"
         @click="router.push('/about-us')"
       >
         Về chúng tôi
@@ -66,13 +66,13 @@
         />
         <template #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item @click="router.push('user/profile')">
+            <el-dropdown-item @click="router.push('/user/profile')">
               Hồ sơ
             </el-dropdown-item>
-            <el-dropdown-item @click="router.push('user/jobs')">
+            <el-dropdown-item @click="router.push('/user/job/application')">
               Ứng tuyển
             </el-dropdown-item>
-            <el-dropdown-item @click="router.push('user/jobs')">
+            <el-dropdown-item @click="router.push('/user/message')">
               Tin nhắn
             </el-dropdown-item>
             <el-dropdown-item>Đăng xuất</el-dropdown-item>

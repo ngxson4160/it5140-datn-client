@@ -358,11 +358,15 @@
 }
 
 .border-l-title {
-  @apply border-l-4 border-primary pl-1 text-lg font-bold mb-4;
+  @apply border-l-4 border-green pl-1 text-lg font-bold mb-4;
 }
 
-.input-border-b-only {
-  // .el-input__wrapper {
-  //   @apply shadow-none border-b-2 #{!important} 
-  // }
+.el-dialog__body {
+  @apply py-4 #{!important};
+}
+
+.el-table__header {
+  th {
+    @apply text-black text-[15px];
+  }
 }

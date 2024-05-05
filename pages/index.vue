@@ -21,7 +21,7 @@
           class="w-[365px] h-[200px] bg-white rounded-md flex flex-col justify-center items-center"
         >
           <img
-            class="h-16 text-primary"
+            class="h-16 text-green"
             src="@/assets/images/job-search-home.svg"
           />
           <p class="text-xl font-bold mt-4">23+</p>
@@ -30,10 +30,7 @@
         <div
           class="w-[365px] h-[200px] bg-white rounded-md flex flex-col justify-center items-center"
         >
-          <img
-            class="h-16 text-primary"
-            src="@/assets/images/company-home.svg"
-          />
+          <img class="h-16 text-green" src="@/assets/images/company-home.svg" />
           <p class="text-xl font-bold mt-4">23+</p>
           <p class="text-xl text-[#a3a8ad]">Công ty</p>
         </div>
@@ -41,7 +38,7 @@
           class="w-[365px] h-[200px] bg-white rounded-md flex flex-col justify-center items-center"
         >
           <img
-            class="h-16 text-primary"
+            class="h-16 text-green"
             src="@/assets/images/candidate-home.svg"
           />
           <p class="text-xl font-bold mt-4">23+</p>
@@ -52,7 +49,7 @@
   </div>
 
   <div class="bg-[#f2f5f8] h-[700px] flex flex-col items-center justify-center">
-    <p class="text-primary font-bold text-xl">Danh mục công việc hàng đầu</p>
+    <p class="text-green font-bold text-xl">Danh mục công việc hàng đầu</p>
 
     <div class="grid grid-cols-6 content-center gap-5 mt-10">
       <div class="card-job-category">
@@ -149,7 +146,7 @@
   </div>
 
   <div class="w-[1700px] bg-white h-[700px] mx-auto">
-    <p class="text-primary text-center font-bold text-xl mt-10">
+    <p class="text-green text-center font-bold text-xl mt-10">
       Công việc phổ biến
     </p>
     <div class="p-2 rounded-lg">
@@ -182,7 +179,7 @@
   </div>
 
   <div class="bg-[#f2f5f8] h-[550px] mx-auto">
-    <p class="text-primary font-bold text-xl text-center pt-14">
+    <p class="text-green font-bold text-xl text-center pt-14">
       Nhận xét về chúng tôi
     </p>
     <div class="p-2 rounded-lg mt-14">
@@ -206,9 +203,7 @@
   </div>
 
   <div class="bg-white h-[900px]">
-    <p class="text-primary font-bold text-xl text-center pt-14">
-      Danh sách blog
-    </p>
+    <p class="text-green font-bold text-xl text-center pt-14">Danh sách blog</p>
     <div class="p-2 rounded-lg mt-6">
       <div class="mt-10 w-[1500px] mx-auto">
         <el-carousel

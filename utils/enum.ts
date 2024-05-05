@@ -48,3 +48,20 @@ export enum EEducationLevel {
   MASTER,
   DOCTOR,
 }
+
+export enum EApplicationStatus {
+  WAITING_CV,
+  APPROVE_CV,
+  REJECT_CV,
+  INTERVIEW,
+  PROCESSING,
+  SUCCESS,
+  FAILURE,
+  // DELETED,
+}
+
+export enum EJobType {
+  NOT_YET,
+  IN_PROGRESS,
+  EXPIRED,
+}

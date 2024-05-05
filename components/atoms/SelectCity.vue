@@ -1,12 +1,12 @@
 <template>
   <el-select
     v-model="value"
-    multiple
-    collapse-tags
-    show-checkbox
+    :multiple="isMultiple"
+    :collapse-tags="isMultiple"
+    :show-checkbox="isMultiple"
     clearable
     placeholder="Chọn tỉnh/thành phố"
-    size="large"
+    :size="size"
   >
     <el-option
       v-for="item in useCity.listCities"
@@ -20,6 +20,17 @@
 </template>
 
 <script setup lang="ts">
+const props = defineProps({
+  isMultiple: {
+    type: Boolean,
+    default: true,
+  },
+  size: {
+    type: String,
+    default: 'large',
+  },
+});
+
 const value = ref('');
 
 const useCity = useCityStore();

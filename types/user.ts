@@ -1,6 +1,10 @@
+import type { IPagination } from './common';
+import type { EEducationLevel } from '#imports';
+
 export interface IUserProfile {
   id: number;
-  companyId: null;
+  companyId: number | null;
+  cityId: number | null;
   email: string;
   firstName: string;
   lastName: string;
@@ -20,10 +24,20 @@ export interface IUserProfile {
     id: number;
     name: string;
   };
+  educationalLevel: EEducationLevel;
   candidateInformation: {
     id: number;
+    target: string;
     userId: number;
-    cv: string[];
+    desiredJobCategoryId: number;
+    desiredCityId: number;
+    desiredSalary: number;
+    desiredJobLevel: number;
+    desiredJobMode: number;
+    cv: Array<{
+      title: string;
+      url: string;
+    }>;
     yearExperience: number;
     workExperience: Array<{
       position: string;
@@ -45,7 +59,6 @@ export interface IUserProfile {
       organization: string;
       start: string;
       end: string;
-      major: string;
       description: string;
     }>;
     advancedSkill: Array<{
@@ -56,9 +69,6 @@ export interface IUserProfile {
       name: string;
       level: number;
     }>;
-    desiredSalary: number;
-    desiredJobLevel: number;
-    desiredMode: number;
     status: number;
     createdAt: string;
     createdBy: null;
@@ -75,6 +85,44 @@ export interface IUserProfile {
   };
 }
 
+export interface IJobApplication {
+  id: number | null;
+  userId: number | null;
+  jobId: number | null;
+  status: number | null;
+  interviewSchedule: null;
+  createdAt: string;
+  createdBy: number | null;
+  updatedAt: string;
+  updatedBy: number | null;
+  candidateCv: string;
+  job: {
+    id: number | null;
+    title: string;
+    salaryMin: number | null;
+    salaryMax: number | null;
+    hiringEndDate: string;
+    company: {
+      id: number | null;
+      name: string;
+      avatar: string;
+      coverImage: null;
+    };
+    cities: Array<{
+      id: number | null;
+      name: string;
+    }>;
+    tags: Array<{
+      id: number | null;
+      name: string;
+    }>;
+  };
+}
+
 export interface IUserProfileResponse extends IResponse {
   data: IUserProfile;
+}
+
+export interface IGetListJobApplication extends IPagination {
+  status?: number;
 }

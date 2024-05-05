@@ -5,7 +5,7 @@
       class="cursor-pointer w-[1040px] h-full !mr-[6px]"
     />
     <div class="flex flex-col w-full mt-10 mx-auto">
-      <p class="font-bold text-[32px] text-primary text-center">Đăng ký</p>
+      <p class="font-bold text-[32px] text-green text-center">Đăng ký</p>
       <el-steps
         style="width: 1000px"
         :active="active"

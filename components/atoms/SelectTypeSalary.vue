@@ -2,7 +2,7 @@
   <div class="flex items-center justify-between w-[800px]">
     <div>
       <p class="text-sm text-gray mb-1">Chọn kiểu</p>
-      <el-select v-model="value" @change="changeSalaryType">
+      <el-select v-model="type" @change="changeSalaryType">
         <el-option
           v-for="(item, index) in ETypeSalary"
           :key="index"
@@ -12,48 +12,68 @@
       </el-select>
     </div>
     <div class="flex justify-between">
-      <div v-if="value === ETypeSalary.FROM || value === ETypeSalary.FROM_TO">
+      <div v-if="type === ETypeSalary.FROM || type === ETypeSalary.FROM_TO">
         <p class="text-sm text-gray mb-1">Từ</p>
-        <el-input v-model="salary.salaryMin" />
+        <el-input v-model="syncValue.salaryMin" />
       </div>
-      <span v-if="value === ETypeSalary.FROM_TO" class="mx-8 pt-7">-</span>
-      <div v-if="value === ETypeSalary.TO || value === ETypeSalary.FROM_TO">
+      <span v-if="type === ETypeSalary.FROM_TO" class="mx-8 pt-7">-</span>
+      <div v-if="type === ETypeSalary.TO || type === ETypeSalary.FROM_TO">
         <p class="text-sm text-gray mb-1">Lên tới</p>
-        <el-input v-model="salary.salaryMax" />
+        <el-input v-model="syncValue.salaryMax" />
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import type { PropType } from 'vue';
+
 enum ETypeSalary {
   FROM = 'Từ',
   TO = 'Lên tới',
   FROM_TO = 'Khoảng',
-  DEAL = 'Thỏa thuận',
+  DEAL = 'Thương lượng',
 }
-const value = ref();
 
-const salary = ref({
-  salaryMin: null,
-  salaryMax: null,
+const props = defineProps({
+  value: {
+    type: Object as PropType<{
+      salaryMin: number | null;
+      salaryMax: number | null;
+    }>,
+    default: () => ({
+      salaryMin: null,
+      salaryMax: null,
+    }),
+  },
+});
+const type = ref();
+
+if (props.value.salaryMin && !props.value.salaryMax) {
+  type.value = ETypeSalary.FROM;
+} else if (!props.value.salaryMin && props.value.salaryMax) {
+  type.value = ETypeSalary.TO;
+} else if (props.value.salaryMax && props.value.salaryMax) {
+  type.value = ETypeSalary.FROM_TO;
+} else {
+  type.value = ETypeSalary.DEAL;
+}
+
+const emits = defineEmits(['update:value']);
+
+const syncValue = computed({
+  get: () => props.value,
+  set: (value: { salaryMin: number | null; salaryMax: number | null }) => {
+    return emits('update:value', value);
+  },
 });
 
 const changeSalaryType = () => {
-  salary.value = {
+  syncValue.value = {
     salaryMin: null,
     salaryMax: null,
   };
 };
-
-const emits = defineEmits(['update:value']);
-
-watch(
-  () => salary.value,
-  (newVal) => {
-    emits('update:value', newVal);
-  },
-);
 </script>
 
 <style scoped></style>

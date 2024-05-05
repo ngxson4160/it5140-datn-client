@@ -63,7 +63,7 @@
               </div>
               <a
                 href="#"
-                class="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500"
+                class="text-sm font-medium text-green-600 hover:underline dark:text-green-500"
               >
                 Forgot password?
               </a>
@@ -82,7 +82,7 @@
               Don’t have an account yet?
               <a
                 href="#"
-                class="font-medium text-primary-600 hover:underline dark:text-primary-500"
+                class="font-medium text-green-600 hover:underline dark:text-green-500"
               >
                 Sign up
               </a>

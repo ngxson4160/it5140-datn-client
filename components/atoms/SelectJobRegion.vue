@@ -4,7 +4,7 @@
       <img src="@/assets/images/location-gray.svg" class="w-5" />
       <p class="ml-2 mr-6 text-sm">Khu vực {{ indexRegion }}:</p>
       <el-select
-        v-model="data.cityId"
+        v-model="syncValue.cityId"
         class="w-[300px]"
         @change="handleChangeCity"
       >
@@ -21,7 +21,7 @@
 
     <p class="mt-10 mb-2 text-sm">Địa chỉ</p>
     <div
-      v-for="(address, index) in data.address"
+      v-for="(address, index) in syncValue.address"
       :key="index"
       class="flex mb-2 gap-6 w-[750px]"
     >
@@ -43,7 +43,7 @@
       />
     </div>
     <span
-      class="text-primary text-sm font-bold mt-6 cursor-pointer"
+      class="text-green text-sm font-bold mt-6 cursor-pointer"
       @click="addAddress"
     >
       + Thêm địa chỉ
@@ -52,10 +52,26 @@
 </template>
 
 <script setup lang="ts">
+import type { PropType } from 'vue';
+
 const props = defineProps({
   indexRegion: {
     type: Number,
     default: 1,
+  },
+  value: {
+    type: Object as PropType<IJobRegion>,
+    default: () => ({
+      cityId: null,
+      cityName: '',
+      address: [
+        {
+          districtId: null,
+          districtName: '',
+          data: '',
+        },
+      ],
+    }),
   },
 });
 
@@ -72,21 +88,19 @@ export interface IJobRegion {
 const useCity = useCityStore();
 await useCity.getListCityAndDistrict();
 
-const data = ref<IJobRegion>({
-  cityId: null,
-  cityName: '',
-  address: [
-    {
-      districtId: null,
-      districtName: '',
-      data: '',
-    },
-  ],
+const emits = defineEmits(['update:value']);
+
+const syncValue = computed({
+  get: () => props.value,
+  set: (value: IJobRegion) => {
+    return emits('update:value', value);
+  },
 });
+
 const listDistrict = ref<Array<{ id: number; name: string }>>();
 
 const addAddress = () => {
-  data.value.address.push({
+  syncValue.value.address.push({
     districtId: null,
     districtName: '',
     data: '',
@@ -94,24 +108,17 @@ const addAddress = () => {
 };
 
 const removeAddress = (index: number) => {
-  if (data.value.address.length === 1) return;
-  data.value.address.splice(index, 1);
+  if (syncValue.value.address.length === 1) return;
+  syncValue.value.address.splice(index, 1);
 };
 
-const emits = defineEmits(['update:value']);
-
-watch(
-  () => [data.value.cityId, data.value.address],
-  () => {
-    emits('update:value', data.value);
-  },
-);
-
 const handleChangeCity = () => {
-  if (!data.value.cityId) listDistrict.value = [];
+  if (!syncValue.value.cityId) listDistrict.value = [];
 
-  const city = useCity.listCities.find((el) => el.id === data.value.cityId);
-  data.value.cityName = city?.name ?? '';
+  const city = useCity.listCities.find(
+    (el) => el.id === syncValue.value.cityId,
+  );
+  syncValue.value.cityName = city?.name ?? '';
   listDistrict.value = city?.districts;
 };
 </script>

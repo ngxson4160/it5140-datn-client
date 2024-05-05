@@ -49,7 +49,7 @@ export const initCreateJob: IJobCreate = {
   level: null,
   officeName: '',
   address: [],
-  quantity: 0,
+  quantity: null,
   totalViews: 0,
   totalCandidate: 0,
   benefits: '',
@@ -81,6 +81,10 @@ export const useJobStore = defineStore(EStoreName.JOB, {
 
     async createJob(body: IJobCreate) {
       return await useBaseFetch(`/jobs`, { method: 'POST', body });
+    },
+
+    async update(jobId: number, body: Partial<IJobCreate>) {
+      return await useBaseFetch(`/jobs/${jobId}`, { method: 'PUT', body });
     },
   },
 });

@@ -11,7 +11,7 @@ export async function useBaseFetch<T>(
     loading?: boolean;
   },
 ) {
-  const loading = opts?.loading === undefined ? true : opts?.loading;
+  const loading = opts?.loading;
 
   const config = useRuntimeConfig();
 
@@ -23,11 +23,11 @@ export async function useBaseFetch<T>(
     token = client.token;
   }
 
-  // let loadingInstance;
+  let loadingInstance;
 
-  // if (loading) {
-  //   loadingInstance = ElLoading.service({ fullscreen: true });
-  // }
+  if (loading) {
+    loadingInstance = ElLoading.service({ fullscreen: true });
+  }
 
   const {
     data: dataOrigin,
@@ -53,7 +53,9 @@ export async function useBaseFetch<T>(
     sleep(300);
   }
 
-  // loadingInstance?.close();
+  if (loading) {
+    loadingInstance?.close();
+  }
 
   const error: IResponse | null = errorOrigin?.value?.data || null;
 
