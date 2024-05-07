@@ -97,7 +97,7 @@
       </div>
 
       <div class="mt-4 bg-white flex gap-x-4 px-4 py-6 rounded-lg">
-        <img src="@/assets/images/edit-text-green.svg" class="w-8 h-8" />
+        <img src="@/assets/images/edit-text-primary.svg" class="w-8 h-8" />
         <div>
           <p class="font-bold text-xl mb-4">Mô tả công việc</p>
           <div class="grow-1">
@@ -111,7 +111,7 @@
       </div>
 
       <div class="mt-4 bg-white flex gap-x-4 px-4 py-6 rounded-lg">
-        <img src="@/assets/images/edit-text-green.svg" class="w-8 h-8" />
+        <img src="@/assets/images/edit-text-primary.svg" class="w-8 h-8" />
         <div>
           <p class="font-bold text-xl mb-4">Yêu cầu ứng viên</p>
           <content-editor
@@ -123,7 +123,7 @@
       </div>
 
       <div class="mt-4 bg-white flex gap-x-4 px-4 py-6 rounded-lg">
-        <img src="@/assets/images/edit-text-green.svg" class="w-8 h-8" />
+        <img src="@/assets/images/edit-text-primary.svg" class="w-8 h-8" />
         <div>
           <p class="font-bold text-xl mb-4">Phúc lợi ứng viên</p>
           <content-editor

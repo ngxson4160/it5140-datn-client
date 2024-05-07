@@ -132,7 +132,7 @@ const submit = async (event: any) => {
         external: true,
       });
     } else if (data.user.roles[0] === ERole.COMPANY) {
-      navigateTo('/company', {
+      navigateTo('/company/profile', {
         external: true,
       });
     } else if (data.user.roles[0] === ERole.USER) {

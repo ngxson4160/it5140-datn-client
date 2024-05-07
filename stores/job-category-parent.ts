@@ -27,9 +27,13 @@ export const useJobCategoryParentStore = defineStore(
       async getListJobCategoryParent(): Promise<IJobCategory[]> {
         if (!this.listJobCategory.length) {
           const { data } = await useBaseFetch('/job-category-parents');
-          this.listJobCategory = data as IJobCategory[];
+          this.setListJobCategory(data);
         }
         return this.listJobCategory;
+      },
+
+      setListJobCategory(data: IJobCategory[]) {
+        this.listJobCategory = data;
       },
     },
   },

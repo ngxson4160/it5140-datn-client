@@ -4,7 +4,7 @@
     :on-success="uploadImage"
     class="upload-image"
   >
-    <el-button type="primary">Bấm vào để tải lên</el-button>
+    <el-button :type="type">{{ title }}</el-button>
   </el-upload>
 </template>
 
@@ -20,8 +20,16 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
   },
+  title: {
+    type: String,
+    default: 'Bấm vào để tải lên',
+  },
+  type: {
+    type: String,
+    default: 'primary',
+  },
 });
-const emits = defineEmits(['update:dataUpload']);
+const emits = defineEmits(['update:dataUpload', 'onSuccess']);
 const syncDataUpload = computed({
   get: () => props.dataUpload,
   set: (value: object) => {
@@ -36,7 +44,10 @@ const uploadImage = async () => {
   formData.append('file', file);
 
   const { data } = await uploadStore.uploadImage(formData);
-  syncDataUpload.value = data as IFileInformation;
+  // syncDataUpload.value = data as IFileInformation;
+
+  emits('onSuccess', data.absolutePath);
+  syncDataUpload.value = data.absolutePath;
 };
 </script>
 

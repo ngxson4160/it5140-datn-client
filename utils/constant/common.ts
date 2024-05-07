@@ -45,3 +45,12 @@ export const CApplicationStatus = [
   { value: EApplicationStatus.FAILURE, name: 'Từ chối' }, // red
   // { value: EApplicationStatus.DELETED, name: 'Đã hủy' },
 ];
+
+export const CCompanySizeType = [
+  { value: ECompanySizeType.TINY, name: 'Dưới 50 viên viên' },
+  { value: ECompanySizeType.SMALL, name: '50-100 nhân viên' },
+  { value: ECompanySizeType.LITTLE, name: '100-500 nhân viên' },
+  { value: ECompanySizeType.FAT, name: '500-1000 nhân viên' },
+  { value: ECompanySizeType.LARGE, name: '1000-3000 nhân viên' },
+  { value: ECompanySizeType.BIG, name: 'Trên 3000 nhân viên' },
+];

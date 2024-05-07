@@ -65,3 +65,12 @@ export enum EJobType {
   IN_PROGRESS,
   EXPIRED,
 }
+
+export enum ECompanySizeType {
+  TINY,
+  SMALL,
+  LITTLE,
+  FAT,
+  LARGE,
+  BIG,
+}
