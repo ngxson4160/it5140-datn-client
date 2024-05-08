@@ -37,6 +37,10 @@ export const useCompanyStore = defineStore(EStoreName.COMPANY, {
       return await useBaseFetch(`companies/candidates`, { query });
     },
 
+    async getDetail(id: number) {
+      return await useBaseFetch(`companies/${id}`);
+    },
+
     async updateJobApplication(
       jobId: number,
       applicationId: number,

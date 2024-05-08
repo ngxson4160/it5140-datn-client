@@ -370,3 +370,7 @@
     @apply text-black text-[15px];
   }
 }
+
+.el-tabs__item {
+  @apply text-base #{!important};
+}
