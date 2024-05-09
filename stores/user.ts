@@ -33,7 +33,22 @@ export const useUserStore = defineStore(EStoreName.User, {
     },
 
     async getListJobApplication(query: IGetListJobApplication) {
-      return await useBaseFetch(`/users/applications`, { query });
+      const { data } = await useBaseFetch(`/users/applications`, { query });
+      return data;
+    },
+
+    async getAccountInfo() {
+      return await useBaseFetch(`/users/account-info`);
+    },
+
+    async updateAccountInfo(body: any) {
+      const { data } = await useBaseFetch(`/users/account-info`, {
+        method: 'PUT',
+        body: { ...body },
+        loading: true,
+      });
+      useNotificationSuccess({ title: 'Thành công!' });
+      return data;
     },
 
     setMyProfile(data: IUserProfile) {

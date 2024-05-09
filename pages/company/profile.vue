@@ -91,16 +91,22 @@
         </div>
       </el-tab-pane>
       <el-tab-pane label="Avatar/Ảnh bìa" name="avatar-coverImage">
-        <div class="w-[1096px]">
+        <div class="w-[1196px]">
           <div class="flex ml-10">
             <div class="flex flex-col gap-y-2">
               <p class="text-sm">Logo công ty</p>
               <img
-                v-if="company.avatar"
+                v-if="!isEmptyObject(company.avatar)"
                 :key="company.avatar"
                 :src="company.avatar"
-                class="w-[150px] h-[150px] border rounded-lg object-contain"
+                class="w-[150px] h-[150px] object-contain border p-[3px] bg-white rounded-md"
               />
+              <div
+                v-else
+                class="w-[150px] h-[150px] flex items-center justify-center border p-[3px] bg-white rounded-md"
+              >
+                <loading-custom />
+              </div>
               <up-load-image
                 v-model:data-upload="company.avatar"
                 title="Thay đổi avatar"
@@ -108,14 +114,20 @@
               />
             </div>
 
-            <div class="flex flex-col gap-y-2 ml-[250px]">
+            <div class="flex flex-col gap-y-2 ml-[250px] !w-[698px]">
               <p class="text-sm">Ảnh bìa</p>
               <img
-                v-if="company.coverImage"
+                v-if="!isEmptyObject(company.coverImage)"
                 :key="company.coverImage"
                 :src="company.coverImage"
-                class="w-[850px] h-[150px] border rounded-lg object-contain"
+                class="!w-[698px] h-[150px] border rounded-lg object-contain"
               />
+              <div
+                v-else
+                class="flex justify-center items-center !w-[698px] h-[150px] border rounded-lg"
+              >
+                <loading-custom />
+              </div>
               <div class="flex justify-end">
                 <up-load-image
                   v-model:data-upload="company.coverImage"

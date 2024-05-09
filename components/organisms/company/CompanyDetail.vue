@@ -2,13 +2,19 @@
   <div
     class="bg-white rounded-t-lg rounded-b-sm h-[358px] mb-4 relative flex flex-col shadow-sm"
   >
-    <img :src="company?.coverImage" class="rounded-t-lg h-[245px]" />
+    <img
+      :src="company?.coverImage"
+      class="rounded-t-lg h-[245px] object-contain"
+    />
 
-    <div
+    <!-- <div
       class="absolute w-[150px] h-[150px] left-6 bottom-6 border p-[3px] bg-white rounded-md"
-    >
-      <img :src="company?.avatar" class="object-contain" />
-    </div>
+    > -->
+    <img
+      :src="company?.avatar"
+      class="object-contain absolute w-[150px] h-[150px] left-6 bottom-6 border p-[3px] bg-white rounded-md"
+    />
+    <!-- </div> -->
 
     <div class="ml-[200px] mr-7 flex h-full justify-between items-center">
       <div class="h-full flex flex-col justify-center rounded-b-lg">

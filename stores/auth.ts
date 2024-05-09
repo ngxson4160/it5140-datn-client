@@ -16,6 +16,11 @@ export interface ISystemLogin {
   password: string;
 }
 
+export interface IChangePassword {
+  oldPassword: string;
+  newPassword: string;
+}
+
 export const useAuthStore = defineStore(EStoreName.AUTH, {
   state: (): IAuthState => {
     return {
@@ -55,6 +60,18 @@ export const useAuthStore = defineStore(EStoreName.AUTH, {
         method: 'POST',
         body: { email },
       });
+    },
+
+    async changePassword(body: IChangePassword) {
+      const data = await useBaseFetch(`/auth/change-password`, {
+        method: 'PUT',
+        body: { ...body },
+        loading: true,
+      });
+      if (data.meta.statusCode === 200) {
+        useNotificationSuccess({ title: 'Thành công!' });
+      }
+      return data;
     },
   },
 });
