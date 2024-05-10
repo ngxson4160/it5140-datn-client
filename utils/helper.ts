@@ -152,14 +152,15 @@ export async function handleSignIn(
   handleRemoveAuthCookie();
   handleRemoveAuthLocalStorage();
 
-  const { data, error } = await useBaseFetch<ILogin>(endpoint, {
+  const { data, meta } = await useBaseFetch<ILogin>(endpoint, {
     method: 'POST',
     body,
-    loading: false,
+    loading: true,
   });
-  // if (error) return error;
-  if (!error) handleAuthData(data);
-  return { data, error };
+
+  // TODO: check có thể lỗi sau khi sửa
+  if (meta.statusCode === 200) handleAuthData(data);
+  return { data, meta };
 }
 
 export function handleAuthData(data: ILogin) {

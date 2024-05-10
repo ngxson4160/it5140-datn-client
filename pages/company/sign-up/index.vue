@@ -9,7 +9,6 @@
       <el-steps
         style="width: 1000px"
         :active="active"
-        finish-status="success"
         class="mt-10 mx-auto"
         align-center
       >

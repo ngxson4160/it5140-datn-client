@@ -54,24 +54,28 @@
       <el-button type="primary" size="large" @click="handleSave">Lưu</el-button>
     </div>
 
-    <el-dialog v-model="syncShowDialogChangePassword" center align-center>
+    <el-dialog
+      v-model:model-value="syncShowDialogChangePassword"
+      center
+      align-center
+    >
       <template #header>
         <p class="text-base font-bold text-center">Thay đổi mật khẩu</p>
       </template>
 
       <p class="mt-4 mb-2 text-sm">Mật khẩu hiện tại</p>
       <el-input
-        v-model="newPass.currentPassword"
+        v-model="syncNewPass.currentPassword"
         size="large"
         type="password"
       />
 
       <p class="mt-4 mb-2 text-sm">Mật khẩu mới</p>
-      <el-input v-model="newPass.password" size="large" type="password" />
+      <el-input v-model="syncNewPass.password" size="large" type="password" />
 
       <p class="mt-4 mb-2 text-sm">Nhập lại mật khẩu mới</p>
       <el-input
-        v-model="newPass.confirmPassword"
+        v-model="syncNewPass.confirmPassword"
         size="large"
         type="password"
       />
@@ -106,15 +110,13 @@ const props = defineProps({
     type: Boolean,
     required: true,
   },
+  newPass: {
+    type: Object,
+    required: true,
+  },
 });
 
 const passwordFake = ref('1234567890987654321');
-
-const newPass = ref({
-  currentPassword: '',
-  password: '',
-  confirmPassword: '',
-});
 
 const emits = defineEmits([
   'update:data',
@@ -122,6 +124,7 @@ const emits = defineEmits([
   'onSave',
   'onUpdateAvatar',
   'update:showDialogChangePassword',
+  'update:newPass',
 ]);
 
 const syncData = computed({
@@ -136,13 +139,15 @@ const syncShowDialogChangePassword = computed({
     return emits('update:showDialogChangePassword', value);
   },
 });
+const syncNewPass = computed({
+  get: () => props.newPass,
+  set: (value: object) => {
+    return emits('update:newPass', value);
+  },
+});
 
 const handleUpdatePassword = () => {
-  if (newPass.value.password !== newPass.value.confirmPassword) {
-    useNotificationError({ title: 'Nhập lại mật khẩu không chính xác' });
-    return;
-  }
-  emits('onUpdatePassword', { ...newPass.value });
+  emits('onUpdatePassword');
 };
 
 const handleSave = () => {

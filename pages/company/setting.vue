@@ -2,6 +2,7 @@
   <account-setting
     v-model:data="accountInfo"
     v-model:show-dialog-change-password="showDialogChangePassword"
+    v-model:new-pass="newPass"
     @on-save="onSave"
     @on-update-password="onUpdatePassword"
     @on-update-avatar="onUpdateAvatar"
@@ -16,6 +17,13 @@ definePageMeta({
 const userStore = useUserStore();
 const authStore = useAuthStore();
 
+const initNewPass = {
+  currentPassword: '',
+  password: '',
+  confirmPassword: '',
+};
+const newPass = ref({ ...initNewPass });
+
 const accountInfo = ref();
 const showDialogChangePassword = ref(false);
 
@@ -29,14 +37,14 @@ const onSave = async () => {
   });
 };
 
-const onUpdatePassword = async (data: any) => {
+const onUpdatePassword = async () => {
   const { meta } = await authStore.changePassword({
-    oldPassword: data.currentPassword,
-    newPassword: data.password,
+    oldPassword: newPass.value.currentPassword,
+    newPassword: newPass.value.password,
   });
-
   if (meta.statusCode === 200) {
     showDialogChangePassword.value = false;
+    newPass.value = { ...initNewPass };
   }
 };
 
