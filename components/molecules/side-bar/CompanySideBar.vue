@@ -42,7 +42,12 @@ watchEffect(() => {
     },
     {
       label: 'Quản lý tuyển dụng',
-      link: ['/company/job/list', '/company/job/create'],
+      link: [
+        '/company/job/list',
+        '/company/job/create',
+        `/company/job/${id.value}`,
+        `/company/job/${id.value}/edit`,
+      ],
       img: ApplicationIcon,
     },
     {

@@ -127,7 +127,9 @@
                 </div>
               </div>
               <div class="col-span-2">
-                <p class="font-bold text-sm">{{ company?.totalStaff }}</p>
+                <p class="font-bold text-sm">
+                  {{ CCompanySizeType[company?.sizeType].name }}
+                </p>
               </div>
               <div class="col-span-1">
                 <div class="flex"></div>
@@ -239,6 +241,7 @@
 
 <script setup lang="ts">
 import { VGender } from '~/types/common';
+import { CCompanySizeType } from '~/utils/constant/common';
 import { CJobExperience, CJobLevel, CJobMode } from '~/utils/constant/job';
 
 const props = defineProps({

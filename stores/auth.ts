@@ -16,6 +16,11 @@ export interface ISystemLogin {
   password: string;
 }
 
+export interface IChangePassword {
+  oldPassword: string;
+  newPassword: string;
+}
+
 export const useAuthStore = defineStore(EStoreName.AUTH, {
   state: (): IAuthState => {
     return {
@@ -37,6 +42,9 @@ export const useAuthStore = defineStore(EStoreName.AUTH, {
 
     async systemLogin(body: ISystemLogin) {
       const data = await handleSignIn('/auth/sign-in', body);
+      if (data.meta.statusCode === 200) {
+        useNotificationSuccess({ title: 'Thành công!' });
+      }
       return data;
     },
 
@@ -55,6 +63,51 @@ export const useAuthStore = defineStore(EStoreName.AUTH, {
         method: 'POST',
         body: { email },
       });
+    },
+
+    async changePassword(body: IChangePassword) {
+      const data = await useBaseFetch(`/auth/change-password`, {
+        method: 'PUT',
+        body: { ...body },
+        loading: true,
+      });
+      if (data.meta.statusCode === 200) {
+        useNotificationSuccess({ title: 'Thành công!' });
+      }
+      return data;
+    },
+
+    async userSignUp(body: any) {
+      const data = await useBaseFetch(`/auth/user/sign-up`, {
+        method: 'POST',
+        body: { ...body },
+        loading: true,
+      });
+      if (data.meta.statusCode === 200) {
+        useNotificationSuccess({ title: 'Thành công!' });
+      }
+      return data;
+    },
+
+    async requestResetPassword(body: any) {
+      const data = await useBaseFetch(`/auth/request-reset-password`, {
+        method: 'POST',
+        body: { ...body },
+        loading: true,
+      });
+      return data;
+    },
+
+    async resetPassword(body: any) {
+      const data = await useBaseFetch(`/auth/reset-password`, {
+        method: 'PUT',
+        body: { ...body },
+        loading: true,
+      });
+      if (data.meta.statusCode === 200) {
+        useNotificationSuccess({ title: 'Thành công!' });
+      }
+      return data;
     },
   },
 });

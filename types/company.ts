@@ -1,5 +1,6 @@
 import type { EOrderPaging, IPagination } from './common';
 import type { EJobLevel } from './job';
+import type { ECompanySizeType } from '~/utils/enum';
 
 export interface IGetListJob extends IPagination {
   title?: string;
@@ -33,4 +34,18 @@ export interface ICandidate {
   job: {
     title: string;
   };
+}
+
+export interface IUpdateCompany {
+  name?: string;
+  primaryEmail?: string;
+  taxCode?: string;
+  website?: string;
+  jobCategoryParentId?: number | null;
+  sizeType?: ECompanySizeType;
+  primaryAddress?: string;
+  primaryPhoneNumber?: string;
+  aboutUs?: string;
+  avatar?: string;
+  coverImage?: string;
 }

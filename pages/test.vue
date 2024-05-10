@@ -1,6 +1,7 @@
 <template>
-  <dialog-apply-job v-model:dialog-visible="showDialog" />
-  <el-button @click="showDialog = true">Show</el-button>
+  <!-- <dialog-apply-job v-model:dialog-visible="showDialog" />
+  <el-button @click="showDialog = true">Show</el-button> -->
+  <test-side-bar />
 </template>
 
 <script setup lang="ts">

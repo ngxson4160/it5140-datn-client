@@ -140,4 +140,6 @@ export interface IGetListJobParams extends IPagination {
   salaryMax?: number;
   yearExperienceMin?: number;
   yearExperienceMax?: number;
+  companyId?: number;
+  all?: boolean;
 }

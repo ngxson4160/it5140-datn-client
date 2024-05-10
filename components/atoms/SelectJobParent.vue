@@ -5,11 +5,11 @@
     :collapse-tags="isMultiple"
     :show-checkbox="isMultiple"
     clearable
-    placeholder="Chọn tỉnh/thành phố"
+    placeholder="Chọn lĩnh vực"
     :size="size"
   >
     <el-option
-      v-for="item in useCity.listCities"
+      v-for="item in jobCategoryParentStore.listJobCategory"
       :key="item.id"
       :label="item.name"
       :value="item.id"
@@ -33,6 +33,6 @@ const props = defineProps({
 
 const value = ref('');
 
-const useCity = useCityStore();
-await useCity.getListCities();
+const jobCategoryParentStore = useJobCategoryParentStore();
+await jobCategoryParentStore.getListJobCategoryParent();
 </script>
