@@ -63,10 +63,13 @@ export async function useBaseFetch<T>(
   if (error) useNotificationError({ title: error?.meta.message });
 
   // @ts-expect-error
-  const data = dataOrigin?.value?.data as any;
+  let data = (dataOrigin?.value?.data || error?.data) as any;
+  if (data === undefined) {
+    data = null;
+  }
 
   // @ts-expect-error
-  const meta = dataOrigin?.value?.meta as any;
+  const meta = (dataOrigin?.value?.meta || error?.meta) as any;
 
   return { error, pending, refresh, data, meta };
 }

@@ -1,4 +1,4 @@
-import type { EGender } from './common';
+import type { ECompanySizeType } from '@/utils/enum.ts';
 
 export interface ICompanyRegisterAccount {
   email: string;
@@ -8,9 +8,9 @@ export interface ICompanyRegisterAccount {
 }
 
 export interface ICompanyInformation {
-  jobCategoryParentId: number | null;
   name: string;
-  totalStaff: number | null;
-  primaryCity: string;
+  jobCategoryParentId: number | null;
   primaryPhoneNumber: string;
+  primaryAddress: string;
+  sizeType: ECompanySizeType | null;
 }

@@ -4,6 +4,7 @@
     clearable
     placeholder="Chọn quy mô công ty"
     :size="size"
+    class="w-full"
   >
     <el-option
       v-for="item in CCompanySizeType"

@@ -74,7 +74,7 @@
           Nếu bạn đang có nhu cầu tuyển dụng, vui lòng đăng ký
           <span
             class="text-green hover:underline cursor-pointer"
-            @click="router.push('/login')"
+            @click="router.push('/company/sign-up')"
           >
             tại đây
           </span>

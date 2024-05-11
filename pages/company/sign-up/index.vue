@@ -1,63 +1,121 @@
 <template>
-  <div class="flex">
-    <img
-      src="@/assets/images/search.webp"
-      class="cursor-pointer w-[1040px] h-full !mr-[6px]"
-    />
-    <div class="flex flex-col w-full mt-10 mx-auto">
-      <p class="font-bold text-[32px] text-green text-center">Đăng ký</p>
-      <el-steps
-        style="width: 1000px"
-        :active="active"
-        class="mt-10 mx-auto"
-        align-center
-      >
-        <el-step title="Tài khoản" />
-        <el-step title="Công ty" />
-        <el-step title="Xác thực" />
-      </el-steps>
+  <div class="flex flex-col w-full mt-20 mx-auto">
+    <p class="font-bold text-[32px] text-green text-center">
+      Nhà tuyển dụng đăng ký
+    </p>
+    <el-steps
+      style="width: 800px"
+      :active="active"
+      class="my-10 mx-auto"
+      align-center
+    >
+      <el-step title="Tài khoản" />
+      <el-step title="Công ty" />
+    </el-steps>
 
-      <div class="w-[600px] mx-auto">
-        <company-account-register
-          v-if="active === 0"
-          class="mt-10 mx-auto w-full"
-          :data="account"
-        />
-        <company-information-register
-          v-if="active === 1"
-          class="mt-10 mx-auto w-full"
-          :data="companyInformation"
-        />
-        <div v-if="active === 3" class="mt-10 text-center">
-          <img
-            src="@/assets/images/verify-email.png"
-            class="w-[100px] mx-auto"
-          />
-          <p>Chúc mừng bạn đã tạo tài khoàn thành công!</p>
-          <p>Hãy kiểm tra thư kích hoạt để hoàn tất bước đăng ký</p>
-          <el-button class="mt-10" type="primary" @click="router.push('login')">
-            Đăng nhập
-          </el-button>
-        </div>
-        <div class="flex justify-end mt-10">
-          <el-button
-            v-if="active !== 3"
-            :disabled="active === 0"
-            type="danger"
-            @click="handleBack"
+    <div class="w-[600px] mx-auto">
+      <div v-if="active === 0">
+        <el-form
+          ref="ruleFormAccount"
+          label-position="top"
+          :model="account"
+          :rules="ruleAccount"
+          style="max-width: 600px"
+        >
+          <div class="flex justify-between">
+            <el-form-item label="Họ" class="w-full" prop="firstName">
+              <el-input v-model="account.firstName" size="large" />
+            </el-form-item>
+            <el-form-item label="Tên" class="w-full ml-10" prop="lastName">
+              <el-input v-model="account.lastName" size="large" />
+            </el-form-item>
+          </div>
+          <el-form-item label="Địa chỉ email" class="w-full" prop="email">
+            <el-input v-model="account.email" size="large" />
+          </el-form-item>
+          <el-form-item label="Mật khẩu" class="w-full" prop="password">
+            <el-input v-model="account.password" type="password" size="large" />
+          </el-form-item>
+          <el-form-item
+            label="Nhập lại mật khẩu"
+            class="w-full"
+            prop="confirmPassword"
           >
-            Quay lại
-          </el-button>
-          <el-button v-if="active !== 3" type="primary" @click="handleNext">
-            Tiếp tục
-          </el-button>
+            <el-input
+              v-model="account.confirmPassword"
+              type="password"
+              size="large"
+            />
+          </el-form-item>
+        </el-form>
+      </div>
+
+      <el-form
+        v-if="active === 1"
+        ref="ruleFormCompany"
+        label-position="top"
+        :model="companyInformation"
+        :rules="ruleCompany"
+        style="max-width: 600px"
+      >
+        <el-form-item label="Tên công ty" class="w-full" prop="name">
+          <el-input v-model="companyInformation.name" size="large" />
+        </el-form-item>
+        <el-form-item
+          label="Lĩnh vực hoạt động"
+          class="w-full"
+          prop="jobCategoryParentId"
+        >
+          <select-job-parent
+            v-model="companyInformation.jobCategoryParentId"
+            class="col-span-1 w-full"
+            size="large"
+            :is-multiple="false"
+          />
+        </el-form-item>
+        <el-form-item label="Địa chỉ" class="w-full" prop="primaryAddress">
+          <el-input v-model="companyInformation.primaryAddress" size="large" />
+        </el-form-item>
+        <div class="flex gap-x-6 w-full">
+          <el-form-item label="Quy mô công ty" class="!w-full" prop="sizeType">
+            <select-company-size
+              v-model="companyInformation.sizeType"
+              size="large"
+            />
+          </el-form-item>
+          <el-form-item
+            label="Số điện thoại"
+            class="w-full"
+            prop="primaryPhoneNumber"
+          >
+            <el-input
+              v-model="companyInformation.primaryPhoneNumber"
+              size="large"
+            />
+          </el-form-item>
         </div>
+      </el-form>
+
+      <div class="flex justify-end mt-10">
+        <el-button
+          v-if="active !== 3"
+          :disabled="active === 0"
+          type="danger"
+          @click="handleBack"
+        >
+          Quay lại
+        </el-button>
+        <el-button v-if="active !== 3" type="primary" @click="handleNext">
+          Tiếp tục
+        </el-button>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import type { FormInstance, FormRules } from 'element-plus';
+
 const authStore = useAuthStore();
 
 const initCompanyRegisterAccount = {
@@ -66,35 +124,71 @@ const initCompanyRegisterAccount = {
   lastName: '',
   password: '',
   confirmPassword: '',
-  dob: '',
-  gender: null,
-  phoneNumber: null,
 };
 
 const initCompanyInformation = {
-  jobCategoryParentId: null,
   name: '',
-  avatar: null,
-  coverImage: null,
-  totalStaff: null,
-  averageAge: null,
-  primaryCity: '',
-  primaryAddress: '',
+  jobCategoryParentId: null,
   primaryPhoneNumber: '',
+  primaryAddress: '',
+  sizeType: null,
 };
 const active = ref(0);
 const router = useRouter();
 const account = ref(initCompanyRegisterAccount);
 const companyInformation = ref(initCompanyInformation);
 
-const handleNext = async () => {
-  if (active.value === 0) {
-    const { error } = await authStore.checkEmailExist(account.value.email);
-    if (!error) active.value = 1;
-  } else if (active.value === 1) {
-    const { error } = await handleSignUp();
-    if (!error) active.value = 3;
-  }
+const ruleFormAccount = ref<FormInstance>();
+const ruleFormCompany = ref<FormInstance>();
+const ruleAccount = reactive<FormRules<any>>({
+  firstName: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
+  lastName: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
+  email: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
+  password: [
+    { required: true, message: 'Bắt buộc', trigger: 'change' },
+    { min: 8, message: 'Tối thiểu 8 ký tự', trigger: 'change' },
+  ],
+  confirmPassword: [
+    { required: true, message: 'Bắt buộc', trigger: 'change' },
+    { min: 8, message: 'Tối thiểu 8 ký tự', trigger: 'change' },
+  ],
+});
+
+const ruleCompany = reactive<FormRules<any>>({
+  name: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
+  jobCategoryParentId: [
+    { required: true, message: 'Bắt buộc', trigger: 'change' },
+  ],
+  primaryAddress: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
+  sizeType: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
+  primaryPhoneNumber: [
+    { required: true, message: 'Bắt buộc', trigger: 'change' },
+  ],
+});
+
+const handleNextAccount = (formEl: FormInstance | undefined) => {
+  if (!formEl) return;
+  formEl.validate(async (valid) => {
+    if (valid) {
+      if (account.value.password !== account.value.confirmPassword) {
+        return useNotificationError({
+          title: 'Xác nhận mật khẩu không chính xác!',
+        });
+      }
+      const { meta } = await authStore.checkEmailExist(account.value.email);
+      if (meta.statusCode === 200) active.value = 1;
+    }
+  });
+};
+
+const handleNextCompany = (formEl: FormInstance | undefined) => {
+  if (!formEl) return;
+  formEl.validate(async (valid) => {
+    if (valid) {
+      const { meta } = await handleSignUp();
+      if (meta.statusCode === 200) router.push('/company/sign-up/sent-mail');
+    }
+  });
 };
 
 const handleBack = () => {
@@ -103,9 +197,16 @@ const handleBack = () => {
   }
 };
 
+const handleNext = () => {
+  if (active.value === 0) {
+    return handleNextAccount(ruleFormAccount.value);
+  } else if (active.value === 1) {
+    return handleNextCompany(ruleFormCompany.value);
+  }
+};
+
 const handleSignUp = async () => {
   const user = { ...account.value };
-  // delete user.confirmPassword;
   const company = { ...companyInformation.value };
   return await authStore.companySignUp({ user, company });
 };
