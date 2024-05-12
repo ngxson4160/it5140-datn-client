@@ -21,7 +21,7 @@
           </div>
           <div class="col-span-1">
             <p class="font-bold">Tỉnh/Thành phố</p>
-            <p class="text-sm">{{ userStore.myProfile.city.name }}</p>
+            <p class="text-sm">{{ userStore.myProfile.city?.name || '' }}</p>
           </div>
 
           <div class="col-span-1">
@@ -30,30 +30,42 @@
           </div>
           <div class="col-span-1">
             <p class="font-bold">Quận/Huyện</p>
-            <p class="text-sm">{{ userStore.myProfile.district }}</p>
+            <p class="text-sm">{{ userStore.myProfile?.district || '' }}</p>
           </div>
 
           <div class="col-span-1">
             <p class="font-bold">Giới tính</p>
             <p class="text-sm">
-              {{ CGender[userStore.myProfile.gender].name }}
+              {{
+                userStore.myProfile.gender !== null
+                  ? CGender[userStore.myProfile?.gender].name
+                  : ''
+              }}
             </p>
           </div>
           <div class="col-span-1">
             <p class="font-bold">Địa chỉ</p>
-            <p class="text-sm">{{ userStore.myProfile.address }}</p>
+            <p class="text-sm">{{ userStore.myProfile?.address || '' }}</p>
           </div>
 
           <div class="col-span-1">
             <p class="font-bold">Ngày sinh</p>
             <p class="text-sm">
-              {{ formatDateShort(userStore.myProfile.dob) }}
+              {{
+                userStore.myProfile?.dob
+                  ? formatDateShort(userStore.myProfile?.dob)
+                  : ''
+              }}
             </p>
           </div>
           <div class="col-span-1">
             <p class="font-bold">Tình trạng hôn nhân</p>
             <p class="text-sm">
-              {{ CMaritalStatus[userStore.myProfile.maritalStatus].name }}
+              {{
+                userStore.myProfile.maritalStatus !== null
+                  ? CMaritalStatus[userStore.myProfile?.maritalStatus].name
+                  : ''
+              }}
             </p>
           </div>
         </div>
@@ -70,21 +82,28 @@
         </div>
         <p class="font-bold">Mục tiêu nghề nghiệp</p>
         <p class="text-sm">
-          {{ userStore.myProfile.candidateInformation.target }}
+          {{ userStore.myProfile.candidateInformation?.target || '' }}
         </p>
         <div class="grid grid-cols-2 mt-6 gap-y-6">
           <div class="col-span-1">
             <p class="font-bold">Ví trị mong muốn</p>
             <p class="text-sm">
               {{
-                userStore.myProfile.candidateInformation.desiredJobCategory.name
+                userStore.myProfile.candidateInformation?.desiredJobCategory
+                  ? userStore.myProfile.candidateInformation.desiredJobCategory
+                      ?.name
+                  : ''
               }}
             </p>
           </div>
           <div class="col-span-1">
             <p class="font-bold">Địa điểm làm việc mong muốn</p>
             <p class="text-sm">
-              {{ userStore.myProfile.candidateInformation.desiredCity.name }}
+              {{
+                userStore.myProfile.candidateInformation?.desiredCity
+                  ? userStore.myProfile.candidateInformation.desiredCity?.name
+                  : ''
+              }}
             </p>
           </div>
 
@@ -92,40 +111,55 @@
             <p class="font-bold">Cấp bậc mong muốn</p>
             <p class="text-sm">
               {{
-                CJobLevel[
-                  userStore.myProfile.candidateInformation.desiredJobLevel
-                ].name
+                userStore.myProfile.candidateInformation?.desiredJobLevel !==
+                null
+                  ? CJobLevel[
+                      userStore.myProfile.candidateInformation.desiredJobLevel
+                    ].name
+                  : ''
               }}
             </p>
           </div>
           <div class="col-span-1">
             <p class="font-bold">Mức lương mong muốn</p>
             <p class="text-sm">
-              {{ userStore.myProfile.candidateInformation.desiredSalary }} VND
+              {{
+                userStore.myProfile.candidateInformation?.desiredSalary || ''
+              }}
+              VND
             </p>
           </div>
 
           <div class="col-span-1">
             <p class="font-bold">Trình độ học vấn</p>
             <p class="text-sm">
-              {{ CEducationLevel[userStore.myProfile.educationalLevel].name }}
+              {{
+                userStore.myProfile?.educationalLevel !== null
+                  ? CEducationLevel[userStore.myProfile.educationalLevel].name
+                  : ''
+              }}
             </p>
           </div>
           <div class="col-span-1">
             <p class="font-bold">Hình thức làm việc mong muốn</p>
             <p class="text-sm">
               {{
-                CJobMode[
-                  userStore.myProfile.candidateInformation.desiredJobMode
-                ].name
+                userStore.myProfile.candidateInformation?.desiredJobMode !==
+                null
+                  ? CJobMode[
+                      userStore.myProfile.candidateInformation.desiredJobMode
+                    ].name
+                  : ''
               }}
             </p>
           </div>
 
           <div class="col-span-1">
-            <p class="font-bold">Số năm kinh nghiệp</p>
+            <p class="font-bold">Số năm kinh nghiệm</p>
             <p class="text-sm">
-              {{ userStore.myProfile.candidateInformation.yearExperience }}
+              {{
+                userStore.myProfile.candidateInformation?.yearExperience || ''
+              }}
             </p>
           </div>
         </div>
@@ -143,18 +177,18 @@
         <el-timeline style="max-width: 600px">
           <el-timeline-item
             v-for="(workExperience, index) in userStore.myProfile
-              .candidateInformation.workExperience"
+              .candidateInformation?.workExperience"
             :key="index"
             class="relative"
-            :timestamp="`${formatDateShort(workExperience.start)} - ${workExperience.end ? formatDateShort(workExperience.end) : 'Hiện tại'} `"
+            :timestamp="`${formatDateShort(workExperience?.start)} - ${workExperience?.end ? formatDateShort(workExperience?.end) : 'Hiện tại'} `"
             placement="top"
           >
             <div>
               <p class="font-bold text-base">
-                {{ workExperience.position }}
+                {{ workExperience?.position }}
               </p>
-              <p>{{ workExperience.companyName }}</p>
-              <p>{{ workExperience.description }}</p>
+              <p>{{ workExperience?.companyName }}</p>
+              <p>{{ workExperience?.description }}</p>
             </div>
             <div class="absolute top-0 left-[250px]">
               <action
@@ -178,19 +212,19 @@
         <el-timeline style="max-width: 600px">
           <el-timeline-item
             v-for="(education, index) in userStore.myProfile
-              .candidateInformation.education"
+              .candidateInformation?.education"
             :key="index"
             class="relative"
-            :timestamp="`${formatDateShort(education.start)} - ${education.end ? formatDateShort(education.end) : 'Hiện tại'}`"
+            :timestamp="`${formatDateShort(education?.start)} - ${education?.end ? formatDateShort(education?.end) : 'Hiện tại'}`"
             placement="top"
           >
             <div>
               <p class="font-bold text-base">
-                {{ education.name }}
+                {{ education?.name }}
               </p>
-              <p class="text-sm">{{ education.organization }}</p>
-              <p class="text-sm">{{ education.major }}</p>
-              <p class="text-sm">{{ education.description }}</p>
+              <p class="text-sm">{{ education?.organization }}</p>
+              <p class="text-sm">{{ education?.major }}</p>
+              <p class="text-sm">{{ education?.description }}</p>
             </div>
             <div class="absolute top-0 left-[250px]">
               <action
@@ -214,18 +248,18 @@
         <el-timeline style="max-width: 600px">
           <el-timeline-item
             v-for="(certificate, index) in userStore.myProfile
-              .candidateInformation.certificate"
+              .candidateInformation?.certificate"
             :key="index"
             class="relative"
-            :timestamp="`${formatDateShort(certificate.start)} - ${certificate.end ? formatDateShort(certificate.end) : 'Vô thời hạn'}`"
+            :timestamp="`${formatDateShort(certificate?.start)} - ${certificate?.end ? formatDateShort(certificate?.end) : 'Vô thời hạn'}`"
             placement="top"
           >
             <div>
               <p class="font-bold text-base">
-                {{ certificate.name }}
+                {{ certificate?.name }}
               </p>
-              <p class="text-sm">{{ certificate.organization }}</p>
-              <p class="text-sm">{{ certificate.description }}</p>
+              <p class="text-sm">{{ certificate?.organization }}</p>
+              <p class="text-sm">{{ certificate?.description }}</p>
             </div>
             <div class="absolute top-0 left-[250px]">
               <action
@@ -253,13 +287,13 @@
         </div>
         <div
           v-for="(advancedSkill, index) in userStore.myProfile
-            .candidateInformation.advancedSkill"
+            .candidateInformation?.advancedSkill"
           :key="index"
           class="grid grid-cols-3 border-b py-1 gap-x-4 items-center"
         >
-          <p class="col-span-1">{{ advancedSkill.name }}</p>
+          <p class="col-span-1">{{ advancedSkill?.name }}</p>
           <el-progress
-            :percentage="advancedSkill.level"
+            :percentage="advancedSkill?.level"
             status="success"
             :show-text="false"
           />
@@ -289,13 +323,13 @@
 
         <div
           v-for="(languageSkill, index) in userStore.myProfile
-            .candidateInformation.languageSkill"
+            .candidateInformation?.languageSkill"
           :key="index"
           class="grid grid-cols-3 border-b py-1 gap-x-4 items-center"
         >
-          <p class="col-span-1">{{ languageSkill.name }}</p>
+          <p class="col-span-1">{{ languageSkill?.name }}</p>
           <el-progress
-            :percentage="languageSkill.level"
+            :percentage="languageSkill?.level"
             status="success"
             :show-text="false"
           />
@@ -314,12 +348,12 @@
         </div>
         <div class="flex gap-4 flex-wrap">
           <div
-            v-for="(cv, index) in userStore.myProfile.candidateInformation.cv"
+            v-for="(cv, index) in userStore.myProfile.candidateInformation?.cv"
             :key="index"
             class="relative"
           >
             <iframe
-              :src="`${cv.url}#toolbar=0&navpanes=0&scrolling=0`"
+              :src="`${cv?.url}#toolbar=0&navpanes=0&scrolling=0`"
               class="border rounded-lg !overflow-hidden w-[220px] h-[283px]"
             ></iframe>
             <div class="absolute inset-0 bg-[#0000001a]"></div>
@@ -331,7 +365,9 @@
               @click="onShowDeleteCV(index)"
             />
             <div class="absolute inset-x-0 bottom-6">
-              <p class="text-center mb-4 font-bold text-base">{{ cv.title }}</p>
+              <p class="text-center mb-4 font-bold text-base">
+                {{ cv?.title }}
+              </p>
               <div class="flex justify-between px-4">
                 <el-button
                   class="w-[180px] !h-[30] !text-xs"
@@ -452,15 +488,15 @@ const formDataEditInformation = ref({
 });
 
 const formDataInformationGeneral = ref({
-  target: userStore.myProfile.candidateInformation.target,
+  target: userStore.myProfile.candidateInformation?.target,
   desiredJobCategoryId:
-    userStore.myProfile.candidateInformation.desiredJobCategoryId,
+    userStore.myProfile.candidateInformation?.desiredJobCategoryId,
   educationalLevel: userStore.myProfile.educationalLevel,
-  desiredCityId: userStore.myProfile.candidateInformation.desiredCityId,
-  desiredJobLevel: userStore.myProfile.candidateInformation.desiredJobLevel,
-  desiredSalary: userStore.myProfile.candidateInformation.desiredSalary,
-  desiredJobMode: userStore.myProfile.candidateInformation.desiredJobMode,
-  yearExperience: userStore.myProfile.candidateInformation.yearExperience,
+  desiredCityId: userStore.myProfile.candidateInformation?.desiredCityId,
+  desiredJobLevel: userStore.myProfile.candidateInformation?.desiredJobLevel,
+  desiredSalary: userStore.myProfile.candidateInformation?.desiredSalary,
+  desiredJobMode: userStore.myProfile.candidateInformation?.desiredJobMode,
+  yearExperience: userStore.myProfile.candidateInformation?.yearExperience,
 });
 
 const onSaveEditInformationGeneral = async (data: any) => {

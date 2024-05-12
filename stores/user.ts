@@ -33,7 +33,7 @@ export const useUserStore = defineStore(EStoreName.User, {
     },
 
     async getListJobApplication(query: IGetListJobApplication) {
-      const { data } = await useBaseFetch(`/users/applications`, { query });
+      const data = await useBaseFetch(`/users/applications`, { query });
       return data;
     },
 

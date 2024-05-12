@@ -1,7 +1,12 @@
 <template>
-  <div>User Home Page</div>
+  <header-auth />
+  <home-page />
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+definePageMeta({
+  middleware: ['redirect-to-guest-router'],
+});
+</script>
 
 <style scoped></style>

@@ -75,7 +75,7 @@
             <el-dropdown-item @click="router.push('/user/message')">
               Tin nhắn
             </el-dropdown-item>
-            <el-dropdown-item>Đăng xuất</el-dropdown-item>
+            <el-dropdown-item @click="handleLogout">Đăng xuất</el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>

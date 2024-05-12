@@ -219,5 +219,7 @@ export function handleLogout() {
 
   handleRemoveAuthLocalStorage();
 
-  location.reload();
+  // location.reload();
+
+  navigateTo({ path: '/' });
 }
