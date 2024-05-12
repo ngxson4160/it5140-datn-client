@@ -1,9 +1,17 @@
 <template>
-  <div
+  <!-- <div
     class="bg-white flex items-center border h-[150px] rounded-lg py-2 px-4 hover:bg-[#1caf5705] hover:border-[#1caf573f] cursor-pointer"
     @click="router.push(`/job/${data.id}`)"
+  > -->
+  <div
+    class="bg-white flex items-center border h-[150px] rounded-lg py-2 px-4 hover:bg-[#1caf5705] hover:border-[#1caf573f] cursor-pointer"
   >
-    <div class="w-full flex items-center justify-between">
+    <!-- <div class="w-full flex items-center justify-between"> -->
+    <NuxtLink
+      class="w-full flex items-center justify-between"
+      target="_blank"
+      :to="`/job/${data.id}`"
+    >
       <div class="flex">
         <img :src="data.company?.avatar" class="w-24 object-contain" />
         <div class="ml-4">
@@ -64,7 +72,8 @@
           Kết thúc: {{ formatDateFull(data.hiringEndDate) }}
         </p>
       </div>
-    </div>
+    </NuxtLink>
+    <!-- </div> -->
   </div>
 </template>
 

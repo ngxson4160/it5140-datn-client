@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col items-center mt-6">
+  <div class="flex flex-col items-center">
     <div
       class="flex items-center justify-between rounded-lg h-[60px] bg-white w-[1050px] px-6 shadow-md"
     >
@@ -29,7 +29,7 @@
         </div>
       </div>
 
-      <el-button type="primary" class="!h-11" @click="emitSearch">
+      <el-button type="primary" class="!h-11 !w-[110px]" @click="emitSearch">
         Tìm kiếm
       </el-button>
     </div>
@@ -54,7 +54,7 @@
         class="job-filter-select !w-[220px]"
       />
 
-      <el-button class="">Xóa bộ lọc</el-button>
+      <el-button @click="onDeleteFilter">Xóa bộ lọc</el-button>
     </div>
   </div>
 </template>
@@ -116,6 +116,7 @@ const emits = defineEmits([
   'level',
   'salary',
   'yearExperience',
+  'deleteFilter',
 ]);
 
 watch(
@@ -153,6 +154,10 @@ const emitSearch = () => {
     jobCategoryIds: filterData.value.jobCategoryIds.join(','),
   };
   emits('search', data);
+};
+
+const onDeleteFilter = () => {
+  emits('deleteFilter');
 };
 </script>
 

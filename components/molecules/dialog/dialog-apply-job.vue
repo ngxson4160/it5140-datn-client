@@ -96,7 +96,9 @@ const syncDialogVisible = computed({
 });
 
 const listCV = ref(formData.value.candidateCv);
-formData.value.candidateCv = listCV.value[0].url;
+if (listCV.value) {
+  formData.value.candidateCv = listCV.value[0].url;
+}
 
 const handleShowPreviewCV = (url: string) => {
   urlCVPreview.value = url;

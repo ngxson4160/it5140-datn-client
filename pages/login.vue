@@ -114,9 +114,9 @@ const loading = ref(false);
 const router = useRouter();
 
 const submit = async (event: any) => {
-  const { data, error } = await authStore.systemLogin({ ...event.data });
+  const { data, meta } = await authStore.systemLogin({ ...event.data });
 
-  if (!error) {
+  if (meta.statusCode === 200) {
     if (
       data.user.roles[0] === ERole.ROOT ||
       data.user.roles[0] === ERole.ADMIN

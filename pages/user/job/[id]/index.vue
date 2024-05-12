@@ -14,6 +14,12 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({
+  middleware: ['redirect-to-guest-router'],
+});
+
+console.log('run user job [id]');
+
 const job = ref();
 const company = ref();
 
@@ -33,7 +39,7 @@ const userStore = useUserStore();
 await userStore.getMyProfile();
 
 const dataApplyJob = ref({
-  candidateCv: userStore.myProfile.candidateInformation.cv,
+  candidateCv: userStore.myProfile.candidateInformation?.cv,
   candidateFirstName: userStore.myProfile.firstName,
   candidateLastName: userStore.myProfile.lastName,
   candidateEmail: userStore.myProfile.email,

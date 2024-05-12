@@ -6,6 +6,10 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({
+  middleware: ['redirect-to-user-router'],
+});
+
 const job = ref();
 const company = ref();
 

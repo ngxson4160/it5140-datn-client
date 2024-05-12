@@ -59,10 +59,11 @@ export const useAuthStore = defineStore(EStoreName.AUTH, {
     },
 
     async checkEmailExist(email: string) {
-      return await useBaseFetch('/auth/check-email', {
+      const data = await useBaseFetch('/auth/check-email', {
         method: 'POST',
         body: { email },
       });
+      return data;
     },
 
     async changePassword(body: IChangePassword) {
