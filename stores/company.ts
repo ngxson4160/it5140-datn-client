@@ -1,4 +1,8 @@
-import type { IGetListJob, IUpdateCompany } from '~/types/company';
+import type {
+  IGetListCompany,
+  IGetListJob,
+  IUpdateCompany,
+} from '~/types/company';
 
 export interface ICompany {
   id: number | null;
@@ -55,6 +59,10 @@ export const useCompanyStore = defineStore(EStoreName.COMPANY, {
         },
       );
       useNotificationSuccess({ title: 'Thành công!' });
+    },
+
+    async getListCompany(query: IGetListCompany) {
+      return await useBaseFetch(`companies`, { query, loading: true });
     },
   },
 });

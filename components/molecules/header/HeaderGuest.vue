@@ -27,7 +27,7 @@
 
       <p
         class="hover:cursor-pointer hover:text-green font-medium"
-        @click="router.push('/company')"
+        @click="router.push('/company/list')"
       >
         Công ty
       </p>

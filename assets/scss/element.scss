@@ -66,6 +66,10 @@
     unicode-bidi: isolate;
   }
 
+  p:empty {
+    height: 10px
+  }
+
   code {
     background-color: rgba(#616161, 0.1);
     border-radius: 0.25em;

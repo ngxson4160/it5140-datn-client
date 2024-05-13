@@ -49,3 +49,7 @@ export interface IUpdateCompany {
   avatar?: string;
   coverImage?: string;
 }
+
+export interface IGetListCompany extends IPagination {
+  name?: string;
+}
