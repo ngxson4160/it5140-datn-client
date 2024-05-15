@@ -74,3 +74,9 @@ export enum ECompanySizeType {
   LARGE,
   BIG,
 }
+
+export enum EPublicCVType {
+  NOT_PUBLIC = 0,
+  SYSTEM_CV = 1,
+  ATTACHMENT_CV = 2,
+}

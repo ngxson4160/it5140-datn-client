@@ -1,5 +1,5 @@
 import type { IPagination } from './common';
-import type { EEducationLevel } from '#imports';
+import type { EEducationLevel, EPublicCVType } from '~/utils/enum';
 
 export interface IUserProfile {
   id: number;
@@ -27,6 +27,8 @@ export interface IUserProfile {
   educationalLevel: EEducationLevel;
   candidateInformation: {
     id: number;
+    publicCVType: EPublicCVType;
+    publicAttachmentCV: string | null;
     target: string;
     userId: number;
     desiredJobCategoryId: number;
@@ -68,6 +70,12 @@ export interface IUserProfile {
     languageSkill: Array<{
       name: string;
       level: number;
+    }>;
+    project: Array<{
+      name: string;
+      start: string;
+      end: string;
+      description: string;
     }>;
     status: number;
     createdAt: string;
