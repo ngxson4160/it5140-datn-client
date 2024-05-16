@@ -1,6 +1,10 @@
-import type { EOrderPaging, IPagination } from './common';
-import type { EJobLevel } from './job';
-import type { ECompanySizeType } from '~/utils/enum';
+import type { EGender, EOrderPaging, IPagination } from './common';
+import type { EJobLevel, EJobMode } from './job';
+import type {
+  ECompanySizeType,
+  EEducationLevel,
+  EMaritalStatus,
+} from '~/utils/enum';
 
 export interface IGetListJob extends IPagination {
   title?: string;
@@ -52,4 +56,17 @@ export interface IUpdateCompany {
 
 export interface IGetListCompany extends IPagination {
   name?: string;
+}
+
+export interface ISearchCandidate extends IPagination {
+  filter?: string;
+  cityId?: number;
+  yearExperienceMin?: number;
+  yearExperienceMax?: number;
+  desiredJobCategoryIds?: number[];
+  gender?: EGender;
+  desiredJobLevel?: EJobLevel;
+  desiredJobMode?: EJobMode;
+  maritalStatus?: EMaritalStatus;
+  educationalLevel?: EEducationLevel;
 }

@@ -1,6 +1,7 @@
 import type {
   IGetListCompany,
   IGetListJob,
+  ISearchCandidate,
   IUpdateCompany,
 } from '~/types/company';
 
@@ -63,6 +64,10 @@ export const useCompanyStore = defineStore(EStoreName.COMPANY, {
 
     async getListCompany(query: IGetListCompany) {
       return await useBaseFetch(`companies`, { query, loading: true });
+    },
+
+    async searchCandidate(query: ISearchCandidate) {
+      return await useBaseFetch(`/candidates`, { query });
     },
   },
 });

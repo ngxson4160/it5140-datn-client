@@ -20,6 +20,7 @@ import SettingIcon from 'assets/images/setting-gray.svg';
 import ApplicationIcon from 'assets/images/bag-gray.svg';
 import BlogIcon from 'assets/images/blog-gray.svg';
 import CandidateIcon from 'assets/images/people-group-gray.svg';
+import SearchCandidateIcon from 'assets/images/search-gray.svg';
 
 const route = useRoute();
 const router = useRouter();
@@ -54,6 +55,11 @@ watchEffect(() => {
       label: 'Quản lý ứng viên',
       link: ['/company/candidate/list'],
       img: CandidateIcon,
+    },
+    {
+      label: 'Tìm kiếm ứng viên',
+      link: ['/company/candidate/search'],
+      img: SearchCandidateIcon,
     },
     {
       label: 'Tin nhắn',
