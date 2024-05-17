@@ -67,7 +67,12 @@ export const useCompanyStore = defineStore(EStoreName.COMPANY, {
     },
 
     async searchCandidate(query: ISearchCandidate) {
-      return await useBaseFetch(`/candidates`, { query });
+      const data = await useBaseFetch(`/candidates`, {
+        method: 'GET',
+        query,
+        loading: true,
+      });
+      return data;
     },
   },
 });

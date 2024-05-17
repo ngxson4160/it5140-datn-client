@@ -5,6 +5,7 @@ export interface IUserProfile {
   id: number;
   companyId: number | null;
   cityId: number | null;
+  districtId: number | null;
   email: string;
   firstName: string;
   lastName: string;
@@ -12,7 +13,6 @@ export interface IUserProfile {
   dob: string;
   gender: number;
   phoneNumber: string;
-  district: string;
   maritalStatus: number;
   address: string;
   status: number;
@@ -21,6 +21,10 @@ export interface IUserProfile {
   updatedAt: string;
   updatedBy: null;
   city: {
+    id: number;
+    name: string;
+  };
+  district: {
     id: number;
     name: string;
   };

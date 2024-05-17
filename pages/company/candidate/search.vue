@@ -96,6 +96,7 @@
           :key="el.id"
           class="mb-4"
           :data="el"
+          @on-view-cv="handleShowPreviewCV"
         />
         <p v-if="!meta?.pagination?.totalItem" class="text-center mt-2">
           Không tìm thấy ứng viên phù hợp
@@ -115,14 +116,28 @@
       </div>
     </div>
   </div>
+
+  <dialog-preview-cv-attachment
+    v-if="showCVPreviewAttachment"
+    v-model:dialog-visible="showCVPreviewAttachment"
+    :url="urlCVPreview"
+  />
+
+  <dialog-preview-cv-system
+    v-if="showCVPreviewSystem"
+    v-model:dialog-visible="showCVPreviewSystem"
+    :data="dataCvSystem"
+  />
 </template>
 
 <script setup lang="ts">
 import type { EEducationLevel, EGender, EMaritalStatus } from '#imports';
 import type { EJobLevel, EJobMode } from '~/types/job';
+import { EPublicCVType } from '~/utils/enum';
 
 definePageMeta({
   layout: 'company-dashboard',
+  roles: [ERole.COMPANY],
 });
 
 export interface IFilterCandidate {
@@ -159,6 +174,10 @@ const filterData = ref<IFilterCandidate>({
 
 const companyStore = useCompanyStore();
 
+const dataCvSystem = ref();
+const urlCVPreview = ref('');
+const showCVPreviewSystem = ref(false);
+const showCVPreviewAttachment = ref(false);
 const currentPage = ref<number>(1);
 const query = ref<any>({});
 const listCandidate = ref<any[]>([]);
@@ -174,7 +193,7 @@ const setCurrentPage = async (page: number) => {
   meta.value = data.meta;
 };
 
-query.value.limit = 1;
+query.value.limit = 15;
 
 const data = await companyStore.searchCandidate({
   ...query.value,
@@ -278,6 +297,17 @@ const callGetListCandidate = async () => {
   });
   listCandidate.value = data.data as any[];
   meta.value = data.meta;
+};
+
+const handleShowPreviewCV = (data: any) => {
+  const typeCV = data?.candidateInformation?.publicCVType;
+  if (typeCV === EPublicCVType.ATTACHMENT_CV) {
+    urlCVPreview.value = `${data?.candidateInformation?.publicAttachmentCV}`;
+    showCVPreviewAttachment.value = true;
+  } else if (typeCV === EPublicCVType.SYSTEM_CV) {
+    showCVPreviewSystem.value = true;
+    dataCvSystem.value = data;
+  }
 };
 </script>
 

@@ -189,7 +189,9 @@
               </div>
               <div class="col-span-1">
                 <p class="font-bold">Quận/Huyện</p>
-                <p class="text-sm">{{ userStore.myProfile?.district || '' }}</p>
+                <p class="text-sm">
+                  {{ userStore.myProfile?.district?.name || '' }}
+                </p>
               </div>
 
               <div class="col-span-1">
@@ -691,7 +693,7 @@ const formDataEditInformation = ref({
   dob: userStore.myProfile.dob,
   gender: userStore.myProfile.gender,
   cityId: userStore.myProfile.cityId,
-  district: userStore.myProfile.district,
+  districtId: userStore.myProfile.districtId,
   address: userStore.myProfile.address,
   maritalStatus: userStore.myProfile.maritalStatus,
 });
@@ -1020,14 +1022,6 @@ const handleNotPublicCV = async () => {
 </script>
 
 <style lang="scss">
-.el-timeline-item__node--normal {
-  @apply bg-[#1caf57];
-}
-
-.el-timeline-item__tail {
-  @apply border-[#1caf5757]  #{!important};
-}
-
 .custom-iframe {
   pointer-events: none;
 }

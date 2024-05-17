@@ -67,7 +67,7 @@
   }
 
   p:empty {
-    height: 10px
+    height: 10px;
   }
 
   code {
@@ -377,4 +377,12 @@
 
 .el-tabs__item {
   @apply text-base #{!important};
+}
+
+.el-timeline-item__node--normal {
+  @apply bg-[#1caf57];
+}
+
+.el-timeline-item__tail {
+  @apply border-[#1caf5757]  #{!important};
 }

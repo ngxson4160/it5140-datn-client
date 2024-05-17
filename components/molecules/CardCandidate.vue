@@ -2,7 +2,7 @@
   <div class="border rounded-lg px-4 py-2">
     <div class="flex justify-between">
       <div class="text-sm">
-        <p class="font-bold mb-2">
+        <p class="font-bold mb-2 text-base">
           {{
             `${data?.firstName} ${data?.lastName} (${calcAge(data?.dob)} tuổi)`
           }}
@@ -20,19 +20,28 @@
           <p class="">{{ data.phoneNumber }}</p>
         </div>
         <div class="flex gap-x-2 items-center mb-1">
-          <img src="@/assets/images/people-tie-gray.svg" class="w-[18px]" />
+          <img
+            v-if="CJobLevel[data.candidateInformation?.desiredJobLevel]?.name"
+            src="@/assets/images/people-tie-gray.svg"
+            class="w-[18px]"
+          />
           <p>
             {{ CJobLevel[data.candidateInformation?.desiredJobLevel]?.name }}
           </p>
         </div>
         <div class="flex gap-x-2 items-center mb-1">
-          <img src="@/assets/images/education-gray.svg" class="w-5" />
+          <img
+            v-if="CEducationLevel[data.educationalLevel]?.name"
+            src="@/assets/images/education-gray.svg"
+            class="w-5"
+          />
           <p>
             {{ CEducationLevel[data.educationalLevel]?.name }}
           </p>
         </div>
         <div class="flex gap-x-2 mt-2">
           <div
+            v-if="data.candidateInformation?.desiredSalary"
             class="flex gap-x-1 justify-center items-center rounded-full bg-[#e0ebf7] px-2 py-[2px] text-xs"
           >
             <img src="@/assets/images/dollar-circle-gray.svg" class="w-5" />
@@ -44,6 +53,7 @@
           </div>
 
           <div
+            v-if="data.candidateInformation?.yearExperience"
             class="flex gap-x-1 justify-center items-center rounded-full bg-[#e0ebf7] px-2 py-[2px] text-xs"
           >
             <img src="@/assets/images/hourglass-gray.svg" class="w-5" />
@@ -55,6 +65,7 @@
           </div>
 
           <div
+            v-if="data?.city?.name"
             class="flex gap-x-1 justify-center items-center rounded-full bg-[#e0ebf7] px-2 py-[2px] text-xs"
           >
             <img src="@/assets/images/location-gray.svg" class="w-5" />
@@ -62,21 +73,49 @@
           </div>
         </div>
       </div>
-      <div>
-        <div class="flex items-center justify-end gap-x-2">
+      <div class="flex flex-col justify-between">
+        <div class="flex items-center justify-end gap-x-3">
           <img
             src="@/assets/images/heart-gray.svg"
-            class="w-5 cursor-pointer"
+            class="w-7 cursor-pointer"
           />
-          <img src="@/assets/images/view-gray.svg" class="w-6 cursor-pointer" />
           <img
             src="@/assets/images/message-gray.svg"
-            class="w-6 cursor-pointer"
+            class="w-7 cursor-pointer"
           />
         </div>
-        <p class="text-sm mt-4">
-          {{ `Cập nhật lúc ${formatDateFull(data?.updatedAt)}` }}
-        </p>
+        <div class="text-sm mt-4">
+          <div
+            class="flex justify-end mb-1 items-center gap-x-2 cursor-pointer hover:underline"
+            @click="handleViewCV(data)"
+          >
+            <img
+              v-if="
+                data?.candidateInformation?.publicCVType ===
+                EPublicCVType.ATTACHMENT_CV
+              "
+              src="@/assets/images/pdf-danger.svg"
+              class="w-3 cursor-pointer"
+            />
+            <img
+              v-if="
+                data?.candidateInformation?.publicCVType ===
+                EPublicCVType.SYSTEM_CV
+              "
+              src="@/assets/images/pdf-blue.svg"
+              class="w-3 cursor-pointer"
+            />
+            <p class="font-bold">
+              {{
+                data?.candidateInformation?.publicCVType ===
+                EPublicCVType.ATTACHMENT_CV
+                  ? 'Hồ sơ đính kèm'
+                  : 'Hồ sơ Job Nest'
+              }}
+            </p>
+          </div>
+          <p>{{ `Cập nhật lần cuối: ${formatDateShort(data?.updatedAt)}` }}</p>
+        </div>
       </div>
     </div>
   </div>
@@ -85,6 +124,7 @@
 <script setup lang="ts">
 import { CEducationLevel } from '~/utils/constant/common';
 import { CJobLevel } from '~/utils/constant/job';
+import { EPublicCVType } from '~/utils/enum';
 
 const props = defineProps({
   data: {
@@ -92,6 +132,12 @@ const props = defineProps({
     required: true,
   },
 });
+
+const emits = defineEmits(['onViewCv']);
+
+const handleViewCV = (data: any) => {
+  emits('onViewCv', data);
+};
 </script>
 
 <style scoped></style>

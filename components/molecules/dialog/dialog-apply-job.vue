@@ -1,10 +1,24 @@
 <template>
   <el-dialog v-model="syncDialogVisible" center align-center>
     <template #header>
-      <p class="text-base font-bold text-center">Ứng tuyển vị trí</p>
+      <p class="text-base font-bold text-center">Lựa chọn hồ sơ ứng tuyển</p>
       <p>{{ title }}</p>
     </template>
 
+    <p class="font-bold mb-2">Hồ sơ Job Nest:</p>
+    <el-radio-group
+      v-model="formData.candidateCv"
+      class="custom-radio flex flex-col gap-y-2 !w-full mb-4"
+    >
+      <el-radio size="large" border class="!mx-0 !w-full !h-14">
+        <div class="flex justify-between !w-full grow-1">
+          <p>Nguyen Xuan Son</p>
+          <p class="font-bold" @click="showCVPreviewSystem = true">Xem hồ sơ</p>
+        </div>
+      </el-radio>
+    </el-radio-group>
+
+    <p class="font-bold mb-2">Hồ sơ đính kèm:</p>
     <el-scrollbar max-height="255px">
       <el-radio-group
         v-model="formData.candidateCv"
@@ -13,7 +27,6 @@
         <el-radio
           v-for="(cv, index) in listCV"
           :key="index"
-          value="abc1"
           :label="cv.url"
           size="large"
           border
@@ -60,9 +73,16 @@
     </template>
   </el-dialog>
 
-  <dialog-preview-cv
-    v-model:dialog-visible="showCVPreview"
+  <dialog-preview-cv-attachment
+    v-if="showCVPreviewAttachment"
+    v-model:dialog-visible="showCVPreviewAttachment"
     :url="urlCVPreview"
+  />
+
+  <dialog-preview-cv-system
+    v-if="showCVPreviewSystem"
+    v-model:dialog-visible="showCVPreviewSystem"
+    :data="dataCvSystem"
   />
 </template>
 
@@ -84,9 +104,15 @@ const props = defineProps({
 
 const emits = defineEmits(['update:dialogVisible', 'onConfirm']);
 
+const userStore = useUserStore();
+await userStore.getMyProfile();
+
 const formData = ref({ ...props.data });
+const dataCvSystem = ref();
 const urlCVPreview = ref('');
-const showCVPreview = ref(false);
+const showCVPreviewSystem = ref(false);
+const showCVPreviewAttachment = ref(false);
+dataCvSystem.value = userStore.myProfile;
 
 const syncDialogVisible = computed({
   get: () => props.dialogVisible,
@@ -102,7 +128,7 @@ if (listCV.value) {
 
 const handleShowPreviewCV = (url: string) => {
   urlCVPreview.value = url;
-  showCVPreview.value = true;
+  showCVPreviewAttachment.value = true;
 };
 
 const handleConfirm = () => {

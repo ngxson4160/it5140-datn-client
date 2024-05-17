@@ -159,16 +159,6 @@
             </div>
           </template>
         </el-table-column>
-        <!-- <el-table-column width="100">
-          <template #header>
-            <p>Gửi mail</p>
-          </template>
-          <template #default>
-            <div class="flex justify-center cursor-pointer">
-              <img src="@/assets/images/mail-yellow.svg" class="w-7" />
-            </div>
-          </template>
-        </el-table-column> -->
       </el-table>
     </div>
 
@@ -184,7 +174,7 @@
       />
     </div>
 
-    <dialog-preview-cv
+    <dialog-preview-cv-attachment
       v-if="showCVPreview"
       v-model:dialog-visible="showCVPreview"
       :url="urlCVPreview"

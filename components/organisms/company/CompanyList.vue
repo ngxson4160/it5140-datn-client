@@ -51,16 +51,6 @@
 <script setup lang="ts">
 import type { IGetListCompany } from '~/types/company';
 
-const data = ref({
-  name: 'CÔNG TY TNHH MTV VIỄN THÔNG QUỐC TẾ FPT',
-  aboutUs:
-    '" Công ty TNHH MTV Viễn Thông Quốc Tế FPT (FPT Telecom International) là một trong những nhà cung cấp dịch vụ Viễn thông hàng đầu Việt Nam.Với hơn 10 năm kinh nghiệm, FPT Telecom International không ngừng mang đến các sản phẩm, dịch vụ đổi mới, nắm bắt sự thay đổi trong cách thức giao tiếp, làm việc của con người và các tổ chức trong thời đại kỹ thuật..."',
-  avatar:
-    'https://static.topcv.vn/company_logos/cong-ty-tnhh-mtv-vien-thong-quoc-te-fpt-5d898f99a34de.jpg',
-  coverImage:
-    'https://static.topcv.vn/company_covers/cong-ty-tnhh-mtv-vien-thong-quoc-te-fpt-d3875e922aae8e448c57c760a55305ca-617fa613e3ddf.jpg',
-});
-
 const companyStore = useCompanyStore();
 
 const currentPage = ref<number>(1);

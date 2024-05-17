@@ -47,8 +47,14 @@ const dataApplyJob = ref({
 });
 
 const handleApplyJob = async (data: any) => {
-  await userStore.applyJob(+params.id, data);
-  console.log('handleApplyJob', data);
+  let cvType;
+  if (data?.candidateCv === '') {
+    cvType = EPublicCVType.SYSTEM_CV;
+  } else {
+    cvType = EPublicCVType.ATTACHMENT_CV;
+  }
+  await userStore.applyJob(+params.id, { ...data, cvType });
+  console.log({ ...data, cvType });
 };
 </script>
 
