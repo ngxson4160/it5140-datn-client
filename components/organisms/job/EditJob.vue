@@ -147,7 +147,7 @@
             format="DD/MM/YYYY"
           />
 
-          <p class="text-gray mt-6 mb-2 text-sm">Thông tin người nhận CV</p>
+          <!-- <p class="text-gray mt-6 mb-2 text-sm">Thông tin người nhận CV</p>
           <div class="w-[1000px] flex justify-between">
             <div>
               <p class="text-sm mb-1 text-gray">Họ và tên</p>
@@ -161,7 +161,7 @@
               <p class="text-sm mb-1 text-gray">Số điện thoại</p>
               <el-input class="!w-[300px] !h-10" placeholder="Email" />
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
 

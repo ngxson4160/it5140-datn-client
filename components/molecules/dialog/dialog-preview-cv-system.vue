@@ -15,9 +15,17 @@
           />
         </div>
         <div>
-          <p class="text-xl font-bold">Nguyễn Xuân Sơn</p>
-          <p>Email: {{ data?.email }}</p>
-          <p>Số điện thoại: {{ data.phoneNumber }}</p>
+          <p class="text-xl font-bold">
+            {{
+              data?.firstName
+                ? `${data?.firstName} ${data?.lastName}`
+                : data?.candidateName
+            }}
+          </p>
+          <p>Email: {{ data?.email || data?.candidateEmail }}</p>
+          <p>
+            Số điện thoại: {{ data.phoneNumber || data.candidatePhoneNumber }}
+          </p>
           <p>
             Giới tính:
             {{ data.gender !== null ? CGender[data?.gender].name : '' }}
@@ -71,8 +79,8 @@
             <p class="font-bold">Cấp bậc mong muốn</p>
             <p class="text-sm">
               {{
-                data.candidateInformation?.desiredJobLevel !== null
-                  ? CJobLevel[data.candidateInformation.desiredJobLevel].name
+                data?.candidateInformation?.desiredJobLevel
+                  ? CJobLevel[data.candidateInformation?.desiredJobLevel].name
                   : ''
               }}
             </p>
@@ -99,7 +107,7 @@
             <p class="font-bold">Hình thức làm việc mong muốn</p>
             <p class="text-sm">
               {{
-                data.candidateInformation?.desiredJobMode !== null
+                data?.candidateInformation?.desiredJobMode
                   ? CJobMode[data.candidateInformation.desiredJobMode].name
                   : ''
               }}

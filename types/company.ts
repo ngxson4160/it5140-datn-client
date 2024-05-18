@@ -1,6 +1,7 @@
 import type { EGender, EOrderPaging, IPagination } from './common';
 import type { EJobLevel, EJobMode } from './job';
 import type {
+  EApplicationClassify,
   ECompanySizeType,
   EEducationLevel,
   EMaritalStatus,
@@ -14,8 +15,10 @@ export interface IGetListJob extends IPagination {
 }
 
 export interface IGetListCandidate extends IPagination {
+  name?: string;
   jobId?: number;
   status?: string;
+  classify?: string;
   sortCreatedAt?: EOrderPaging;
 }
 
@@ -27,8 +30,7 @@ export interface ICandidate {
   interviewSchedule: string | null;
   companyRemark: string;
   candidateCv: string;
-  candidateFirstName: string;
-  candidateLastName: string;
+  candidateName: string;
   candidateEmail: string;
   candidatePhoneNumber: string;
   createdAt: string | null;

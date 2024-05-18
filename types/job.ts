@@ -12,14 +12,12 @@ export enum EJobMode {
 }
 
 export enum EApplicationStatus {
-  WAITING_CV,
-  APPROVE_CV,
-  REJECT_CV,
-  INTERVIEW,
-  PROCESSING,
+  WAITING,
+  CONTACTED,
+  INTERVIEWED,
   SUCCESS,
   FAILURE,
-  DELETED,
+  // DELETED,
 }
 
 export enum EJobLevel {

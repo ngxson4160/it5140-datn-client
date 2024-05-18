@@ -39,8 +39,8 @@ await userStore.getMyProfile();
 
 const dataApplyJob = ref({
   candidateCv: userStore.myProfile.candidateInformation?.cv,
-  candidateFirstName: userStore.myProfile.firstName,
-  candidateLastName: userStore.myProfile.lastName,
+  candidateName:
+    userStore.myProfile.firstName + ' ' + userStore.myProfile.lastName,
   candidateEmail: userStore.myProfile.email,
   candidatePhoneNumber: userStore.myProfile.phoneNumber,
 });

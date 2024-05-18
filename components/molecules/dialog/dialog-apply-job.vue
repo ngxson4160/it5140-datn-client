@@ -44,12 +44,8 @@
 
     <div class="flex mt-6 gap-x-10">
       <div class="w-full">
-        <p class="mt-6">Họ</p>
-        <el-input v-model="formData.candidateFirstName" class="!w-full" />
-      </div>
-      <div class="w-full">
-        <p class="mt-6">Tên</p>
-        <el-input v-model="formData.candidateLastName" class="!w-full" />
+        <p class="mt-6">Họ và tên</p>
+        <el-input v-model="formData.candidateName" class="!w-full" />
       </div>
     </div>
 

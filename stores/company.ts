@@ -21,9 +21,9 @@ export const useCompanyStore = defineStore(EStoreName.COMPANY, {
       return await useBaseFetch(`companies/jobs`, { query });
     },
 
-    async getListApplication(id: number, query: any) {
-      return await useBaseFetch(`companies/jobs/${id}/applications`, { query });
-    },
+    // async getListApplication(id: number, query: any) {
+    //   return await useBaseFetch(`companies/jobs/${id}/applications`, { query });
+    // },
 
     async getMyCompany() {
       return await useBaseFetch(`companies/my-company`);
