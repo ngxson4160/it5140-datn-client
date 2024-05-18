@@ -9,8 +9,8 @@
               <div
                 class="flex gap-x-1 items-center rounded-full bg-[#f2f5f8] px-2 cursor-pointer"
                 :class="
-                  userStore.myProfile.candidateInformation?.publicCVType ===
-                  EPublicCVType.SYSTEM_CV
+                  userStore.myProfile.candidateInformation?.publicCvType ===
+                  EPublicCvType.SYSTEM_CV
                     ? 'is-public-cv'
                     : 'custom-public-cv'
                 "
@@ -121,11 +121,11 @@
                 <div
                   class="h-7 absolute right-4 top-4 flex items-center rounded-full bg-[#f2f5f8] px-1 cursor-pointer"
                   :class="
-                    userStore.myProfile.candidateInformation?.publicCVType ===
-                      EPublicCVType.ATTACHMENT_CV &&
+                    userStore.myProfile.candidateInformation?.publicCvType ===
+                      EPublicCvType.ATTACHMENT_CV &&
                     cv?.url ===
                       userStore.myProfile.candidateInformation
-                        ?.publicAttachmentCV
+                        ?.publicAttachmentCv
                       ? 'is-public-cv'
                       : 'custom-public-cv'
                   "
@@ -984,8 +984,8 @@ const attachmentCVTitle = ref('');
 const attachmentCVUrl = ref('');
 const openDialogPublicSystemCV = () => {
   if (
-    userStore.myProfile.candidateInformation?.publicCVType ===
-    EPublicCVType.SYSTEM_CV
+    userStore.myProfile.candidateInformation?.publicCvType ===
+    EPublicCvType.SYSTEM_CV
   ) {
     showNotPublicCV.value = true;
     return;
@@ -994,9 +994,9 @@ const openDialogPublicSystemCV = () => {
 };
 const openDialogPublicAttachmentCV = (title: string, url: string) => {
   if (
-    userStore.myProfile.candidateInformation?.publicCVType ===
-      EPublicCVType.ATTACHMENT_CV &&
-    userStore.myProfile.candidateInformation?.publicAttachmentCV === url
+    userStore.myProfile.candidateInformation?.publicCvType ===
+      EPublicCvType.ATTACHMENT_CV &&
+    userStore.myProfile.candidateInformation?.publicAttachmentCv === url
   ) {
     showNotPublicCV.value = true;
     return;
@@ -1007,16 +1007,16 @@ const openDialogPublicAttachmentCV = (title: string, url: string) => {
 };
 const handlePublicAttachmentCV = async (url: string) => {
   await userStore.updateMyProfile({
-    publicCVType: EPublicCVType.ATTACHMENT_CV,
-    publicAttachmentCV: url,
+    publicCvType: EPublicCvType.ATTACHMENT_CV,
+    publicAttachmentCv: url,
   });
 };
 const handlePublicSystemCV = async () => {
-  await userStore.updateMyProfile({ publicCVType: EPublicCVType.SYSTEM_CV });
+  await userStore.updateMyProfile({ publicCvType: EPublicCvType.SYSTEM_CV });
 };
 const handleNotPublicCV = async () => {
   await userStore.updateMyProfile({
-    publicCVType: EPublicCVType.NOT_PUBLIC,
+    publicCvType: EPublicCvType.NOT_PUBLIC,
   });
 };
 </script>

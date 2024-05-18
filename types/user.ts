@@ -1,5 +1,5 @@
 import type { IPagination } from './common';
-import type { EEducationLevel, EPublicCVType } from '~/utils/enum';
+import type { EEducationLevel, EPublicCvType } from '~/utils/enum';
 
 export interface IUserProfile {
   id: number;
@@ -31,8 +31,8 @@ export interface IUserProfile {
   educationalLevel: EEducationLevel;
   candidateInformation: {
     id: number;
-    publicCVType: EPublicCVType;
-    publicAttachmentCV: string | null;
+    publicCvType: EPublicCvType;
+    publicAttachmentCv: string | null;
     target: string;
     userId: number;
     desiredJobCategoryId: number;
@@ -138,3 +138,5 @@ export interface IUserProfileResponse extends IResponse {
 export interface IGetListJobApplication extends IPagination {
   status?: number;
 }
+
+export interface IGetListFavoriteJob extends IPagination {}

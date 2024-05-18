@@ -86,5 +86,14 @@ export const useJobStore = defineStore(EStoreName.JOB, {
     async update(jobId: number, body: Partial<IJobCreate>) {
       return await useBaseFetch(`/jobs/${jobId}`, { method: 'PUT', body });
     },
+
+    async favoriteJob(jobId: number, body: { isFavorite: boolean }) {
+      return await useBaseFetch(`/jobs/${jobId}/favorites`, {
+        method: 'POST',
+        body,
+        loading: true,
+        notification: true,
+      });
+    },
   },
 });

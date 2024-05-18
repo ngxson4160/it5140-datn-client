@@ -1,12 +1,7 @@
 <template>
-  <!-- <div
-    class="bg-white flex items-center border h-[150px] rounded-lg py-2 px-4 hover:bg-[#1caf5705] hover:border-[#1caf573f] cursor-pointer"
-    @click="router.push(`/job/${data.id}`)"
-  > -->
   <div
     class="bg-white flex items-center border h-[150px] rounded-lg py-2 px-4 hover:bg-[#1caf5705] hover:border-[#1caf573f] cursor-pointer"
   >
-    <!-- <div class="w-full flex items-center justify-between"> -->
     <NuxtLink
       class="w-full flex items-center justify-between"
       target="_blank"
@@ -45,7 +40,6 @@
           >
             {{ `$ Thương lượng` }}
           </p>
-          <!-- <p class="text-sm text-one-line">{{data.city}}</p> -->
           <div class="flex gap-x-1">
             <div
               v-for="(city, index) in data.cities"
@@ -67,7 +61,18 @@
         </div>
       </div>
       <div class="flex flex-col justify-between items-end">
-        <img src="@/assets/images/heart-gray.svg" class="w-10" />
+        <img
+          v-if="userFollowJob"
+          src="@/assets/images/heart-primary.svg"
+          class="w-10"
+          @click.prevent="handleUnFavoriteJob"
+        />
+        <img
+          v-else
+          src="@/assets/images/heart-gray.svg"
+          class="w-10"
+          @click.prevent="handleFavoriteJob"
+        />
         <p class="text-gray mt-10 text-sm">
           Kết thúc: {{ formatDateFull(data.hiringEndDate) }}
         </p>
@@ -89,7 +94,26 @@ const props = defineProps({
   },
 });
 
-const router = useRouter();
+const jobStore = useJobStore();
+
+const userFollowJob = ref(props.data.userFollowJob);
+
+const handleFavoriteJob = async () => {
+  try {
+    await jobStore.favoriteJob(props.data.id, { isFavorite: true });
+    userFollowJob.value = true;
+  } catch (error: any) {
+    console.log(error);
+  }
+};
+const handleUnFavoriteJob = async () => {
+  try {
+    await jobStore.favoriteJob(props.data.id, { isFavorite: false });
+    userFollowJob.value = false;
+  } catch (error: any) {
+    console.log(error);
+  }
+};
 </script>
 
 <style scoped></style>

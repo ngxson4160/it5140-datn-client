@@ -91,24 +91,24 @@
           >
             <img
               v-if="
-                data?.candidateInformation?.publicCVType ===
-                EPublicCVType.ATTACHMENT_CV
+                data?.candidateInformation?.publicCvType ===
+                EPublicCvType.ATTACHMENT_CV
               "
               src="@/assets/images/pdf-danger.svg"
               class="w-3 cursor-pointer"
             />
             <img
               v-if="
-                data?.candidateInformation?.publicCVType ===
-                EPublicCVType.SYSTEM_CV
+                data?.candidateInformation?.publicCvType ===
+                EPublicCvType.SYSTEM_CV
               "
               src="@/assets/images/pdf-blue.svg"
               class="w-3 cursor-pointer"
             />
             <p class="font-bold">
               {{
-                data?.candidateInformation?.publicCVType ===
-                EPublicCVType.ATTACHMENT_CV
+                data?.candidateInformation?.publicCvType ===
+                EPublicCvType.ATTACHMENT_CV
                   ? 'Hồ sơ đính kèm'
                   : 'Hồ sơ Job Nest'
               }}
@@ -124,7 +124,7 @@
 <script setup lang="ts">
 import { CEducationLevel } from '~/utils/constant/common';
 import { CJobLevel } from '~/utils/constant/job';
-import { EPublicCVType } from '~/utils/enum';
+import { EPublicCvType } from '~/utils/enum';
 
 const props = defineProps({
   data: {

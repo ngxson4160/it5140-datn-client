@@ -1,4 +1,4 @@
-import { UseFetchOptions } from '#app';
+import type { UseFetchOptions } from '#app';
 
 export interface IJwt {
   token: string;
@@ -9,9 +9,13 @@ export async function useBaseFetch<T>(
   request: typeof NitroFetchRequest,
   opts?: UseFetchOptions<T> & {
     loading?: boolean;
+    notification?: boolean;
+    successMessage?: string;
   },
 ) {
   const loading = opts?.loading;
+  const notification = opts?.notification;
+  const successMessage = opts?.successMessage;
 
   const config = useRuntimeConfig();
 
@@ -59,7 +63,6 @@ export async function useBaseFetch<T>(
 
   const error: IResponse | null = errorOrigin?.value?.data || null;
 
-  // if (error) useNotificationError({ title: error?.errorMessage })
   if (error) useNotificationError({ title: error?.meta.message });
 
   // @ts-expect-error
@@ -70,6 +73,9 @@ export async function useBaseFetch<T>(
 
   // @ts-expect-error
   const meta = (dataOrigin?.value?.meta || error?.meta) as any;
+
+  if (notification)
+    useNotificationSuccess({ title: successMessage || 'Thành công' });
 
   return { error, pending, refresh, data, meta };
 }

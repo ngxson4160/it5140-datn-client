@@ -1,4 +1,8 @@
-import type { IGetListJobApplication, IUserProfile } from '~/types/user';
+import type {
+  IGetListFavoriteJob,
+  IGetListJobApplication,
+  IUserProfile,
+} from '~/types/user';
 
 export const useUserStore = defineStore(EStoreName.User, {
   state: () => ({
@@ -49,6 +53,13 @@ export const useUserStore = defineStore(EStoreName.User, {
       });
       useNotificationSuccess({ title: 'Thành công!' });
       return data;
+    },
+
+    async getListFavorite(query: IGetListFavoriteJob) {
+      return await useBaseFetch(`users/jobs/favorites`, {
+        query,
+        loading: true,
+      });
     },
 
     setMyProfile(data: IUserProfile) {

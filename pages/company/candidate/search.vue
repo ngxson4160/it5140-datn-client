@@ -133,7 +133,7 @@
 <script setup lang="ts">
 import type { EEducationLevel, EGender, EMaritalStatus } from '#imports';
 import type { EJobLevel, EJobMode } from '~/types/job';
-import { EPublicCVType } from '~/utils/enum';
+import { EPublicCvType } from '~/utils/enum';
 
 definePageMeta({
   layout: 'company-dashboard',
@@ -300,11 +300,11 @@ const callGetListCandidate = async () => {
 };
 
 const handleShowPreviewCV = (data: any) => {
-  const typeCV = data?.candidateInformation?.publicCVType;
-  if (typeCV === EPublicCVType.ATTACHMENT_CV) {
-    urlCVPreview.value = `${data?.candidateInformation?.publicAttachmentCV}`;
+  const typeCV = data?.candidateInformation?.publicCvType;
+  if (typeCV === EPublicCvType.ATTACHMENT_CV) {
+    urlCVPreview.value = `${data?.candidateInformation?.publicAttachmentCv}`;
     showCVPreviewAttachment.value = true;
-  } else if (typeCV === EPublicCVType.SYSTEM_CV) {
+  } else if (typeCV === EPublicCvType.SYSTEM_CV) {
     showCVPreviewSystem.value = true;
     dataCvSystem.value = data;
   }
