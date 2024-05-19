@@ -57,9 +57,9 @@ export const useCompanyStore = defineStore(EStoreName.COMPANY, {
           method: 'PUT',
           body,
           loading: true,
+          notification: true,
         },
       );
-      useNotificationSuccess({ title: 'Thành công!' });
     },
 
     async getListCompany(query: IGetListCompany) {

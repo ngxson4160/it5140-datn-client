@@ -81,7 +81,7 @@
             </p>
           </template>
         </el-table-column>
-        <el-table-column>
+        <!-- <el-table-column>
           <template #header>
             <p>Thông tin liên hệ</p>
           </template>
@@ -95,13 +95,43 @@
               <p>{{ scoped.row.candidatePhoneNumber }}</p>
             </div>
           </template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column>
           <template #header>
             <p>Công việc ứng tuyển</p>
           </template>
           <template #default="scoped">
-            {{ scoped.row.job.title }}
+            <p class="truncate">
+              {{ scoped.row.job.title }}
+            </p>
+          </template>
+        </el-table-column>
+        <el-table-column width="200">
+          <template #header>
+            <div class="flex cursor-pointer" @click="onOrderInterviewSchedule">
+              <p class="mr-2">Lịch hẹn</p>
+              <img
+                v-if="query.sortInterviewSchedule === EOrderPaging.DESC"
+                class="w-[22px]"
+                src="@/assets/images/sort-up-black.svg"
+              />
+              <img
+                v-else-if="query.sortInterviewSchedule === EOrderPaging.ASC"
+                class="w-[22px]"
+                src="@/assets/images/sort-down-black.svg"
+              />
+              <img
+                v-else
+                class="w-[24px]"
+                src="@/assets/images/sort-up-down-black.svg"
+              />
+            </div>
+          </template>
+          <template #default="scoped">
+            <p v-if="scoped.row.interviewSchedule">
+              {{ formatDateFull(scoped.row.interviewSchedule) }}
+            </p>
+            <p v-else class="text-grey">Chưa có</p>
           </template>
         </el-table-column>
         <el-table-column width="200">
@@ -114,9 +144,14 @@
                 src="@/assets/images/sort-up-black.svg"
               />
               <img
-                v-else
+                v-else-if="query.sortCreatedAt === EOrderPaging.ASC"
                 class="w-[22px]"
                 src="@/assets/images/sort-down-black.svg"
+              />
+              <img
+                v-else
+                class="w-[24px]"
+                src="@/assets/images/sort-up-down-black.svg"
               />
             </div>
           </template>
@@ -124,7 +159,7 @@
             <p>{{ formatDateFull(scoped.row.createdAt) }}</p>
           </template>
         </el-table-column>
-        <el-table-column width="150">
+        <el-table-column width="120">
           <template #header>
             <p>Hồ sơ</p>
           </template>
@@ -140,7 +175,13 @@
                 src="@/assets/images/pdf-blue.svg"
                 class="w-3 cursor-pointer"
               />
-              <p class="cursor-pointer font-bold ml-2">Xem hồ sơ</p>
+              <p
+                v-if="scoped.row.candidateCv"
+                class="cursor-pointer font-bold ml-2"
+              >
+                Đính kèm
+              </p>
+              <p v-else class="cursor-pointer font-bold ml-2">Job Nest</p>
             </div>
           </template>
         </el-table-column>
@@ -169,9 +210,9 @@
             </el-select>
           </template>
         </el-table-column>
-        <el-table-column width="205">
+        <el-table-column width="170">
           <template #header>
-            <p>Trạng thái tuyển dụng</p>
+            <p>Trạng thái</p>
           </template>
           <template #default="scoped">
             <el-select
@@ -212,6 +253,49 @@
             </div>
           </template>
         </el-table-column>
+        <el-table-column width="120">
+          <template #header><p class="text-center">Hành động</p></template>
+          <template #default="scoped">
+            <div class="flex justify-center">
+              <el-dropdown trigger="click">
+                <img
+                  src="@/assets/images/option-black.svg"
+                  class="w-7 cursor-pointer"
+                />
+                <template #dropdown>
+                  <el-dropdown-menu>
+                    <el-dropdown-item
+                      @click="
+                        handleConfirmEditInterviewSchedule(
+                          scoped.row.jobId,
+                          scoped.row.id,
+                          scoped.row.interviewSchedule,
+                        )
+                      "
+                    >
+                      <div class="flex">
+                        <img
+                          src="@/assets/images/time-black.svg"
+                          class="w-5 mr-2"
+                        />
+                        <p>Thêm/Sửa lịch hẹn</p>
+                      </div>
+                    </el-dropdown-item>
+                    <el-dropdown-item>
+                      <div class="flex">
+                        <img
+                          src="@/assets/images/message-black.svg"
+                          class="w-5 mr-2"
+                        />
+                        <p>Nhắn tin</p>
+                      </div>
+                    </el-dropdown-item>
+                  </el-dropdown-menu>
+                </template>
+              </el-dropdown>
+            </div>
+          </template>
+        </el-table-column>
       </el-table>
     </div>
 
@@ -246,13 +330,24 @@
       draggable
       @on-confirm="onChangeCompanyRemark"
     />
+
+    <dialog-confirm-action
+      v-model:dialog-visible="showEditInterviewSchedule"
+      title="Chọn ngày kết thúc"
+      @on-confirm="handleEditInterviewSchedule"
+    >
+      <el-date-picker
+        v-model="interviewScheduleDateChose"
+        type="datetime"
+        placeholder="Chọn này kết thúc"
+        format="DD-MM-YYYY HH:mm"
+      />
+    </dialog-confirm-action>
   </div>
 </template>
 
 <script setup lang="ts">
-import { Filter } from '@element-plus/icons-vue';
 import type { ICandidate, IGetListCandidate } from '~/types/company';
-import { CJobLevel } from '~/utils/constant/job';
 import {
   CApplicationClassify,
   CApplicationStatus,
@@ -269,7 +364,9 @@ const { query: urlQuery } = useRoute();
 const router = useRouter();
 
 const currentPage = ref<number>(1);
-const query = ref<IGetListCandidate>({ sortCreatedAt: EOrderPaging.DESC });
+const query = ref<IGetListCandidate>({
+  sortCreatedAt: EOrderPaging.DESC,
+});
 const filterName = ref<string>();
 const listCandidates = ref<ICandidate[]>([]);
 const meta = ref<any>({});
@@ -279,6 +376,8 @@ const dataCvSystem = ref();
 const urlCVPreview = ref('');
 const showCVPreviewSystem = ref(false);
 const showCVPreview = ref(false);
+const showEditInterviewSchedule = ref(false);
+const interviewScheduleDateChose = ref();
 
 const showRemark = ref(false);
 const textRemark = ref('');
@@ -319,12 +418,34 @@ const setCurrentPage = async (page: number) => {
 };
 
 const onOrderCreated = async () => {
-  if (query.value.sortCreatedAt === EOrderPaging.ASC) {
+  if (
+    query.value.sortCreatedAt === EOrderPaging.ASC ||
+    !query.value.sortCreatedAt
+  ) {
     query.value.sortCreatedAt = EOrderPaging.DESC;
   } else {
     query.value.sortCreatedAt = EOrderPaging.ASC;
   }
 
+  delete query.value.sortInterviewSchedule;
+  await getListCandidate({
+    ...query.value,
+    page: 1,
+  });
+  currentPage.value = 1;
+};
+
+const onOrderInterviewSchedule = async () => {
+  if (
+    query.value.sortInterviewSchedule === EOrderPaging.ASC ||
+    !query.value.sortInterviewSchedule
+  ) {
+    query.value.sortInterviewSchedule = EOrderPaging.DESC;
+  } else {
+    query.value.sortInterviewSchedule = EOrderPaging.ASC;
+  }
+
+  delete query.value.sortCreatedAt;
   await getListCandidate({
     ...query.value,
     page: 1,
@@ -333,8 +454,6 @@ const onOrderCreated = async () => {
 };
 
 const handleShowPreviewCV = (data: any) => {
-  // urlCVPreview.value = url;
-  // showCVPreview.value = true;
   const candidateCv = data?.candidateCv;
   if (candidateCv) {
     urlCVPreview.value = candidateCv;
@@ -394,6 +513,31 @@ const onChangeCompanyRemark = async () => {
 
   if (candidate) {
     candidate.companyRemark = textRemark.value;
+  }
+};
+
+const handleConfirmEditInterviewSchedule = (
+  jobId: number,
+  applicationId: number,
+  interviewSchedule: string,
+) => {
+  showEditInterviewSchedule.value = true;
+  jobIdClicked.value = jobId;
+  applicationIdClick.value = applicationId;
+  interviewScheduleDateChose.value = interviewSchedule;
+};
+
+const handleEditInterviewSchedule = async () => {
+  await companyStore.updateJobApplication(
+    jobIdClicked.value,
+    applicationIdClick.value,
+    { interviewSchedule: interviewScheduleDateChose.value },
+  );
+  const candidateUpdated = listCandidates.value.find(
+    (el) => el.id === applicationIdClick.value,
+  );
+  if (candidateUpdated) {
+    candidateUpdated.interviewSchedule = interviewScheduleDateChose.value;
   }
 };
 

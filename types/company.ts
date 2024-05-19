@@ -20,6 +20,7 @@ export interface IGetListCandidate extends IPagination {
   status?: string;
   classify?: string;
   sortCreatedAt?: EOrderPaging;
+  sortInterviewSchedule?: EOrderPaging;
 }
 
 export interface ICandidate {

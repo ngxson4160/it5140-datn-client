@@ -130,14 +130,6 @@
         <el-table-column width="120">
           <template #header><p class="text-center">Hành động</p></template>
           <template #default="scoped">
-            <!-- <p>{{ scoped.row.status }}</p> -->
-
-            <!-- <div class="flex justify-center">
-              <img
-                src="@/assets/images/option-black.svg"
-                class="w-7 cursor-pointer"
-              />
-            </div> -->
             <div class="flex justify-center">
               <el-dropdown trigger="click">
                 <img
