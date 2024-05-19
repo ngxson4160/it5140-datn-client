@@ -7,7 +7,7 @@
     align-center
   >
     <template #header>
-      <p class="text-base font-bold text-center">Xác nhận</p>
+      <p class="text-base font-bold text-center">{{ title }}</p>
     </template>
     <div class="text-center">
       <slot></slot>
@@ -33,6 +33,10 @@ const props = defineProps({
   dialogVisible: {
     type: Boolean,
     default: false,
+  },
+  title: {
+    type: String,
+    default: 'Xác nhận',
   },
   content: {
     type: String,

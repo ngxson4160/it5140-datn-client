@@ -18,7 +18,7 @@ export const useCompanyStore = defineStore(EStoreName.COMPANY, {
   state: () => ({}),
   actions: {
     async getListJobs(query?: IGetListJob) {
-      return await useBaseFetch(`companies/jobs`, { query });
+      return await useBaseFetch(`companies/jobs`, { query, loading: true });
     },
 
     // async getListApplication(id: number, query: any) {
