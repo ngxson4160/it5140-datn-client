@@ -1,4 +1,9 @@
-import type { IGetListJob, IUpdateCompany } from '~/types/company';
+import type {
+  IGetListCompany,
+  IGetListJob,
+  ISearchCandidate,
+  IUpdateCompany,
+} from '~/types/company';
 
 export interface ICompany {
   id: number | null;
@@ -13,12 +18,12 @@ export const useCompanyStore = defineStore(EStoreName.COMPANY, {
   state: () => ({}),
   actions: {
     async getListJobs(query?: IGetListJob) {
-      return await useBaseFetch(`companies/jobs`, { query });
+      return await useBaseFetch(`companies/jobs`, { query, loading: true });
     },
 
-    async getListApplication(id: number, query: any) {
-      return await useBaseFetch(`companies/jobs/${id}/applications`, { query });
-    },
+    // async getListApplication(id: number, query: any) {
+    //   return await useBaseFetch(`companies/jobs/${id}/applications`, { query });
+    // },
 
     async getMyCompany() {
       return await useBaseFetch(`companies/my-company`);
@@ -52,9 +57,22 @@ export const useCompanyStore = defineStore(EStoreName.COMPANY, {
           method: 'PUT',
           body,
           loading: true,
+          notification: true,
         },
       );
-      useNotificationSuccess({ title: 'Thành công!' });
+    },
+
+    async getListCompany(query: IGetListCompany) {
+      return await useBaseFetch(`companies`, { query, loading: true });
+    },
+
+    async searchCandidate(query: ISearchCandidate) {
+      const data = await useBaseFetch(`/candidates`, {
+        method: 'GET',
+        query,
+        loading: true,
+      });
+      return data;
     },
   },
 });

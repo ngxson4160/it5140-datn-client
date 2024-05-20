@@ -41,17 +41,41 @@
 
       <div class="col-span-1">
         <p class="mb-2">Tỉnh/Thành phố</p>
-        <select-city
+        <el-select
           v-model="formData.cityId"
+          size="large"
+          placeholder="Chọn thành phố"
           class="w-full"
-          :is-multiple="false"
-          size="medium"
-        />
+          @change="handleChangeCity"
+        >
+          <el-option
+            v-for="item in useCity.listCities"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id"
+          >
+            {{ item.name }}
+          </el-option>
+        </el-select>
       </div>
 
       <div class="col-span-1">
         <p class="mb-2">Quận/Huyện</p>
-        <el-select v-model="formData.district" class="w-full" />
+        <el-select
+          v-model="formData.districtId"
+          size="large"
+          placeholder="Chọn quận/huyện"
+          class="w-full"
+        >
+          <el-option
+            v-for="item in listDistrict"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id"
+          >
+            {{ item.name }}
+          </el-option>
+        </el-select>
       </div>
     </div>
 
@@ -95,6 +119,18 @@ const handleConfirm = () => {
   emits('onConfirm', formData.value);
   syncDialogVisible.value = false;
 };
+
+const useCity = useCityStore();
+await useCity.getListCityAndDistrict();
+
+const listDistrict = ref<Array<{ id: number; name: string }>>();
+const handleChangeCity = () => {
+  if (!formData.value.cityId) listDistrict.value = [];
+  const city = useCity.listCities.find((el) => el.id === formData.value.cityId);
+  formData.value.cityName = city?.name ?? '';
+  listDistrict.value = city?.districts;
+};
+handleChangeCity();
 </script>
 
 <style scoped></style>

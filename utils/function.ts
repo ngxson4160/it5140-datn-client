@@ -30,3 +30,32 @@ export const isEmptyObject = (obj: object) => {
 
   return true;
 };
+
+export const calcAge = (dob: string) => {
+  // Lấy ngày hiện tại
+  const now = new Date();
+
+  // Lấy năm, tháng, ngày hiện tại
+  const yearNow = now.getFullYear();
+  const monthNow = now.getMonth();
+  const dayNow = now.getDate();
+
+  // Lấy năm, tháng, ngày sinh
+  const dobConvert = new Date(dob);
+  const yearOfBirth = dobConvert.getFullYear();
+  const monthOfBirth = dobConvert.getMonth();
+  const dayOfBirth = dobConvert.getDate();
+
+  // Tính tuổi
+  let age = yearNow - yearOfBirth;
+
+  // Điều chỉnh nếu chưa đến ngày sinh nhật trong năm hiện tại
+  if (
+    monthNow < monthOfBirth ||
+    (monthNow === monthOfBirth && dayNow < dayOfBirth)
+  ) {
+    age--;
+  }
+
+  return age;
+};

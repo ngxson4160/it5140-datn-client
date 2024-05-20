@@ -77,7 +77,22 @@
                 >
                   Ứng tuyển ngay
                 </el-button>
-                <el-button class="col-span-1 !h-10" @click="handleFollowJob">
+                <el-button
+                  v-if="job.userFollowJob"
+                  class="col-span-1 !h-10"
+                  @click="handleFollowJob(false)"
+                >
+                  <img
+                    src="@/assets/images/heart-primary.svg"
+                    class="w-6 mr-1"
+                  />
+                  Hủy lưu
+                </el-button>
+                <el-button
+                  v-else
+                  class="col-span-1 !h-10"
+                  @click="handleFollowJob(true)"
+                >
                   <img
                     src="@/assets/images/heart-border-gray.svg"
                     class="w-6 mr-1"
@@ -261,8 +276,8 @@ const handleApplyJob = () => {
   emits('onApplyJob');
 };
 
-const handleFollowJob = () => {
-  emits('onFollowJob');
+const handleFollowJob = (isFavorite: boolean) => {
+  emits('onFollowJob', isFavorite);
 };
 </script>
 

@@ -66,6 +66,10 @@
     unicode-bidi: isolate;
   }
 
+  p:empty {
+    height: 10px;
+  }
+
   code {
     background-color: rgba(#616161, 0.1);
     border-radius: 0.25em;
@@ -373,4 +377,12 @@
 
 .el-tabs__item {
   @apply text-base #{!important};
+}
+
+.el-timeline-item__node--normal {
+  @apply bg-[#1caf57];
+}
+
+.el-timeline-item__tail {
+  @apply border-[#1caf5757]  #{!important};
 }

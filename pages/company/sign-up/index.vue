@@ -115,7 +115,9 @@
 
 <script setup lang="ts">
 import type { FormInstance, FormRules } from 'element-plus';
-
+definePageMeta({
+  middleware: ['redirect'],
+});
 const authStore = useAuthStore();
 
 const initCompanyRegisterAccount = {

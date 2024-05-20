@@ -4,7 +4,7 @@
   >
     <div
       class="text-4xl font-bold hover:cursor-pointer"
-      @click="router.push('/')"
+      @click="router.push('/user')"
     >
       Job
       <span class="text-green">Nest</span>
@@ -13,42 +13,35 @@
     <div class="flex gap-x-10">
       <p
         class="hover:cursor-pointer hover:text-green font-medium"
-        @click="router.push('/')"
+        @click="router.push('/user')"
       >
         Trang chủ
       </p>
 
       <p
         class="hover:cursor-pointer hover:text-green font-medium"
-        @click="router.push('/job/list')"
+        @click="router.push('/user/job/list')"
       >
         Tìm việc
       </p>
 
       <p
         class="hover:cursor-pointer hover:text-green font-medium"
-        @click="router.push('/companies')"
+        @click="router.push('/user/company/list')"
       >
         Công ty
       </p>
 
       <p
         class="hover:cursor-pointer hover:text-green font-medium"
-        @click="router.push('/candidates')"
-      >
-        Ứng viên
-      </p>
-
-      <p
-        class="hover:cursor-pointer hover:text-green font-medium"
-        @click="router.push('/blogs')"
+        @click="router.push('/user/blogs')"
       >
         Blog
       </p>
 
       <p
         class="hover:cursor-pointer hover:text-green font-medium"
-        @click="router.push('/about-us')"
+        @click="router.push('/user/about-us')"
       >
         Về chúng tôi
       </p>

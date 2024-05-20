@@ -95,6 +95,10 @@ import { ref } from 'vue';
 import { object, string, type InferType } from 'yup';
 import { useAuthStore } from '../stores/auth';
 
+definePageMeta({
+  middleware: ['redirect'],
+});
+
 // data
 const authStore = useAuthStore();
 

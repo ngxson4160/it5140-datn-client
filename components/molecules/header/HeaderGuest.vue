@@ -27,17 +27,17 @@
 
       <p
         class="hover:cursor-pointer hover:text-green font-medium"
-        @click="router.push('/company')"
+        @click="router.push('/company/list')"
       >
         Công ty
       </p>
 
-      <p
+      <!-- <p
         class="hover:cursor-pointer hover:text-green font-medium"
         @click="router.push('/candidate')"
       >
         Ứng viên
-      </p>
+      </p> -->
 
       <p
         class="hover:cursor-pointer hover:text-green font-medium"

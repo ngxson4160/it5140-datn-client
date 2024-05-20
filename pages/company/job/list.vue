@@ -2,15 +2,34 @@
   <div class="bg-white h-full mr-4 p-4 shadow-md rounded-md">
     <p class="font-bold text-xl mb-10 pb-2 border-b">Công việc tuyển dụng</p>
 
-    <div class="flex gap-x-4 justify-between items-center">
-      <p class="w-[100px]">Bộ lọc</p>
-      <el-input
-        v-model="query.title"
+    <div class="flex justify-between mb-4">
+      <div>
+        <el-input
+          v-model="filterTitle"
+          size="large"
+          style="width: 875px"
+          placeholder="Nhập từ khóa"
+          clearable
+        />
+        <el-button
+          size="large"
+          type="primary"
+          class="w-[121px] ml-4"
+          @click="onSearchJob"
+        >
+          Tìm kiếm
+        </el-button>
+      </div>
+      <el-button
         size="large"
-        style="width: 350px"
-        placeholder="Nhập từ khóa"
-        clearable
-      />
+        :icon="Plus"
+        @click="navigateTo('/company/job/create')"
+      >
+        Tạo mới
+      </el-button>
+    </div>
+    <div class="flex gap-x-4 items-center w-[875px]">
+      <p class="text-sm">Bộ lọc:</p>
       <el-select
         v-model:model-value="query.type"
         size="large"
@@ -25,27 +44,12 @@
           :label="el.name"
         />
       </el-select>
-      <el-select
+      <!-- <el-select
         size="large"
         style="width: 350px"
         placeholder="Trạng thái phê duyệt"
         clearable
-      />
-      <el-button
-        size="large"
-        type="primary"
-        class="w-[121px]"
-        @click="onSearchJob"
-      >
-        Tìm kiếm
-      </el-button>
-      <el-button
-        size="large"
-        :icon="Plus"
-        @click="navigateTo('/company/job/create')"
-      >
-        Tạo mới
-      </el-button>
+      /> -->
     </div>
 
     <div class="flex justify-end mt-4"></div>
@@ -69,7 +73,7 @@
             </p>
           </template>
         </el-table-column>
-        <el-table-column width="200">
+        <el-table-column width="220">
           <template #header>
             <div class="flex cursor-pointer" @click="onOrderCreated">
               <p class="mr-2">Ngày đăng</p>
@@ -86,13 +90,13 @@
             </div>
           </template>
           <template #default="scoped">
-            <p>{{ formatDateShort(scoped.row.createdAt) }}</p>
+            <p>{{ formatDateFull(scoped.row.createdAt) }}</p>
           </template>
         </el-table-column>
-        <el-table-column width="200">
+        <el-table-column width="210">
           <template #header><p>Thời hạn nộp</p></template>
           <template #default="scoped">
-            <p>{{ formatDateShort(scoped.row.hiringEndDate) }}</p>
+            <p>{{ formatDateFull(scoped.row.hiringEndDate) }}</p>
           </template>
         </el-table-column>
         <el-table-column width="120">
@@ -117,23 +121,15 @@
             </p>
           </template>
         </el-table-column>
-        <el-table-column width="135">
+        <!-- <el-table-column width="135">
           <template #header><p class="text-center">Trạng thái</p></template>
           <template #default="scoped">
             <p class="text-center">{{ scoped.row.status }}</p>
           </template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column width="120">
           <template #header><p class="text-center">Hành động</p></template>
           <template #default="scoped">
-            <!-- <p>{{ scoped.row.status }}</p> -->
-
-            <!-- <div class="flex justify-center">
-              <img
-                src="@/assets/images/option-black.svg"
-                class="w-7 cursor-pointer"
-              />
-            </div> -->
             <div class="flex justify-center">
               <el-dropdown trigger="click">
                 <img
@@ -142,13 +138,43 @@
                 />
                 <template #dropdown>
                   <el-dropdown-menu>
-                    <el-dropdown-item>
+                    <el-dropdown-item
+                      :disabled="
+                        scoped.row.hiringEndDate <= new Date().toISOString()
+                      "
+                      @click="handleEndJobEarly(scoped.row.id)"
+                    >
                       <div class="flex">
                         <img
+                          v-if="
+                            scoped.row.hiringEndDate > new Date().toISOString()
+                          "
                           src="@/assets/images/time-black.svg"
                           class="w-5 mr-2"
                         />
                         <p>Kết thúc sớm</p>
+                      </div>
+                    </el-dropdown-item>
+                    <el-dropdown-item
+                      :disabled="
+                        scoped.row.hiringEndDate > new Date().toISOString()
+                      "
+                      @click="handleConfirmReopen(scoped.row.id)"
+                    >
+                      <div class="flex">
+                        <img
+                          v-if="
+                            scoped.row.hiringEndDate > new Date().toISOString()
+                          "
+                          src="@/assets/images/reopen-gray.svg"
+                          class="w-5 mr-2"
+                        />
+                        <img
+                          v-else
+                          src="@/assets/images/reopen-black.svg"
+                          class="w-5 mr-2"
+                        />
+                        <p>Tuyển lại</p>
                       </div>
                     </el-dropdown-item>
                     <el-dropdown-item
@@ -166,7 +192,11 @@
                         <p>Sửa</p>
                       </div>
                     </el-dropdown-item>
-                    <el-dropdown-item>
+                    <el-dropdown-item
+                      @click="
+                        handleConfirmDelete(scoped.row.id, scoped.row.title)
+                      "
+                    >
                       <div class="flex">
                         <img
                           src="@/assets/images/bin-danger.svg"
@@ -196,6 +226,33 @@
       />
     </div>
   </div>
+
+  <dialog-confirm-action
+    v-model:dialog-visible="showConfirmDelete"
+    @on-confirm="handleDeleteJob"
+  >
+    <p>
+      Xác nhận xóa bài đăng
+      <span class="font-bold">{{ `"${jobTitleChose}"` }}</span>
+    </p>
+    <p>
+      Nếu thực hiện hành động này thì thông tin của những ứng viên đã ứng tuyển
+      công việc này sẽ mất đi
+    </p>
+  </dialog-confirm-action>
+
+  <dialog-confirm-action
+    v-model:dialog-visible="showReopenJob"
+    title="Chọn ngày kết thúc"
+    @on-confirm="handleReopenJob"
+  >
+    <el-date-picker
+      v-model="jobHiringEndDateChose"
+      type="date"
+      placeholder="Chọn này kết thúc"
+      :disabled-date="handleDisableDate"
+    />
+  </dialog-confirm-action>
 </template>
 
 <script setup lang="ts">
@@ -206,18 +263,31 @@ import { CJobType } from '~/utils/constant/job';
 
 definePageMeta({
   layout: 'company-dashboard',
+  middleware: ['redirect'],
 });
 
+const handleDisableDate = (data: any) => {
+  const now = new Date();
+  return data.getTime() < now.getTime();
+};
+
 const router = useRouter();
+const showConfirmDelete = ref(false);
+const showReopenJob = ref(false);
+const jobIdChose = ref();
+const jobTitleChose = ref();
+const jobHiringEndDateChose = ref();
 
 const currentPage = ref<number>(1);
 const query = ref<IGetListJob>({ sortCreatedAt: EOrderPaging.DESC });
+const filterTitle = ref<string>();
 const listJobs = ref<IJob[]>([]);
 const meta = ref<any>({});
 
 query.value.limit = 5;
 
 const companyStore = useCompanyStore();
+const jobStore = useJobStore();
 const data = await companyStore.getListJobs({
   ...query.value,
 });
@@ -235,6 +305,7 @@ const setCurrentPage = async (page: number) => {
 };
 
 const onSearchJob = async () => {
+  query.value.title = filterTitle.value;
   const data = await companyStore.getListJobs({
     ...query.value,
     page: 1,
@@ -258,6 +329,55 @@ const onOrderCreated = async () => {
   listJobs.value = data.data as IJob[];
   meta.value = data.meta;
 };
+
+const handleEndJobEarly = async (id: number) => {
+  const now = new Date();
+  await jobStore.update(id, { hiringEndDate: now.toISOString() });
+  const jobUpdate = listJobs.value.find((el) => el.id === id);
+  if (jobUpdate) {
+    jobUpdate.hiringEndDate = now.toISOString();
+  }
+};
+
+const handleConfirmDelete = (id: number, title: string) => {
+  showConfirmDelete.value = true;
+  jobIdChose.value = id;
+  jobTitleChose.value = title;
+};
+const handleDeleteJob = async () => {
+  const id = jobIdChose.value;
+  await jobStore.deleteJob(id);
+  listJobs.value = listJobs.value.filter((el) => el.id !== id);
+};
+
+const handleConfirmReopen = (id: number) => {
+  showReopenJob.value = true;
+  jobIdChose.value = id;
+};
+const handleReopenJob = async () => {
+  const id = jobIdChose.value;
+  await jobStore.update(id, {
+    hiringEndDate: jobHiringEndDateChose.value,
+  });
+  const jobUpdate = listJobs.value.find((el) => el.id === id);
+  if (jobUpdate) {
+    jobUpdate.hiringEndDate = jobHiringEndDateChose.value;
+  }
+  jobHiringEndDateChose.value = null;
+};
+
+watch(
+  () => query.value.type,
+  async (newVal) => {
+    const data = await companyStore.getListJobs({
+      ...query.value,
+      page: 1,
+    });
+    currentPage.value = 1;
+    listJobs.value = data.data as IJob[];
+    meta.value = data.meta;
+  },
+);
 </script>
 
 <style lang="scss">

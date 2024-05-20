@@ -99,7 +99,7 @@
     </div>
   </div>
 
-  <dialog-preview-cv
+  <dialog-preview-cv-attachment
     v-model:dialog-visible="showCVPreview"
     :url="urlCVPreview"
   />

@@ -1,10 +1,11 @@
 import type { IPagination } from './common';
-import type { EEducationLevel } from '#imports';
+import type { EEducationLevel, EPublicCvType } from '~/utils/enum';
 
 export interface IUserProfile {
   id: number;
   companyId: number | null;
   cityId: number | null;
+  districtId: number | null;
   email: string;
   firstName: string;
   lastName: string;
@@ -12,7 +13,6 @@ export interface IUserProfile {
   dob: string;
   gender: number;
   phoneNumber: string;
-  district: string;
   maritalStatus: number;
   address: string;
   status: number;
@@ -24,9 +24,15 @@ export interface IUserProfile {
     id: number;
     name: string;
   };
+  district: {
+    id: number;
+    name: string;
+  };
   educationalLevel: EEducationLevel;
   candidateInformation: {
     id: number;
+    publicCvType: EPublicCvType;
+    publicAttachmentCv: string | null;
     target: string;
     userId: number;
     desiredJobCategoryId: number;
@@ -68,6 +74,12 @@ export interface IUserProfile {
     languageSkill: Array<{
       name: string;
       level: number;
+    }>;
+    project: Array<{
+      name: string;
+      start: string;
+      end: string;
+      description: string;
     }>;
     status: number;
     createdAt: string;
@@ -126,3 +138,5 @@ export interface IUserProfileResponse extends IResponse {
 export interface IGetListJobApplication extends IPagination {
   status?: number;
 }
+
+export interface IGetListFavoriteJob extends IPagination {}

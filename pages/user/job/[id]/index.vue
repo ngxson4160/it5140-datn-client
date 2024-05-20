@@ -4,6 +4,7 @@
     :job="job"
     :company="company"
     @on-apply-job="showApplyJob = true"
+    @on-follow-job="handleFollowJob"
   />
 
   <dialog-apply-job
@@ -15,10 +16,8 @@
 
 <script setup lang="ts">
 definePageMeta({
-  middleware: ['redirect-to-guest-router'],
+  middleware: ['redirect'],
 });
-
-console.log('run user job [id]');
 
 const job = ref();
 const company = ref();
@@ -40,15 +39,34 @@ await userStore.getMyProfile();
 
 const dataApplyJob = ref({
   candidateCv: userStore.myProfile.candidateInformation?.cv,
-  candidateFirstName: userStore.myProfile.firstName,
-  candidateLastName: userStore.myProfile.lastName,
+  candidateName:
+    userStore.myProfile.firstName + ' ' + userStore.myProfile.lastName,
   candidateEmail: userStore.myProfile.email,
   candidatePhoneNumber: userStore.myProfile.phoneNumber,
 });
 
 const handleApplyJob = async (data: any) => {
-  await userStore.applyJob(+params.id, data);
-  console.log('handleApplyJob', data);
+  try {
+    let cvType;
+    if (data?.candidateCv === '') {
+      cvType = EPublicCvType.SYSTEM_CV;
+    } else {
+      cvType = EPublicCvType.ATTACHMENT_CV;
+    }
+    await userStore.applyJob(+params.id, { ...data, cvType });
+    job.value.application.status = true;
+  } catch (error: any) {
+    console.log(error);
+  }
+};
+
+const handleFollowJob = async (isFavorite: boolean) => {
+  try {
+    await jobStore.favoriteJob(+params.id, { isFavorite });
+    job.value.userFollowJob = isFavorite;
+  } catch (error: any) {
+    console.log(error);
+  }
 };
 </script>
 

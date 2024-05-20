@@ -76,7 +76,7 @@ export const useJobStore = defineStore(EStoreName.JOB, {
     },
 
     async getListJob(query: IGetListJobParams) {
-      return await useBaseFetch(`/jobs`, { query });
+      return await useBaseFetch(`/jobs`, { query, loading: true });
     },
 
     async createJob(body: IJobCreate) {
@@ -84,7 +84,29 @@ export const useJobStore = defineStore(EStoreName.JOB, {
     },
 
     async update(jobId: number, body: Partial<IJobCreate>) {
-      return await useBaseFetch(`/jobs/${jobId}`, { method: 'PUT', body });
+      return await useBaseFetch(`/jobs/${jobId}`, {
+        method: 'PUT',
+        body,
+        loading: true,
+        notification: true,
+      });
+    },
+
+    async favoriteJob(jobId: number, body: { isFavorite: boolean }) {
+      return await useBaseFetch(`/jobs/${jobId}/favorites`, {
+        method: 'POST',
+        body,
+        loading: true,
+        notification: true,
+      });
+    },
+
+    async deleteJob(jobId: number) {
+      return await useBaseFetch(`/jobs/${jobId}`, {
+        method: 'DELETE',
+        loading: true,
+        notification: true,
+      });
     },
   },
 });
