@@ -358,6 +358,7 @@ import type { EApplicationClassify } from '~/utils/enum';
 
 definePageMeta({
   layout: 'company-dashboard',
+  middleware: ['redirect'],
 });
 
 const { query: urlQuery } = useRoute();

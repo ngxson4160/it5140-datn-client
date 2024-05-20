@@ -13,7 +13,7 @@
 <script setup lang="ts">
 definePageMeta({
   layout: 'user-header',
-  middleware: ['redirect-to-guest-router'],
+  middleware: ['redirect'],
 });
 const company = ref();
 const listJob = ref();

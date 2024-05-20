@@ -1,9 +1,9 @@
 <template>
   <div class="h-full">
-    <header-auth class="border-b shadow-md" />
-    <div class="bg-[#f2f5f8] h-full flex gap-x-4 pt-4">
+    <header-company class="shadow-md" />
+    <div class="bg-[#f2f5f8] h-full flex gap-x-4">
       <company-side-bar />
-      <div class="flex-1">
+      <div class="flex-1 pt-4">
         <slot />
       </div>
     </div>

@@ -263,6 +263,7 @@ import { CJobType } from '~/utils/constant/job';
 
 definePageMeta({
   layout: 'company-dashboard',
+  middleware: ['redirect'],
 });
 
 const handleDisableDate = (data: any) => {

@@ -86,8 +86,11 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-
 import { object, string, type InferType } from 'yup';
+
+definePageMeta({
+  middleware: ['redirect'],
+});
 
 // data
 const authStore = useAuthStore();

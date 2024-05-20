@@ -5,7 +5,7 @@
 <script setup lang="ts">
 definePageMeta({
   layout: 'guest',
-  middleware: ['redirect-to-user-router'],
+  middleware: ['redirect'],
 });
 </script>
 

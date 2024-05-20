@@ -282,6 +282,12 @@
 
 <script setup lang="ts">
 import type { ISearchJobHome } from '~/components/molecules/SearchJob.vue';
+const props = defineProps({
+  role: {
+    type: Number,
+    default: ERole.USER,
+  },
+});
 
 const handleSearchJob = (data: ISearchJobHome) => {
   const filter = data.filter ? data.filter : undefined;
@@ -291,7 +297,7 @@ const handleSearchJob = (data: ISearchJobHome) => {
     : undefined;
 
   navigateTo({
-    path: 'job/list',
+    path: props.role === ERole.USER ? '/job/list' : '/user/job/list',
     query: {
       filter,
       cityIds,

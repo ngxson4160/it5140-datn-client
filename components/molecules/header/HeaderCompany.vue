@@ -1,63 +1,34 @@
 <template>
   <div
-    class="h-[80px] px-[250px] flex w-full justify-between items-center shadow-lg"
+    class="h-[80px] pr-[150px] flex w-full justify-between items-center shadow-lg bg-[#1caf57]"
   >
     <div
-      class="text-4xl font-bold hover:cursor-pointer"
-      @click="router.push('/')"
+      class="w-[350px] text-center flex items-center justify-center bg-white h-full"
     >
-      Job
-      <span class="text-green">Nest</span>
-    </div>
-
-    <div class="flex gap-x-10">
-      <p
-        class="hover:cursor-pointer hover:text-green font-medium"
+      <div
+        class="text-4xl font-bold hover:cursor-pointer"
         @click="router.push('/company/profile')"
       >
-        Trang chủ
-      </p>
-
-      <p
-        class="hover:cursor-pointer hover:text-green font-medium"
-        @click="router.push('/company/job/list')"
-      >
-        Quản lý tuyển dụng
-      </p>
-
-      <p
-        class="hover:cursor-pointer hover:text-green font-medium"
-        @click="router.push('/company/candidate/list')"
-      >
-        Quản lý ứng viên
-      </p>
-
-      <p
-        class="hover:cursor-pointer hover:text-green font-medium"
-        @click="router.push('/company/blog/list')"
-      >
-        Quản lý blog
-      </p>
-
-      <p
-        class="hover:cursor-pointer hover:text-green font-medium"
-        @click="router.push('/company/message')"
-      >
-        Tin nhắn
-      </p>
-
-      <p
-        class="hover:cursor-pointer hover:text-green font-medium"
-        @click="router.push('/about-us')"
-      >
-        Về chúng tôi
-      </p>
+        Job
+        <span class="text-green">Nest</span>
+      </div>
     </div>
 
-    <div class="flex items-center">
-      <div class="mr-10 flex items-center">
-        <img src="@/assets/images/notification.svg" class="w-7 mr-1" />
-        Thông báo
+    <div class="flex items-center gap-x-4">
+      <div class="flex items-center">
+        <img src="@/assets/images/notification-white.svg" class="w-7" />
+      </div>
+      <div class="flex items-center">
+        <img src="@/assets/images/message-white.svg" class="w-7" />
+      </div>
+      <div
+        class="flex items-center gap-x-2 border-grey border rounded-full px-[6px] py-[3px]"
+      >
+        <img
+          src="https://job-nest.s3.ap-southeast-1.amazonaws.com/images/0016cf9101bd8164b99c675804f14b0ff6ea6a552fbcc7d113ae90a7f2032a9f4b4893f4377a704a44d28bd91beee557913fe95abedf75a54f74b8890886a47b.png"
+          class="w-[48px] h-[48px] rounded-full border hover:cursor-pointer focus:outline-none"
+        />
+        <p class="text-white text-[15px]">Bộ phân tuyển dụng</p>
       </div>
     </div>
   </div>

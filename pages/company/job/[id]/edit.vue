@@ -10,6 +10,7 @@
 <script setup lang="ts">
 definePageMeta({
   layout: 'company-dashboard',
+  middleware: ['redirect'],
 });
 
 const job = ref();

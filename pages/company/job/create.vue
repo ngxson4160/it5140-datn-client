@@ -181,6 +181,7 @@ import type { IJobCreate } from '~/types/job';
 
 definePageMeta({
   layout: 'company-dashboard',
+  middleware: ['redirect'],
 });
 
 const router = useRouter();

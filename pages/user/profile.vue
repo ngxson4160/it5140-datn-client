@@ -669,6 +669,7 @@ import { CJobLevel, CJobMode } from '@/utils/constant/job';
 
 definePageMeta({
   layout: 'user-dashboard',
+  middleware: ['redirect'],
 });
 
 const activeName = ref('general');

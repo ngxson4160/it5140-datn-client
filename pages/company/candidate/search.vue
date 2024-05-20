@@ -137,7 +137,8 @@ import { EPublicCvType } from '~/utils/enum';
 
 definePageMeta({
   layout: 'company-dashboard',
-  roles: [ERole.COMPANY],
+  middleware: ['redirect'],
+  // roles: [ERole.COMPANY],
 });
 
 export interface IFilterCandidate {

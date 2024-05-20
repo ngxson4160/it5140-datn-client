@@ -13,6 +13,7 @@
 <script setup lang="ts">
 definePageMeta({
   layout: 'guest',
+  middleware: ['redirect'],
 });
 
 const company = ref();

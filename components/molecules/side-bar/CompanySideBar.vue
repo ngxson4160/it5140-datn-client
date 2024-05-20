@@ -10,6 +10,12 @@
       <img :src="item.img" alt="" class="w-8" />
       <p class="text-base">{{ item.label }}</p>
     </NuxtLink>
+    <p
+      class="text-base hover:underline font-bold text-center cursor-pointer mt-4 text-green"
+      @click="handleLogout"
+    >
+      Đăng xuất
+    </p>
   </div>
 </template>
 
