@@ -19,7 +19,8 @@ export enum EStoreName {
   JOB = 'job',
   City = 'city',
   COMPANY = 'company',
-  User = 'User',
+  User = 'user',
+  Notification = 'notification',
 }
 
 export enum EGender {
@@ -83,4 +84,9 @@ export enum EApplicationClassify {
   ONE = 1,
   TWO = 2,
   THREE = 3,
+}
+
+export enum ENotificationStatus {
+  UNREAD,
+  READ,
 }

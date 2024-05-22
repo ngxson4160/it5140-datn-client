@@ -87,4 +87,9 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
+  nitro: {
+    experimental: {
+      websocket: true,
+    },
+  },
 });
