@@ -58,7 +58,6 @@ function checkPath(arr: RegExp[], str: string) {
 }
 
 export default defineNuxtRouteMiddleware((to) => {
-  console.log('run here');
   const cookieSystemData = useCookie('auth.user-data').value;
 
   if (!cookieSystemData) {

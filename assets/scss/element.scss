@@ -386,3 +386,21 @@
 .el-timeline-item__tail {
   @apply border-[#1caf5757]  #{!important};
 }
+
+.custom-el-skeleton {
+  .el-skeleton {
+    @apply px-4;
+    .is-first {
+      @apply hidden;
+    }
+    .is-last {
+      @apply hidden;
+    }
+  }
+}
+
+.custom-dropdown-header {
+  .el-dropdown-menu__item {
+    @apply cursor-default hover:bg-[#f2f5f8] bg-white hover:text-[#606266] focus:text-[#606266] whitespace-normal #{!important};
+  }
+}
