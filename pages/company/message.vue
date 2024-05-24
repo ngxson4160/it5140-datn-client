@@ -1,5 +1,5 @@
 <template>
-  <div>Company Message</div>
+  <message-page />
 </template>
 
 <script setup lang="ts">

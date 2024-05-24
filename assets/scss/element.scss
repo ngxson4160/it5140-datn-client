@@ -387,15 +387,13 @@
   @apply border-[#1caf5757]  #{!important};
 }
 
-.custom-el-skeleton {
-  .el-skeleton {
-    @apply px-4;
-    .is-first {
-      @apply hidden;
-    }
-    .is-last {
-      @apply hidden;
-    }
+.custom-el-skeleton.el-skeleton {
+  @apply px-4;
+  .is-first {
+    @apply hidden;
+  }
+  .is-last {
+    @apply hidden;
   }
 }
 

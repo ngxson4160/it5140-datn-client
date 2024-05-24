@@ -35,7 +35,7 @@
                 v-infinite-scroll="handleGetListDataPaging"
                 infinite-scroll-distance="100"
                 :infinite-scroll-immediate="false"
-                :infinite-scroll-disabled="disableInfiniteScroll"
+                :infinite-scroll-disabled="disableInfiniteScroll || loadingData"
               >
                 <el-dropdown-item
                   v-for="(el, index) in listNotification"
