@@ -91,3 +91,8 @@ export enum ENotificationStatus {
   UNREAD,
   READ,
 }
+
+export enum EUserHasConversationStatus {
+  UNREAD,
+  READ,
+}

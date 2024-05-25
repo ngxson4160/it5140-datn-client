@@ -93,6 +93,11 @@
           v-for="(el, index) in listConversation"
           :key="index"
           class="hover:bg-[#f2f5f8] px-2 py-4 rounded-lg cursor-pointer"
+          :class="{
+            'font-bold':
+              el.users[0]?.statusConversation ===
+              EUserHasConversationStatus.UNREAD,
+          }"
         >
           <div v-if="el.messages.length" class="flex gap-x-3">
             <img
@@ -103,8 +108,8 @@
               "
               class="w-[56px] h-[56px] object-contain rounded-full border bg-white"
             />
-            <div class="flex justify-between flex-1">
-              <div class="flex flex-col justify-between">
+            <div class="flex justify-between items-center flex-1">
+              <div class="flex flex-col justify-between h-full flex-1">
                 <p>
                   {{
                     el.users[0]?.company
@@ -112,17 +117,21 @@
                       : `${el.users[0]?.firstName} ${el.users[0]?.lastName}`
                   }}
                 </p>
-                <p class="text-sm w-[250px] truncate">
-                  {{
-                    userData.id === el.messages[0]?.creatorId
-                      ? `Bạn: ${el.messages[0]?.content}`
-                      : el.messages[0]?.content
-                  }}
-                </p>
+                <div class="flex items-center justify-between gap-x-2">
+                  <p class="text-sm w-[200px] truncate">
+                    {{
+                      userData.id === el.messages[0]?.creatorId
+                        ? `Bạn: ${el.messages[0]?.content}`
+                        : el.messages[0]?.content
+                    }}
+                    ==================
+                  </p>
+                  <p class="text-xs font-normal">
+                    {{ formatDateTimeShort(el.messages[0]?.createdAt) }}
+                  </p>
+                </div>
               </div>
-              <p class="text-xs">
-                {{ formatDateFull(el.messages[0]?.createdAt) }}
-              </p>
+              <div class="w-3 h-3 bg-blue rounded-full mr-2"></div>
             </div>
           </div>
         </div>
