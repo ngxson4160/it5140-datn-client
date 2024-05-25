@@ -1,4 +1,7 @@
-import type { IGetMessageConversation } from '~/types/conversation';
+import type {
+  IGetMessageConversation,
+  IListConversation,
+} from '~/types/conversation';
 
 export const useConversationStore = defineStore(EStoreName.CONVERSATION, {
   state: () => ({}),
@@ -11,6 +14,12 @@ export const useConversationStore = defineStore(EStoreName.CONVERSATION, {
         `conversations/${conversationId}/messages`,
         { query },
       );
+
+      return data;
+    },
+
+    async getListConversation(query?: IListConversation) {
+      const data = await useBaseFetch(`conversations`, { query });
 
       return data;
     },
