@@ -59,3 +59,12 @@ export const calcAge = (dob: string) => {
 
   return age;
 };
+
+export const getUserData = () => {
+  const cookieSystemData = useCookie('auth.user-data').value;
+
+  if (cookieSystemData) {
+    const systemData = handleJWTDecrypt(cookieSystemData);
+    return systemData;
+  }
+};

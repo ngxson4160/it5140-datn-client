@@ -32,7 +32,7 @@ const props = defineProps({
     required: true,
   },
 });
-const emits = defineEmits(['loadData']);
+const emits = defineEmits(['loadData', 'scrollTabBar']);
 
 const listData = ref(props.data);
 const isDisable = ref(props.disabled);
