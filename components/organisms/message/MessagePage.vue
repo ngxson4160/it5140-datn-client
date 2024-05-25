@@ -94,19 +94,35 @@
           :key="index"
           class="hover:bg-[#f2f5f8] px-2 py-4 rounded-lg cursor-pointer"
         >
-          <div class="flex gap-x-3">
+          <div v-if="el.messages.length" class="flex gap-x-3">
             <img
-              src="@/assets/images/logo.jpg"
+              :src="
+                el.users[0]?.company
+                  ? el.users[0]?.company.avatar
+                  : el.users[0]?.avatar
+              "
               class="w-[56px] h-[56px] object-contain rounded-full border bg-white"
             />
             <div class="flex justify-between flex-1">
               <div class="flex flex-col justify-between">
-                <p>{{ el }}</p>
+                <p>
+                  {{
+                    el.users[0]?.company
+                      ? el.users[0]?.company.name
+                      : `${el.users[0]?.firstName} ${el.users[0]?.lastName}`
+                  }}
+                </p>
                 <p class="text-sm w-[250px] truncate">
-                  Hulaaaaaaaaaaaaaaaaaaaaaaaaaaaaa fsd dsf sdf sdf
+                  {{
+                    userData.id === el.messages[0]?.creatorId
+                      ? `Bạn: ${el.messages[0]?.content}`
+                      : el.messages[0]?.content
+                  }}
                 </p>
               </div>
-              <p class="text-xs">12:58 PM</p>
+              <p class="text-xs">
+                {{ formatDateFull(el.messages[0]?.createdAt) }}
+              </p>
             </div>
           </div>
         </div>
