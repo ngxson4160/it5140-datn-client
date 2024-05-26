@@ -5,7 +5,7 @@
     :style="{ height: `${height}px` }"
     @scroll="onScroll"
   >
-    <div v-for="(item, index) in listData" :key="index">
+    <div v-for="(item, index) in data" :key="index">
       <slot :data="item"></slot>
     </div>
   </div>
@@ -31,31 +31,24 @@ const props = defineProps({
     type: Number,
     required: true,
   },
+  isScrollTop: {
+    type: Boolean,
+    required: true,
+  },
 });
 const emits = defineEmits(['loadData', 'scrollTabBar']);
 
-const listData = ref(props.data);
+// const listData = ref(props.data);
 const isDisable = ref(props.disabled);
-const listDataLengthFirst = listData.value.length;
 
 const scrollBar = ref<any>(null);
 
 let preScrollHeight = 0;
-let isFirstLoad = true;
 
 const loadMore = () => {
   if (!isDisable.value) {
     emits('loadData');
 
-    if (isFirstLoad) {
-      scrollBar.value.scrollTop =
-        (listData.value.length / listDataLengthFirst) * preScrollHeight -
-        preScrollHeight;
-      isFirstLoad = false;
-    } else {
-      scrollBar.value.scrollTop =
-        scrollBar.value.scrollHeight - preScrollHeight;
-    }
     preScrollHeight = scrollBar.value.scrollHeight;
   }
 };
@@ -66,17 +59,24 @@ const onScroll = (event: any) => {
   }
 };
 
+onBeforeUpdate(async () => {
+  await nextTick();
+  if (props.isScrollTop) {
+    scrollBar.value.scrollTop = scrollBar.value.scrollHeight - preScrollHeight;
+  }
+});
+
 onMounted(() => {
   scrollBar.value.scrollTop = scrollBar.value.scrollHeight;
   preScrollHeight = scrollBar.value.scrollHeight;
 });
 
-watch(
-  () => props.data,
-  (newVal) => {
-    listData.value = newVal;
-  },
-);
+// watch(
+//   () => props.data,
+//   (newVal) => {
+//     listData.value = newVal;
+//   },
+// );
 
 watch(
   () => props.disabled,

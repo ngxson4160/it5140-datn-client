@@ -6,6 +6,7 @@
       <div class="flex gap-x-4 items-center border-b pb-2 mb-4">
         <div class="border p-[2px] w-14 h-14 bg-white rounded-full">
           <img
+            :key="listMessage.conversation.id"
             :src="
               listMessage.conversation.users[0]?.company
                 ? listMessage.conversation.users[0]?.company.avatar
@@ -24,16 +25,19 @@
       </div>
 
       <top-infinite-scroll
+        :key="listMessage.conversation.id"
         :data="listMessage.message"
         :height="541"
-        :disabled="disabledLoadingListMessage"
+        :disabled="disabledLoadingListMessage || isLoadingListMessage"
         class="message-top-infinite-scroll"
-        @load-data="handleLoadDataListMessage"
+        :distance="50"
+        :is-scroll-top="isScrollTop"
+        @load-data="handleGetListMessage"
       >
         <template #default="props">
           <div class="mr-2">
             <div
-              v-if="props.data?.yourMessage"
+              v-if="props.data?.creatorId === userData.id"
               class="flex gap-x-2 mb-2 items-start justify-end"
             >
               <div
@@ -45,6 +49,7 @@
 
             <div v-else class="flex gap-x-2 mb-2 items-start">
               <img
+                :key="props.data.id"
                 :src="
                   props.data.creator?.company
                     ? props.data.creator?.company?.avatar
@@ -63,7 +68,7 @@
       <div
         v-if="showScrollBottom"
         class="absolute bottom-[120px] right-10 flex justify-end gap-x-1 px-2 py-1 cursor-pointer bg-[#8de4b1] rounded-md"
-        @click="handleScrollToBottom"
+        @click="handleScrollToBottom(true)"
       >
         <img src="@/assets/images/arrow-down-white.svg" class="w-5 h-5" />
         <div class="text-sm text-white">Có tin nhắn mới</div>
@@ -84,27 +89,33 @@
       class="col-span-2 shadow-xl bg-white pl-4 py-6 h-[750px] overflow-auto rounded-lg"
     >
       <div
-        v-infinite-scroll="handleGetListMessage"
+        v-infinite-scroll="handleGetListMessageConversation"
         infinite-scroll-distance="10"
         :infinite-scroll-immediate="false"
-        :infinite-scroll-disabled="disabledLoadingListConversation"
+        :infinite-scroll-disabled="
+          disabledLoadingListConversation || isLoadingListConversation
+        "
       >
         <div
           v-for="(el, index) in listConversation"
           :key="index"
-          class="hover:bg-[#f2f5f8] px-2 py-4 rounded-lg cursor-pointer"
+          class="px-2 py-4 rounded-lg cursor-pointer"
           :class="{
             'font-bold':
-              el.users[0]?.statusConversation ===
-              EUserHasConversationStatus.UNREAD,
+              el.conversation.status === EUserHasConversationStatus.UNREAD,
+            'bg-[#e8f7ee]': conversationId === el.conversation.id,
+            'hover:bg-[#f2f5f8]': conversationId !== el.conversation.id,
           }"
         >
-          <div v-if="el.messages.length" class="flex gap-x-3">
+          <div
+            class="flex gap-x-3"
+            @click="conversationId = el.conversation.id"
+          >
             <img
               :src="
-                el.users[0]?.company
-                  ? el.users[0]?.company.avatar
-                  : el.users[0]?.avatar
+                el.conversation.users?.company
+                  ? el.conversation.users?.company.avatar
+                  : el.conversation.users?.avatar
               "
               class="w-[56px] h-[56px] object-contain rounded-full border bg-white"
             />
@@ -112,22 +123,21 @@
               <div class="flex flex-col justify-between h-full flex-1">
                 <p>
                   {{
-                    el.users[0]?.company
-                      ? el.users[0]?.company.name
-                      : `${el.users[0]?.firstName} ${el.users[0]?.lastName}`
+                    el.conversation.users?.company
+                      ? el.conversation.users?.company.name
+                      : `${el.conversation.users?.firstName} ${el.conversation.users?.lastName}`
                   }}
                 </p>
                 <div class="flex items-center justify-between gap-x-2">
                   <p class="text-sm w-[200px] truncate">
                     {{
-                      userData.id === el.messages[0]?.creatorId
-                        ? `Bạn: ${el.messages[0]?.content}`
-                        : el.messages[0]?.content
+                      userData.id === el.creatorId
+                        ? `Bạn: ${el.content}`
+                        : el.content
                     }}
-                    ==================
                   </p>
                   <p class="text-xs font-normal">
-                    {{ formatDateTimeShort(el.messages[0]?.createdAt) }}
+                    {{ formatDateTimeShort(el.createdAt) }}
                   </p>
                 </div>
               </div>
@@ -152,80 +162,92 @@ const showScrollBottom = ref(false);
 const userData = getUserData();
 const conversationStore = useConversationStore();
 
-const conversationId = ref(6);
+const conversationId = ref();
+const isLoadingListMessage = ref(false);
+const disabledLoadingListMessage = ref(false);
 const queryMessageConversation: IGetMessageConversation = {
   page: 0,
 };
-const disabledLoadingListMessage = ref(false);
+const isLoadingListConversation = ref(false);
 const disabledLoadingListConversation = ref(false);
 const queryConversation: IListConversation = {
   page: 0,
 };
 
+const isScrollTop = ref(true);
 const newMessage = ref('');
 
 const listMessage = ref<any>({ conversation: {}, message: [] });
 const listConversation = ref<any[]>([]);
 
-const handleLoadDataListMessage = async () => {
+const handleGetListMessage = async () => {
+  isScrollTop.value = true;
+  isLoadingListMessage.value = true;
+
   if (queryMessageConversation.page || queryMessageConversation.page === 0) {
     queryMessageConversation.page++;
   }
 
+  const id = conversationId.value;
   const listMessageData = await conversationStore.getMessageConversation(
-    conversationId.value,
+    id,
     queryMessageConversation,
   );
-  queryMessageConversation.cursor = listMessageData.data.message[0]?.id;
+  isLoadingListMessage.value = false;
+
+  if (listMessageData.data.message.length) {
+    queryMessageConversation.cursor = listMessageData.data.message[0]?.id;
+  }
 
   listMessage.value.conversation = listMessageData.data.conversation;
   listMessage.value.message.unshift(...listMessageData.data.message);
 
-  if (
-    listMessageData.meta.pagination.page >=
-    listMessageData.meta.pagination.totalPage
-  ) {
+  const isLastPage =
+    listMessage.value.message?.length >=
+    listMessageData.meta.pagination.totalItem;
+  if (isLastPage) {
     disabledLoadingListMessage.value = true;
   }
 };
 
-const handleGetListMessage = async () => {
+const handleGetListMessageConversation = async () => {
+  isLoadingListConversation.value = true;
   if (queryConversation.page || queryConversation.page === 0) {
     queryConversation.page++;
   }
 
   const listConversationData =
     await conversationStore.getListConversation(queryConversation);
-  queryConversation.cursor = listConversationData.data[0]?.id;
+
+  if (listConversationData.data?.length) {
+    const lastItem = listConversationData.data?.length - 1;
+    queryConversation.cursor = listConversationData.data[lastItem]?.id;
+  }
+
   listConversation.value.push(...listConversationData.data);
 
-  if (
-    listConversationData.meta.pagination.page >=
-    listConversationData.meta.pagination.totalPage
-  ) {
+  isLoadingListConversation.value = false;
+
+  const isLastPage =
+    listConversation.value.length >=
+    listConversationData.meta.pagination.totalItem;
+
+  if (isLastPage) {
     disabledLoadingListConversation.value = true;
   }
 };
 
-await handleLoadDataListMessage();
-await handleGetListMessage();
-
-const handleCreateNewMessage = () => {
-  if (newMessage.value) {
-    socket.emit('createMessage', {
-      content: newMessage.value,
-      conversationId: conversationId.value,
+const handleScrollToBottom = (smooth?: boolean) => {
+  if (smooth) {
+    scrollBar.value.scrollTo({
+      top: scrollBar.value.scrollHeight - scrollBar.value.clientHeight,
+      behavior: 'smooth',
     });
-
-    newMessage.value = '';
+  } else {
+    scrollBar.value.scrollTo({
+      top: scrollBar.value.scrollHeight - scrollBar.value.clientHeight,
+    });
   }
-};
-
-const handleScrollToBottom = () => {
-  scrollBar.value.scrollTo({
-    top: scrollBar.value.scrollHeight - scrollBar.value.clientHeight,
-    behavior: 'smooth',
-  });
 
   showScrollBottom.value = false;
 };
@@ -242,26 +264,68 @@ const handleScroll = () => {
 };
 
 const joinRoom = (id: number) => {
-  socket.emit('join_room', { id: conversationId.value?.toString() });
+  socket.emit('join_room', { id: id.toString() });
+};
+
+await handleGetListMessageConversation();
+if (listConversation.value.length) {
+  conversationId.value = listConversation.value[0].conversation.id;
+
+  listConversation.value.forEach((el) => {
+    joinRoom(el.conversation.id);
+  });
+}
+await handleGetListMessage();
+
+const handleCreateNewMessage = () => {
+  if (newMessage.value) {
+    socket.emit('createMessage', {
+      content: newMessage.value,
+      conversationId: conversationId.value,
+    });
+
+    newMessage.value = '';
+  }
 };
 
 onMounted(() => {
-  socket.emit('join_room', { id: conversationId.value?.toString() });
-
   socket.on('createMessage', async ({ message }) => {
+    isScrollTop.value = false;
+
     const currentScrollBottom =
       scrollBar.value.scrollTop + scrollBar.value.clientHeight >=
       scrollBar.value.scrollHeight - 20;
 
-    if (userData.id === message?.creatorId) {
-      message.yourMessage = true;
-    } else {
-      message.yourMessage = false;
+    if (conversationId.value === message.conversation.id) {
+      listMessage.value.message.push(message);
     }
-    listMessage.value.message.push(message);
+
+    let indexConversation;
+    for (let i = 0; i <= listConversation.value.length; i++) {
+      if (
+        listConversation.value[i]?.conversation.id === message.conversation.id
+      ) {
+        indexConversation = i;
+        break;
+      }
+    }
+
+    if (indexConversation || indexConversation === 0) {
+      if (message.conversation.users) {
+        message.conversation.users =
+          listConversation.value[indexConversation].conversation.users;
+      }
+
+      listConversation.value.splice(indexConversation, 1);
+    }
+
+    // listConversation.value = listConversation.value.filter(
+    //   (el) => el.conversation.id !== message.conversation.id,
+    // );
+
+    listConversation.value.unshift(message);
 
     await nextTick();
-
     if (currentScrollBottom || userData.id === message?.creatorId) {
       handleScrollToBottom();
     } else if (!currentScrollBottom && userData.id !== message?.creatorId) {
@@ -273,6 +337,32 @@ onMounted(() => {
 
   scrollBar.value.addEventListener('scroll', handleScroll);
 });
-</script>
 
-<style scoped></style>
+watch(
+  () => conversationId.value,
+  async () => {
+    queryMessageConversation.page = 1;
+    delete queryMessageConversation.cursor;
+    disabledLoadingListMessage.value = false;
+
+    const listMessageData = await conversationStore.getMessageConversation(
+      conversationId.value,
+      queryMessageConversation,
+    );
+
+    if (listMessageData.data.message.length) {
+      queryMessageConversation.cursor = listMessageData.data.message[0]?.id;
+    }
+
+    listMessage.value.conversation = listMessageData.data.conversation;
+    listMessage.value.message = listMessageData.data.message;
+
+    const isLastPage =
+      listMessage.value.message?.length >=
+      listMessageData.meta.pagination.totalItem;
+    if (isLastPage) {
+      disabledLoadingListMessage.value = true;
+    }
+  },
+);
+</script>
