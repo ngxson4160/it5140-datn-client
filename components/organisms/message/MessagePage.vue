@@ -31,7 +31,6 @@
         :disabled="disabledLoadingListMessage || isLoadingListMessage"
         class="message-top-infinite-scroll"
         :distance="50"
-        :is-scroll-top="isScrollTop"
         @load-data="handleGetListMessage"
       >
         <template #default="props">
@@ -106,11 +105,9 @@
             'bg-[#e8f7ee]': conversationId === el.conversation.id,
             'hover:bg-[#f2f5f8]': conversationId !== el.conversation.id,
           }"
+          @click="handleReadConversation(el.conversation.id)"
         >
-          <div
-            class="flex gap-x-3"
-            @click="conversationId = el.conversation.id"
-          >
+          <div class="flex gap-x-3">
             <img
               :src="
                 el.conversation.users?.company
@@ -141,7 +138,12 @@
                   </p>
                 </div>
               </div>
-              <div class="w-3 h-3 bg-blue rounded-full mr-2"></div>
+              <div
+                v-if="
+                  el.conversation.status === EUserHasConversationStatus.UNREAD
+                "
+                class="w-3 h-3 bg-blue rounded-full mr-2"
+              ></div>
             </div>
           </div>
         </div>
@@ -174,14 +176,12 @@ const queryConversation: IListConversation = {
   page: 0,
 };
 
-const isScrollTop = ref(true);
 const newMessage = ref('');
 
 const listMessage = ref<any>({ conversation: {}, message: [] });
 const listConversation = ref<any[]>([]);
 
 const handleGetListMessage = async () => {
-  isScrollTop.value = true;
   isLoadingListMessage.value = true;
 
   if (queryMessageConversation.page || queryMessageConversation.page === 0) {
@@ -274,8 +274,8 @@ if (listConversation.value.length) {
   listConversation.value.forEach((el) => {
     joinRoom(el.conversation.id);
   });
+  await handleGetListMessage();
 }
-await handleGetListMessage();
 
 const handleCreateNewMessage = () => {
   if (newMessage.value) {
@@ -288,16 +288,38 @@ const handleCreateNewMessage = () => {
   }
 };
 
+const handleReadConversation = (id: number) => {
+  conversationId.value = id;
+
+  const messageConversation = listConversation.value.find(
+    (el) => el.conversationId === id,
+  );
+
+  if (
+    messageConversation.conversation.status ===
+    EUserHasConversationStatus.UNREAD
+  ) {
+    socket.emit('read_conversation', {
+      conversationId: id,
+    });
+
+    messageConversation.conversation.status = EUserHasConversationStatus.READ;
+  }
+};
+
 onMounted(() => {
   socket.on('createMessage', async ({ message }) => {
-    isScrollTop.value = false;
-
     const currentScrollBottom =
       scrollBar.value.scrollTop + scrollBar.value.clientHeight >=
       scrollBar.value.scrollHeight - 20;
 
     if (conversationId.value === message.conversation.id) {
       listMessage.value.message.push(message);
+      message.conversation.status = EUserHasConversationStatus.READ;
+
+      socket.emit('read_conversation', {
+        conversationId: message.conversation.id,
+      });
     }
 
     let indexConversation;
@@ -308,6 +330,10 @@ onMounted(() => {
         indexConversation = i;
         break;
       }
+    }
+
+    if (userData.id === message?.creatorId) {
+      message.conversation.status = EUserHasConversationStatus.READ;
     }
 
     if (indexConversation || indexConversation === 0) {

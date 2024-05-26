@@ -31,10 +31,6 @@ const props = defineProps({
     type: Number,
     required: true,
   },
-  isScrollTop: {
-    type: Boolean,
-    required: true,
-  },
 });
 const emits = defineEmits(['loadData', 'scrollTabBar']);
 
@@ -48,7 +44,6 @@ let preScrollHeight = 0;
 const loadMore = () => {
   if (!isDisable.value) {
     emits('loadData');
-
     preScrollHeight = scrollBar.value.scrollHeight;
   }
 };
@@ -60,10 +55,9 @@ const onScroll = (event: any) => {
 };
 
 onBeforeUpdate(async () => {
-  await nextTick();
-  if (props.isScrollTop) {
+  await nextTick(() => {
     scrollBar.value.scrollTop = scrollBar.value.scrollHeight - preScrollHeight;
-  }
+  });
 });
 
 onMounted(() => {
