@@ -7,3 +7,7 @@ export interface IGetMessageConversation extends IPagination {
 export interface IListConversation extends IPagination {
   cursor?: number;
 }
+
+export interface ICreateConversation {
+  withUserId: number;
+}

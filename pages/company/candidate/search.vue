@@ -97,6 +97,7 @@
           class="mb-4"
           :data="el"
           @on-view-cv="handleShowPreviewCV"
+          @on-redirect-message-page="redirectToMessagePage(el.id)"
         />
         <p v-if="!meta?.pagination?.totalItem" class="text-center mt-2">
           Không tìm thấy ứng viên phù hợp
@@ -173,7 +174,10 @@ const filterData = ref<IFilterCandidate>({
   educationalLevel: null,
 });
 
+const router = useRouter();
+
 const companyStore = useCompanyStore();
+const conversationStore = useConversationStore();
 
 const dataCvSystem = ref();
 const urlCVPreview = ref('');
@@ -211,6 +215,14 @@ const onSubmit = async () => {
   };
   query.value = { ...query.value, ...data };
   await callGetListCandidate();
+};
+
+const redirectToMessagePage = async (userId: number) => {
+  const conversation = await conversationStore.createConversation({
+    withUserId: userId,
+  });
+
+  router.push(`/company/message?id=${conversation.id}`);
 };
 
 watch(

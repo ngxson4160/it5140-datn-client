@@ -20,6 +20,7 @@ const PATH_USER = [
   /^user\/job\/application$/,
   /^user\/job\/list$/,
   /^user\/message$/,
+  /^user\/message\?id=\d+$/,
   /^user\/setting$/,
   /^user$/,
   /^user\/profile$/,
@@ -34,7 +35,7 @@ const PATH_COMPANY = [
   /^company\/job\/list$/,
   /^company\/job\/\d+\/edit$/,
   /^company\/job\/create$/,
-  /^company\/message$/,
+  /^company\/message\?id=\d+$/,
   /^company\/setting$/,
 ];
 
