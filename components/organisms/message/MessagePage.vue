@@ -23,7 +23,6 @@
           }}
         </p>
       </div>
-
       <top-infinite-scroll
         :key="listMessage.conversation.id"
         :data="listMessage.message"
@@ -32,6 +31,7 @@
         class="message-top-infinite-scroll"
         :distance="50"
         @load-data="handleGetListMessage"
+        @scroll-bar-bottom="handleScrollBarBottom"
       >
         <template #default="props">
           <div class="mr-2">
@@ -307,19 +307,26 @@ const handleReadConversation = (id: number) => {
   }
 };
 
+const handleScrollBarBottom = () => {
+  handleReadConversation(conversationId.value);
+};
+
 onMounted(() => {
   socket.on('createMessage', async ({ message }) => {
+    await nextTick();
     const currentScrollBottom =
       scrollBar.value.scrollTop + scrollBar.value.clientHeight >=
       scrollBar.value.scrollHeight - 20;
 
     if (conversationId.value === message.conversation.id) {
       listMessage.value.message.push(message);
-      message.conversation.status = EUserHasConversationStatus.READ;
 
-      socket.emit('read_conversation', {
-        conversationId: message.conversation.id,
-      });
+      if (currentScrollBottom) {
+        socket.emit('read_conversation', {
+          conversationId: message.conversation.id,
+        });
+        message.conversation.status = EUserHasConversationStatus.READ;
+      }
     }
 
     let indexConversation;
@@ -345,10 +352,6 @@ onMounted(() => {
       listConversation.value.splice(indexConversation, 1);
     }
 
-    // listConversation.value = listConversation.value.filter(
-    //   (el) => el.conversation.id !== message.conversation.id,
-    // );
-
     listConversation.value.unshift(message);
 
     await nextTick();
@@ -364,9 +367,15 @@ onMounted(() => {
   scrollBar.value.addEventListener('scroll', handleScroll);
 });
 
+onBeforeUpdate(() => {
+  scrollBar.value = document.querySelector('.message-top-infinite-scroll');
+});
+
 watch(
   () => conversationId.value,
   async () => {
+    showScrollBottom.value = false;
+
     queryMessageConversation.page = 1;
     delete queryMessageConversation.cursor;
     disabledLoadingListMessage.value = false;

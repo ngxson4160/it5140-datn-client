@@ -32,17 +32,17 @@ const props = defineProps({
     required: true,
   },
 });
-const emits = defineEmits(['loadData', 'scrollTabBar']);
 
-// const listData = ref(props.data);
-const isDisable = ref(props.disabled);
+const emits = defineEmits(['loadData', 'scrollBarBottom']);
 
 const scrollBar = ref<any>(null);
 
 let preScrollHeight = 0;
 
+let autoScroll = true;
+
 const loadMore = () => {
-  if (!isDisable.value) {
+  if (!props.disabled) {
     emits('loadData');
     preScrollHeight = scrollBar.value.scrollHeight;
   }
@@ -51,33 +51,30 @@ const loadMore = () => {
 const onScroll = (event: any) => {
   if (event.target.scrollTop <= props.distance) {
     loadMore();
+    autoScroll = true;
+  } else {
+    autoScroll = false;
+  }
+
+  const isScrollBarBottom =
+    event.target.scrollTop + event.target.clientHeight ===
+    event.target.scrollHeight;
+  if (isScrollBarBottom) {
+    emits('scrollBarBottom');
   }
 };
 
 onBeforeUpdate(async () => {
-  await nextTick(() => {
+  await nextTick();
+  if (autoScroll) {
     scrollBar.value.scrollTop = scrollBar.value.scrollHeight - preScrollHeight;
-  });
+  }
 });
 
 onMounted(() => {
   scrollBar.value.scrollTop = scrollBar.value.scrollHeight;
   preScrollHeight = scrollBar.value.scrollHeight;
 });
-
-// watch(
-//   () => props.data,
-//   (newVal) => {
-//     listData.value = newVal;
-//   },
-// );
-
-watch(
-  () => props.disabled,
-  (newVal) => {
-    isDisable.value = newVal;
-  },
-);
 </script>
 
 <style scoped></style>
