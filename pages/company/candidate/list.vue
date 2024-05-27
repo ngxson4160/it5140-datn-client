@@ -282,7 +282,10 @@
                       </div>
                     </el-dropdown-item>
                     <el-dropdown-item>
-                      <div class="flex">
+                      <div
+                        class="flex"
+                        @click="redirectToMessagePage(scoped.row.userId)"
+                      >
                         <img
                           src="@/assets/images/message-black.svg"
                           class="w-5 mr-2"
@@ -388,6 +391,7 @@ const applicationIdClick = ref<number>(0);
 query.value.limit = 5;
 
 const companyStore = useCompanyStore();
+const conversationStore = useConversationStore();
 
 const dataListJob = await companyStore.getListJobs();
 listJobs.value = dataListJob.data as IJob[];
@@ -540,6 +544,14 @@ const handleEditInterviewSchedule = async () => {
   if (candidateUpdated) {
     candidateUpdated.interviewSchedule = interviewScheduleDateChose.value;
   }
+};
+
+const redirectToMessagePage = async (userId: number) => {
+  const conversation = await conversationStore.createConversation({
+    withUserId: userId,
+  });
+
+  router.push(`/company/message?id=${conversation.id}`);
 };
 
 watch(

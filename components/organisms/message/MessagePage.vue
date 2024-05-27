@@ -1,30 +1,37 @@
 <template>
   <div class="grid grid-cols-7 gap-x-4 mr-4">
     <div
+      v-if="!listMessage.conversation?.id"
+      class="col-span-5 rounded-lg shadow-xl bg-white h-[750px] px-4 py-6 relative"
+    >
+      <p class="text-center">Chưa có nội dung trò chuyện</p>
+    </div>
+    <div
+      v-else
       class="col-span-5 rounded-lg shadow-xl bg-white h-[750px] px-4 py-6 relative"
     >
       <div class="flex gap-x-4 items-center border-b pb-2 mb-4">
         <div class="border p-[2px] w-14 h-14 bg-white rounded-full">
           <img
-            :key="listMessage.conversation.id"
+            :key="listMessage.conversation?.id"
             :src="
-              listMessage.conversation.users[0]?.company
-                ? listMessage.conversation.users[0]?.company.avatar
-                : listMessage.conversation.users[0]?.avatar
+              listMessage.conversation?.users[0]?.company
+                ? listMessage.conversation?.users[0]?.company.avatar
+                : listMessage.conversation?.users[0]?.avatar
             "
             class="object-contain w-full h-full rounded-full"
           />
         </div>
         <p class="font-bold">
           {{
-            listMessage.conversation.users[0]?.company
-              ? listMessage.conversation.users[0]?.company.name
-              : `${listMessage.conversation.users[0]?.firstName} ${listMessage.conversation.users[0]?.lastName}`
+            listMessage.conversation?.users[0]?.company
+              ? listMessage.conversation?.users[0]?.company.name
+              : `${listMessage.conversation?.users[0]?.firstName} ${listMessage.conversation?.users[0]?.lastName}`
           }}
         </p>
       </div>
       <top-infinite-scroll
-        :key="listMessage.conversation.id"
+        :key="listMessage.conversation?.id"
         :data="listMessage.message"
         :height="541"
         :disabled="disabledLoadingListMessage || isLoadingListMessage"
@@ -85,9 +92,13 @@
     </div>
 
     <div
-      class="col-span-2 shadow-xl bg-white pl-4 py-6 h-[750px] overflow-auto rounded-lg"
+      class="col-span-2 shadow-xl bg-white px-2 py-6 h-[750px] overflow-auto rounded-lg"
     >
+      <div v-if="!listConversation.length" class="text-center">
+        Chưa có cuộc hội thoại nào
+      </div>
       <div
+        v-else
         v-infinite-scroll="handleGetListMessageConversation"
         infinite-scroll-distance="10"
         :infinite-scroll-immediate="false"
@@ -158,6 +169,7 @@ import type {
   IListConversation,
 } from '~/types/conversation';
 
+const { query } = useRoute();
 const scrollBar = ref<any>(null);
 const showScrollBottom = ref(false);
 
@@ -274,6 +286,15 @@ if (listConversation.value.length) {
   listConversation.value.forEach((el) => {
     joinRoom(el.conversation.id);
   });
+}
+
+const queryId = query?.id ? +query.id : 0;
+
+if (queryId) {
+  conversationId.value = queryId;
+}
+
+if (conversationId.value) {
   await handleGetListMessage();
 }
 
@@ -282,6 +303,7 @@ const handleCreateNewMessage = () => {
     socket.emit('createMessage', {
       content: newMessage.value,
       conversationId: conversationId.value,
+      toUserId: listMessage.value.conversation.users[0]?.id,
     });
 
     newMessage.value = '';
@@ -364,7 +386,9 @@ onMounted(() => {
 
   scrollBar.value = document.querySelector('.message-top-infinite-scroll');
 
-  scrollBar.value.addEventListener('scroll', handleScroll);
+  if (scrollBar.value) {
+    scrollBar.value.addEventListener('scroll', handleScroll);
+  }
 });
 
 onBeforeUpdate(() => {

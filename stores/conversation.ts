@@ -1,4 +1,5 @@
 import type {
+  ICreateConversation,
   IGetMessageConversation,
   IListConversation,
 } from '~/types/conversation';
@@ -22,6 +23,15 @@ export const useConversationStore = defineStore(EStoreName.CONVERSATION, {
       const data = await useBaseFetch(`conversations`, { query });
 
       return data;
+    },
+
+    async createConversation(body?: ICreateConversation) {
+      const data = await useBaseFetch(`conversations`, {
+        method: 'POST',
+        body,
+      });
+
+      return data.data;
     },
   },
 });

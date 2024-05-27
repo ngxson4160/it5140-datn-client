@@ -12,14 +12,14 @@
     > -->
     <img
       :src="company?.avatar"
-      class="object-contain absolute w-[150px] h-[150px] left-6 bottom-6 border p-[3px] bg-white rounded-md"
+      class="object-contain absolute w-[150px] h-[150px] left-4 bottom-6 border p-[3px] bg-white rounded-md"
     />
     <!-- </div> -->
 
-    <div class="ml-[200px] mr-7 flex h-full justify-between items-center">
+    <div class="ml-[180px] mr-4 flex h-full justify-between items-center">
       <div class="h-full flex flex-col justify-center rounded-b-lg">
         <p class="font-bold mb-2 text-xl">{{ company?.name }}</p>
-        <div class="flex items-center gap-x-6">
+        <div class="flex items-center gap-x-2">
           <div class="flex gap-x-2">
             <img src="@/assets/images/company-black.svg" class="w-6" />
             <p>{{ company?.jobCategoryParent.name }}</p>
@@ -36,9 +36,19 @@
           </div>
         </div>
       </div>
-      <el-button size="large" class="!text-base w-[200px]" :icon="Plus">
-        Theo dõi
-      </el-button>
+      <div class="w-[250px] flex items-end justify-between">
+        <el-button size="default" class="!text-base" :icon="Plus">
+          Theo dõi
+        </el-button>
+        <el-button
+          size="default"
+          class="!text-base"
+          type="primary"
+          @click="redirectToMessagePage"
+        >
+          Nhắn tin
+        </el-button>
+      </div>
     </div>
   </div>
 
@@ -148,6 +158,19 @@ const props = defineProps({
   },
 });
 const activeName = ref('about');
+
+const router = useRouter();
+const { params } = useRoute();
+
+const conversationStore = useConversationStore();
+
+const redirectToMessagePage = async () => {
+  const conversation = await conversationStore.createConversation({
+    withUserId: props.company.users.id,
+  });
+
+  router.push(`/user/message?id=${conversation.id}`);
+};
 
 const emits = defineEmits(['onSetPageJob', 'onSetPageBlog']);
 

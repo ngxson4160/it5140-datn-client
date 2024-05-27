@@ -82,6 +82,7 @@
           <img
             src="@/assets/images/message-gray.svg"
             class="w-7 cursor-pointer"
+            @click="handleRedirectToMessagePage"
           />
         </div>
         <div class="text-sm mt-4">
@@ -133,10 +134,14 @@ const props = defineProps({
   },
 });
 
-const emits = defineEmits(['onViewCv']);
+const emits = defineEmits(['onViewCv', 'onRedirectMessagePage']);
 
 const handleViewCV = (data: any) => {
   emits('onViewCv', data);
+};
+
+const handleRedirectToMessagePage = () => {
+  emits('onRedirectMessagePage');
 };
 </script>
 

@@ -131,7 +131,7 @@
 import type { IGetListNotification } from '~/types/notification';
 
 const router = useRouter();
-
+const userData = getUserData();
 const notificationStore = useNotificationStore();
 
 const totalMessageUnreal = ref(0);
@@ -181,6 +181,17 @@ onBeforeMount(() => {
 
   socket.emit('countNotificationUnread', (total: number) => {
     totalMessageUnreal.value = total;
+  });
+
+  socket.on('create_conversation', ({ payload }) => {
+    console.log(userData?.id, payload.fromUserId, payload.toUserId);
+
+    if (
+      userData?.id === payload.fromUserId ||
+      userData?.id === payload.toUserId
+    ) {
+      socket.emit('join_room', { id: payload.conversationId.toString() });
+    }
   });
 });
 </script>
