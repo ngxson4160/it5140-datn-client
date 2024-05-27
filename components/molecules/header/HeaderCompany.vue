@@ -35,7 +35,7 @@
                 v-infinite-scroll="handleGetListDataPaging"
                 infinite-scroll-distance="100"
                 :infinite-scroll-immediate="false"
-                :infinite-scroll-disabled="disableInfiniteScroll"
+                :infinite-scroll-disabled="disableInfiniteScroll || loadingData"
               >
                 <el-dropdown-item
                   v-for="(el, index) in listNotification"
@@ -51,9 +51,7 @@
                       />
                     </div>
                     <div class="col-span-4">
-                      <div class="line-clamp-3">
-                        {{ el.content }}
-                      </div>
+                      <div class="line-clamp-3" v-html="el.content"></div>
                       <p class="text-grey text-xs mt-[2px]">
                         {{ formatDateFull(el.createdAt) }}
                       </p>
@@ -135,9 +133,10 @@ onBeforeMount(() => {
     'createNotification',
     ({ notificationCreated, countNotificationUnread }) => {
       ElNotification({
-        title: 'Có một tin nhắn mới',
+        title: '',
         message: notificationCreated.content,
         position: 'bottom-left',
+        dangerouslyUseHTMLString: true,
       });
       listNotification.value.unshift(notificationCreated);
       totalMessageUnreal.value = countNotificationUnread;

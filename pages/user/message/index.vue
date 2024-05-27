@@ -1,5 +1,5 @@
 <template>
-  <div>User message</div>
+  <message-page />
 </template>
 
 <script setup lang="ts">

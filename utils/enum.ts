@@ -21,6 +21,7 @@ export enum EStoreName {
   COMPANY = 'company',
   User = 'user',
   Notification = 'notification',
+  CONVERSATION = 'conversation',
 }
 
 export enum EGender {
@@ -87,6 +88,11 @@ export enum EApplicationClassify {
 }
 
 export enum ENotificationStatus {
+  UNREAD,
+  READ,
+}
+
+export enum EUserHasConversationStatus {
   UNREAD,
   READ,
 }

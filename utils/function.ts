@@ -4,6 +4,10 @@ export const formatDateFull = (data: string) => {
   return moment(data).format('HH:mm [ngày] DD/MM/YYYY');
 };
 
+export const formatDateTimeShort = (data: string) => {
+  return moment(data).format('HH:mm DD/MM/YY');
+};
+
 export const formatDateShort = (data: string) => {
   return moment(data).format('DD/MM/YYYY');
 };
@@ -58,4 +62,13 @@ export const calcAge = (dob: string) => {
   }
 
   return age;
+};
+
+export const getUserData = () => {
+  const cookieSystemData = useCookie('auth.user-data').value;
+
+  if (cookieSystemData) {
+    const systemData = handleJWTDecrypt(cookieSystemData);
+    return systemData;
+  }
 };
