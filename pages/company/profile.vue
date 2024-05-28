@@ -99,7 +99,7 @@
                 v-if="!isEmptyObject(company.avatar)"
                 :key="company.avatar"
                 :src="company.avatar"
-                class="w-[150px] h-[150px] object-contain border p-[3px] bg-white rounded-md"
+                class="w-[150px] h-[150px] object-cover border p-[3px] bg-white rounded-md"
               />
               <div
                 v-else
@@ -120,7 +120,7 @@
                 v-if="!isEmptyObject(company.coverImage)"
                 :key="company.coverImage"
                 :src="company.coverImage"
-                class="!w-[698px] h-[150px] border rounded-lg object-contain"
+                class="!w-[698px] h-[150px] border rounded-lg object-cover"
               />
               <div
                 v-else
