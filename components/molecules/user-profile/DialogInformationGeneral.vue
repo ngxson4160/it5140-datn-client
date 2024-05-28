@@ -19,13 +19,17 @@
         />
       </div>
 
-      <div class="col-span-1">
+      <!-- <div class="col-span-1">
         <p class="mb-2">Địa điểm làm việc mong muốn</p>
         <select-city
           v-model="formData.desiredCityId"
           class="!w-full"
           :is-multiple="false"
         />
+      </div> -->
+      <div class="col-span-1">
+        <p>Số năm Kinh nghiệm</p>
+        <el-input v-model="formData.yearExperience" class="mt-2 !h-10" />
       </div>
 
       <div class="col-span-1">
@@ -51,10 +55,10 @@
         <select-job-mode v-model="formData.desiredJobMode" class="w-full" />
       </div>
 
-      <div class="col-span-1">
+      <!-- <div class="col-span-1">
         <p>Số năm Kinh nghiệm</p>
         <el-input v-model="formData.yearExperience" class="mt-2 !h-10" />
-      </div>
+      </div> -->
     </div>
 
     <template #footer>
