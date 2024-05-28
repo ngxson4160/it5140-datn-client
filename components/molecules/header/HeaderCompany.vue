@@ -18,10 +18,10 @@
       <div class="flex items-center">
         <el-dropdown trigger="click">
           <el-badge
-            :value="totalMessageUnreal"
+            :value="totalNotificationUnreal"
             :max="9"
             class="mr-6 item cursor-pointer focus:outline-none"
-            :hidden="totalMessageUnreal === 0"
+            :hidden="totalNotificationUnreal === 0"
             @click="handleUpdateReadNotification"
           >
             <img src="@/assets/images/notification-gray.svg" class="w-8 mr-1" />
@@ -74,7 +74,13 @@
           </template>
         </el-dropdown>
 
-        <el-badge :value="200" :max="99" class="mr-16 item cursor-pointer">
+        <el-badge
+          :value="totalConversationUnreal"
+          :max="999"
+          :hidden="totalConversationUnreal === 0"
+          class="mr-16 item cursor-pointer"
+          @click="router.push('/company/message')"
+        >
           <img src="@/assets/images/message-gray.svg" class="w-8 mr-1" />
         </el-badge>
       </div>
@@ -99,7 +105,8 @@ const userData = getUserData();
 
 const notificationStore = useNotificationStore();
 
-const totalMessageUnreal = ref(0);
+const totalNotificationUnreal = ref(0);
+const totalConversationUnreal = ref(0);
 const query = ref<IGetListNotification>({ page: 0, limit: 9 });
 const listNotification = ref<any[]>([]);
 const disableInfiniteScroll = ref(false);
@@ -126,7 +133,7 @@ const handleUpdateReadNotification = async () => {
   await notificationStore.updateManyNotification({
     status: ENotificationStatus.READ,
   });
-  totalMessageUnreal.value = 0;
+  totalNotificationUnreal.value = 0;
 };
 
 onBeforeMount(() => {
@@ -140,12 +147,20 @@ onBeforeMount(() => {
         dangerouslyUseHTMLString: true,
       });
       listNotification.value.unshift(notificationCreated);
-      totalMessageUnreal.value = countNotificationUnread;
+      totalNotificationUnreal.value = countNotificationUnread;
     },
   );
 
   socket.emit('countNotificationUnread', (total: number) => {
-    totalMessageUnreal.value = total;
+    totalNotificationUnreal.value = total;
+  });
+
+  socket.emit('count_conversation_unread', (total: number) => {
+    totalConversationUnreal.value = total;
+  });
+
+  socket.on('count_conversation_unread', ({ count }) => {
+    totalConversationUnreal.value = count;
   });
 
   socket.on('create_conversation', ({ payload }) => {
