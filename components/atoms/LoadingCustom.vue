@@ -1,9 +1,7 @@
 <template>
   <div
     v-loading="loading"
-    :element-loading-spinner="svg"
-    element-loading-svg-view-box="-10, -10, 50, 50"
-    element-loading-background="rgba(122, 122, 122, 0.8)"
+    element-loading-background="rgb(255, 255, 255)"
   ></div>
 </template>
 

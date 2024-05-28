@@ -103,9 +103,9 @@
               />
               <div
                 v-else
-                class="w-[150px] h-[150px] flex items-center justify-center border p-[3px] bg-white rounded-md"
+                class="w-[150px] h-[150px] flex items-center border p-[3px] bg-white rounded-md"
               >
-                <loading-custom />
+                <loading-custom class="ml-14" />
               </div>
               <up-load-image
                 v-model:data-upload="company.avatar"
@@ -124,9 +124,9 @@
               />
               <div
                 v-else
-                class="flex justify-center items-center !w-[698px] h-[150px] border rounded-lg"
+                class="flex items-center !w-[698px] h-[150px] border rounded-lg"
               >
-                <loading-custom />
+                <loading-custom class="ml-[320px]" />
               </div>
               <div class="flex justify-end">
                 <up-load-image
@@ -137,12 +137,6 @@
               </div>
             </div>
           </div>
-
-          <!-- <div class="mt-10 flex justify-end">
-            <el-button type="primary" size="large" @click="onUpdateCompany">
-              Lưu
-            </el-button>
-          </div> -->
         </div>
       </el-tab-pane>
     </el-tabs>

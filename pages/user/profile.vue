@@ -24,7 +24,7 @@
             <div class="flex gap-x-8 mt-6 mx-4">
               <div>
                 <img
-                  src="@/assets/images/logo.jpg"
+                  :src="userStore.myProfile?.avatar"
                   class="rounded-full w-[150px] h-[150px] border object-contain"
                 />
               </div>
@@ -115,7 +115,7 @@
               >
                 <iframe
                   :src="`${cv?.url}#toolbar=0&navpanes=0&scrolling=0`"
-                  class="border rounded-lg !overflow-hidden w-[220px] h-[283px]"
+                  class="border rounded-lg !overflow-hidden w-[220px] h-[283px] !m-0"
                 ></iframe>
                 <div class="absolute inset-0 bg-[#0000001a]"></div>
                 <div
@@ -152,7 +152,7 @@
                 </div>
               </div>
             </div>
-            <div class="mt-6">
+            <div class="mt-6 mx-auto w-[750px]">
               <drag-to-upload @on-success="onAddCV" />
             </div>
           </div>

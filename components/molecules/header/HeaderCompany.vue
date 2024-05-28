@@ -88,7 +88,7 @@
         class="flex items-center gap-x-2 border rounded-full px-[6px] py-[3px]"
       >
         <img
-          src="https://job-nest.s3.ap-southeast-1.amazonaws.com/images/0016cf9101bd8164b99c675804f14b0ff6ea6a552fbcc7d113ae90a7f2032a9f4b4893f4377a704a44d28bd91beee557913fe95abedf75a54f74b8890886a47b.png"
+          :src="userStore.accountInfo?.avatar"
           class="w-[48px] h-[48px] rounded-full border hover:cursor-pointer focus:outline-none"
         />
         <p class="text-[15px] text-[#606266]">Bộ phận tuyển dụng</p>
@@ -104,6 +104,9 @@ const router = useRouter();
 const userData = getUserData();
 
 const notificationStore = useNotificationStore();
+const userStore = useUserStore();
+
+await userStore.getAccountInfo();
 
 const totalNotificationUnreal = ref(0);
 const totalConversationUnreal = ref(0);

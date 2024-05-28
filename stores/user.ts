@@ -1,4 +1,5 @@
 import type {
+  IAccountInfo,
   IGetListFavoriteJob,
   IGetListJobApplication,
   IUserProfile,
@@ -7,6 +8,7 @@ import type {
 export const useUserStore = defineStore(EStoreName.User, {
   state: () => ({
     myProfile: {} as IUserProfile,
+    accountInfo: {} as IAccountInfo,
   }),
   actions: {
     async getMyProfile(): Promise<IUserProfile> {
@@ -42,7 +44,13 @@ export const useUserStore = defineStore(EStoreName.User, {
     },
 
     async getAccountInfo() {
-      return await useBaseFetch(`/users/account-info`);
+      if (isEmptyObject(this.accountInfo)) {
+        const data = await useBaseFetch(`/users/account-info`);
+        this.setAccountInfo(data.data);
+        return data;
+      } else {
+        return this.accountInfo;
+      }
     },
 
     async updateAccountInfo(body: any) {
@@ -51,6 +59,7 @@ export const useUserStore = defineStore(EStoreName.User, {
         body: { ...body },
         loading: true,
       });
+      this.setAccountInfo(data);
       useNotificationSuccess({ title: 'Thành công!' });
       return data;
     },
@@ -64,6 +73,10 @@ export const useUserStore = defineStore(EStoreName.User, {
 
     setMyProfile(data: IUserProfile) {
       this.myProfile = data;
+    },
+
+    setAccountInfo(data: IAccountInfo) {
+      this.accountInfo = data;
     },
   },
 });
