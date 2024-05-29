@@ -51,13 +51,13 @@
                   <img src="@/assets/images/two-guy-gray.svg" class="w-6" />
                   <span>{{ `${job.totalCandidate} Lượt ứng tuyển` }}</span>
                 </div>
-                <div class="flex items-center gap-x-1">
+                <div class="flex items-center gap-x-1 truncate w-[375px]">
                   <img src="@/assets/images/location-gray.svg" class="w-6" />
-                  <p v-for="(city, index) in job.cities" :key="index">
+                  <span v-for="(city, index) in job.cities" :key="index">
                     {{
                       `${city.name} ${index !== job.cities.length - 1 ? ',' : ''}`
                     }}
-                  </p>
+                  </span>
                 </div>
               </div>
               <div class="grid grid-cols-4">

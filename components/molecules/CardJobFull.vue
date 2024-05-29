@@ -8,12 +8,15 @@
       :to="`/job/${data.id}`"
     >
       <div class="flex">
-        <img :src="data.company?.avatar" class="w-24 object-contain" />
+        <img
+          :src="data.company?.avatar"
+          class="w-24 h-24 object-contain border p-[2px] rounded-sm"
+        />
         <div class="ml-4">
-          <p class="font-bold text-one-line text-lg">
+          <p class="font-bold text-lg w-[600px] line-clamp-2">
             {{ data.title }}
           </p>
-          <p class="w-[270px] text-one-line">
+          <p class="w-[600px] truncate">
             {{ data.company?.name }}
           </p>
           <p
@@ -40,7 +43,7 @@
           >
             {{ `$ Thương lượng` }}
           </p>
-          <div class="flex gap-x-1">
+          <div class="flex gap-x-1 w-[600px] truncate">
             <div
               v-for="(city, index) in data.cities"
               :key="index"

@@ -1,8 +1,5 @@
 <template>
   <div class="h-[160px] bg-[#007c32b8] flex items-center justify-center">
-    <!-- <span class="text-6xl font-bold text-center text-white">
-      Find Your Dream Job
-    </span> -->
     <job-filter
       class="mx-auto"
       @job-mode="handleChangeJobMode"
@@ -15,14 +12,6 @@
   </div>
 
   <div class="w-[1050px] mx-auto">
-    <!-- <job-filter
-      class="mx-auto"
-      @job-mode="handleChangeJobMode"
-      @salary="handleChangeSalary"
-      @year-experience="handleChangeYearExperience"
-      @level="handleChangeLevel"
-      @search="handleSearch"
-    /> -->
     <div v-if="listJob.length === 0" class="text-center mt-6">
       Không tìm thấy kết quả phù hợp
     </div>

@@ -66,7 +66,7 @@
           <template #header><p>Tiêu đề</p></template>
           <template #default="scoped">
             <p
-              class="cursor-pointer underline text-blue"
+              class="cursor-pointer underline text-blue line-clamp-1"
               @click="router.push(`/company/job/${scoped.row.id}`)"
             >
               {{ scoped.row.title }}

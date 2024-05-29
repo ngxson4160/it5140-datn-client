@@ -76,7 +76,7 @@
             <p>Tên ứng viên</p>
           </template>
           <template #default="scoped">
-            <p>
+            <p class="truncate">
               {{ `${scoped.row.candidateName}` }}
             </p>
           </template>

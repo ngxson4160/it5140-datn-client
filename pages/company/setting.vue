@@ -28,8 +28,8 @@ const newPass = ref({ ...initNewPass });
 const accountInfo = ref();
 const showDialogChangePassword = ref(false);
 
-const { data } = await userStore.getAccountInfo();
-accountInfo.value = data;
+await userStore.getAccountInfo();
+accountInfo.value = userStore.accountInfo;
 
 const onSave = async () => {
   await userStore.updateAccountInfo({

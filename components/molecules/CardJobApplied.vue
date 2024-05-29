@@ -1,18 +1,21 @@
 <template>
   <div
-    class="bg-white flex items-center border h-[150px] rounded-lg py-2 px-4 hover:bg-[#1caf5705] hover:border-[#1caf573f]"
+    class="mb-2 bg-white flex items-center border h-[150px] rounded-lg py-2 px-4 hover:bg-[#1caf5705] hover:border-[#1caf573f]"
   >
     <div class="w-full flex items-center justify-between">
       <div class="flex">
-        <img :src="data.job.company?.avatar" class="w-24 object-contain" />
+        <img
+          :src="data.job.company?.avatar"
+          class="w-24 h-24 object-contain border p-[2px] rounded-sm"
+        />
         <div
           class="ml-4 cursor-pointer"
           @click="router.push(`/job/${data.job.id}`)"
         >
-          <p class="font-bold text-one-line text-lg">
+          <p class="font-bold text-lg truncate w-[500px]">
             {{ data.job.title }}
           </p>
-          <p class="w-[270px] text-one-line">
+          <p class="truncate w-[500px]">
             {{ data.job.company?.name }}
           </p>
           <p

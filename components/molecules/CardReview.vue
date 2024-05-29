@@ -5,7 +5,7 @@
     <div class="flex">
       <img src="@/assets/images/logo.jpg" class="w-28 h-28 object-contain" />
       <div class="ml-6 mt-4">
-        <p class="text-lg font-bold">Leo Messi</p>
+        <p class="text-lg font-bold w-[245px] truncate">Leo Messi</p>
         <p class="text-gray text-sm">17/4/2024</p>
       </div>
     </div>

@@ -5,7 +5,7 @@
       class="w-full h-[255px] object-contain border rounded-md"
     />
     <p class="my-2">18/04/2024</p>
-    <p class="text-lg font-bold mb-4 max-h-14">
+    <p class="text-lg font-bold mb-4 max-h-14 line-clamp-2">
       fdjkas sajdk asjidh auisdfgh iuasfgh iuasgfu sadufk asiufyas fduiasdhgf
       asdiu
     </p>
