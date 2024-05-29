@@ -1,5 +1,4 @@
 <template>
-  <header-auth />
   <job-detail
     :job="job"
     :company="company"
@@ -16,7 +15,10 @@
 
 <script setup lang="ts">
 definePageMeta({
-  middleware: ['redirect'],
+  layout: 'user-header',
+  // middleware: ['redirect'],
+  middleware: ['redirect-to-guest-router'],
+  roles: [ERole.USER],
 });
 
 const job = ref();

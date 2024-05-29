@@ -1,16 +1,5 @@
 <template>
-  <!-- <div class="h-[110px] bg-[#e8f7ee] flex items-center justify-center">
-    <div class="mx-auto w-[1300px]">
-      <div class="flex gap-x-4 w-[750px] bg-white p-2 border rounded-lg">
-        <el-input placeholder="Nhập tên công ty" v-model:model-value="name" />
-        <el-button type="primary" size="large" @click="handleSearch">
-          Tìm kiếm
-        </el-button>
-      </div>
-    </div>
-  </div> -->
-
-  <div class="mx-auto w-[1300px] mt-10">
+  <div class="mx-auto w-[1300px] pt-10">
     <div class="flex gap-x-4 w-[750px] bg-[#E6EFFF] px-4 py-2 rounded-md">
       <el-input v-model:model-value="name" placeholder="Nhập tên công ty" />
       <el-button type="primary" size="large" @click="handleSearch">

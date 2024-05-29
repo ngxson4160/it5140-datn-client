@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white h-full mr-4 p-4 shadow-md rounded-md">
+  <div class="bg-white mr-4 px-4 pt-4 pb-10 shadow-md rounded-md">
     <p class="font-bold text-xl mb-10 pb-2 border-b">Công việc tuyển dụng</p>
 
     <div class="flex justify-between mb-4">
@@ -66,7 +66,7 @@
           <template #header><p>Tiêu đề</p></template>
           <template #default="scoped">
             <p
-              class="cursor-pointer underline text-blue"
+              class="cursor-pointer underline text-blue line-clamp-1"
               @click="router.push(`/company/job/${scoped.row.id}`)"
             >
               {{ scoped.row.title }}
@@ -214,7 +214,7 @@
       </el-table>
     </div>
 
-    <div class="w-full flex justify-end mt-8 mb-16">
+    <div class="w-full flex justify-end mt-8">
       <el-pagination
         :current-page="currentPage"
         :page-size="meta.pagination.pageSize"
@@ -263,7 +263,8 @@ import { CJobType } from '~/utils/constant/job';
 
 definePageMeta({
   layout: 'company-dashboard',
-  middleware: ['redirect'],
+  // middleware: ['redirect'],
+  roles: [ERole.COMPANY],
 });
 
 const handleDisableDate = (data: any) => {

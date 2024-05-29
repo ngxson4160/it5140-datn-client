@@ -35,7 +35,7 @@ const PATH_COMPANY = [
   /^company\/job\/list$/,
   /^company\/job\/\d+\/edit$/,
   /^company\/job\/create$/,
-  /^company\/message\?id=\d+$/,
+  /^company\/message$/,
   /^company\/setting$/,
 ];
 

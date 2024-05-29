@@ -51,13 +51,13 @@
                   <img src="@/assets/images/two-guy-gray.svg" class="w-6" />
                   <span>{{ `${job.totalCandidate} Lượt ứng tuyển` }}</span>
                 </div>
-                <div class="flex items-center gap-x-1">
+                <div class="flex items-center gap-x-1 truncate w-[375px]">
                   <img src="@/assets/images/location-gray.svg" class="w-6" />
-                  <p v-for="(city, index) in job.cities" :key="index">
+                  <span v-for="(city, index) in job.cities" :key="index">
                     {{
                       `${city.name} ${index !== job.cities.length - 1 ? ',' : ''}`
                     }}
-                  </p>
+                  </span>
                 </div>
               </div>
               <div class="grid grid-cols-4">
@@ -70,12 +70,20 @@
                   Đã ứng tuyển
                 </el-button>
                 <el-button
-                  v-else
+                  v-else-if="new Date(job.hiringEndDate) > new Date()"
                   type="primary"
                   class="col-span-3 !h-10"
                   @click="handleApplyJob"
                 >
                   Ứng tuyển ngay
+                </el-button>
+                <el-button
+                  v-else-if="new Date(job.hiringEndDate) <= new Date()"
+                  type="info"
+                  class="col-span-3 !h-10"
+                  disabled
+                >
+                  Hết hạn
                 </el-button>
                 <el-button
                   v-if="job.userFollowJob"
@@ -156,6 +164,7 @@
             </div>
             <div
               class="flex items-center justify-center gap-x-1 mt-4 text-sm text-green cursor-pointer"
+              @click="router.push(`/company/${company.id}`)"
             >
               <p>Xem chi tiết công ty</p>
               <img
@@ -270,13 +279,19 @@ const props = defineProps({
   },
 });
 
+const router = useRouter();
+
 const emits = defineEmits(['onApplyJob', 'onFollowJob']);
 
 const handleApplyJob = () => {
+  const isLogin = handleCheckLogin();
+  if (!isLogin) return;
   emits('onApplyJob');
 };
 
 const handleFollowJob = (isFavorite: boolean) => {
+  const isLogin = handleCheckLogin();
+  if (!isLogin) return;
   emits('onFollowJob', isFavorite);
 };
 </script>

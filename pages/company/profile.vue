@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white h-full mr-4 p-4 shadow-md rounded-md">
+  <div class="bg-white mr-4 px-4 pt-4 pb-10 shadow-md rounded-md">
     <el-tabs v-model="activeName">
       <el-tab-pane label="Thông tin chung" name="information-general">
         <div class="w-[1250px]">
@@ -99,13 +99,13 @@
                 v-if="!isEmptyObject(company.avatar)"
                 :key="company.avatar"
                 :src="company.avatar"
-                class="w-[150px] h-[150px] object-contain border p-[3px] bg-white rounded-md"
+                class="w-[150px] h-[150px] object-cover border p-[3px] bg-white rounded-md"
               />
               <div
                 v-else
-                class="w-[150px] h-[150px] flex items-center justify-center border p-[3px] bg-white rounded-md"
+                class="w-[150px] h-[150px] flex items-center border p-[3px] bg-white rounded-md"
               >
-                <loading-custom />
+                <loading-custom class="ml-14" />
               </div>
               <up-load-image
                 v-model:data-upload="company.avatar"
@@ -120,13 +120,13 @@
                 v-if="!isEmptyObject(company.coverImage)"
                 :key="company.coverImage"
                 :src="company.coverImage"
-                class="!w-[698px] h-[150px] border rounded-lg object-contain"
+                class="!w-[698px] h-[150px] border rounded-lg object-cover"
               />
               <div
                 v-else
-                class="flex justify-center items-center !w-[698px] h-[150px] border rounded-lg"
+                class="flex items-center !w-[698px] h-[150px] border rounded-lg"
               >
-                <loading-custom />
+                <loading-custom class="ml-[320px]" />
               </div>
               <div class="flex justify-end">
                 <up-load-image
@@ -137,12 +137,6 @@
               </div>
             </div>
           </div>
-
-          <!-- <div class="mt-10 flex justify-end">
-            <el-button type="primary" size="large" @click="onUpdateCompany">
-              Lưu
-            </el-button>
-          </div> -->
         </div>
       </el-tab-pane>
     </el-tabs>
@@ -152,7 +146,8 @@
 <script setup lang="ts">
 definePageMeta({
   layout: 'company-dashboard',
-  middleware: ['redirect'],
+  // middleware: ['redirect'],
+  roles: [ERole.COMPANY],
 });
 
 const activeName = ref('information-general');

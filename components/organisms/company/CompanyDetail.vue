@@ -4,17 +4,13 @@
   >
     <img
       :src="company?.coverImage"
-      class="rounded-t-lg h-[245px] object-contain"
+      class="rounded-t-lg h-[245px] object-cover"
     />
 
-    <!-- <div
-      class="absolute w-[150px] h-[150px] left-6 bottom-6 border p-[3px] bg-white rounded-md"
-    > -->
     <img
       :src="company?.avatar"
       class="object-contain absolute w-[150px] h-[150px] left-4 bottom-6 border p-[3px] bg-white rounded-md"
     />
-    <!-- </div> -->
 
     <div class="ml-[180px] mr-4 flex h-full justify-between items-center">
       <div class="h-full flex flex-col justify-center rounded-b-lg">
@@ -27,7 +23,7 @@
 
           <div class="flex gap-x-2">
             <img src="@/assets/images/people-group-black.svg" class="w-6" />
-            <p>{{ CCompanySizeType[company?.sizeType].name }}</p>
+            <p>{{ CCompanySizeType[company?.sizeType]?.name }}</p>
           </div>
 
           <div class="flex gap-x-2">
@@ -165,6 +161,9 @@ const { params } = useRoute();
 const conversationStore = useConversationStore();
 
 const redirectToMessagePage = async () => {
+  const isLogin = handleCheckLogin();
+  if (!isLogin) return;
+
   const conversation = await conversationStore.createConversation({
     withUserId: props.company.users.id,
   });

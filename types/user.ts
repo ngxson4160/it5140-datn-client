@@ -131,6 +131,13 @@ export interface IJobApplication {
   };
 }
 
+export interface IAccountInfo {
+  avatar?: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+}
+
 export interface IUserProfileResponse extends IResponse {
   data: IUserProfile;
 }

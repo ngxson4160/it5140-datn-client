@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white h-full p-4 text-sm w-[350px] shadow-md rounded-b-md">
+  <div class="bg-white h-[570px] p-4 text-sm w-[350px] shadow-md rounded-b-md">
     <NuxtLink
       v-for="(item, index) in menuData"
       :key="index"

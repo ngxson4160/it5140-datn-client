@@ -18,10 +18,10 @@
       <div class="flex items-center">
         <el-dropdown trigger="click">
           <el-badge
-            :value="totalMessageUnreal"
+            :value="totalNotificationUnreal"
             :max="9"
             class="mr-6 item cursor-pointer focus:outline-none"
-            :hidden="totalMessageUnreal === 0"
+            :hidden="totalNotificationUnreal === 0"
             @click="handleUpdateReadNotification"
           >
             <img src="@/assets/images/notification-gray.svg" class="w-8 mr-1" />
@@ -74,19 +74,32 @@
           </template>
         </el-dropdown>
 
-        <el-badge :value="200" :max="99" class="mr-16 item cursor-pointer">
+        <el-badge
+          :value="totalConversationUnreal"
+          :max="999"
+          :hidden="totalConversationUnreal === 0"
+          class="mr-16 item cursor-pointer"
+          @click="router.push('/company/message')"
+        >
           <img src="@/assets/images/message-gray.svg" class="w-8 mr-1" />
         </el-badge>
       </div>
-      <div
-        class="flex items-center gap-x-2 border rounded-full px-[6px] py-[3px]"
-      >
-        <img
-          src="https://job-nest.s3.ap-southeast-1.amazonaws.com/images/0016cf9101bd8164b99c675804f14b0ff6ea6a552fbcc7d113ae90a7f2032a9f4b4893f4377a704a44d28bd91beee557913fe95abedf75a54f74b8890886a47b.png"
-          class="w-[48px] h-[48px] rounded-full border hover:cursor-pointer focus:outline-none"
-        />
-        <p class="text-[15px] text-[#606266]">Bộ phận tuyển dụng</p>
-      </div>
+      <el-dropdown>
+        <div
+          class="flex items-center gap-x-2 border rounded-full px-[6px] py-[3px] focus:outline-none"
+        >
+          <img
+            :src="userStore.accountInfo?.avatar"
+            class="w-[48px] h-[48px] rounded-full border hover:cursor-pointer focus:outline-none"
+          />
+          <p class="text-[15px] text-[#606266]">Bộ phận tuyển dụng</p>
+        </div>
+        <template #dropdown>
+          <el-dropdown-menu class="w-[200px]">
+            <el-dropdown-item @click="handleLogout">Đăng xuất</el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
     </div>
   </div>
 </template>
@@ -98,8 +111,12 @@ const router = useRouter();
 const userData = getUserData();
 
 const notificationStore = useNotificationStore();
+const userStore = useUserStore();
 
-const totalMessageUnreal = ref(0);
+await userStore.getAccountInfo();
+
+const totalNotificationUnreal = ref(0);
+const totalConversationUnreal = ref(0);
 const query = ref<IGetListNotification>({ page: 0, limit: 9 });
 const listNotification = ref<any[]>([]);
 const disableInfiniteScroll = ref(false);
@@ -126,7 +143,7 @@ const handleUpdateReadNotification = async () => {
   await notificationStore.updateManyNotification({
     status: ENotificationStatus.READ,
   });
-  totalMessageUnreal.value = 0;
+  totalNotificationUnreal.value = 0;
 };
 
 onBeforeMount(() => {
@@ -140,17 +157,23 @@ onBeforeMount(() => {
         dangerouslyUseHTMLString: true,
       });
       listNotification.value.unshift(notificationCreated);
-      totalMessageUnreal.value = countNotificationUnread;
+      totalNotificationUnreal.value = countNotificationUnread;
     },
   );
 
   socket.emit('countNotificationUnread', (total: number) => {
-    totalMessageUnreal.value = total;
+    totalNotificationUnreal.value = total;
+  });
+
+  socket.emit('count_conversation_unread', (total: number) => {
+    totalConversationUnreal.value = total;
+  });
+
+  socket.on('count_conversation_unread', ({ count }) => {
+    totalConversationUnreal.value = count;
   });
 
   socket.on('create_conversation', ({ payload }) => {
-    console.log(userData?.id, payload.fromUserId, payload.toUserId);
-
     if (
       userData?.id === payload.fromUserId ||
       userData?.id === payload.toUserId

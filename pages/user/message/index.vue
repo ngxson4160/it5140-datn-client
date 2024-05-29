@@ -4,8 +4,9 @@
 
 <script setup lang="ts">
 definePageMeta({
+  roles: [ERole.USER],
   layout: 'user-dashboard',
-  middleware: ['redirect'],
+  // middleware: ['redirect'],
 });
 </script>
 

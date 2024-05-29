@@ -5,15 +5,15 @@
     <div class="flex justify-center">
       <div>
         <img
-          v-if="!isEmptyObject(syncData.avatar)"
-          :src="syncData.avatar"
+          v-if="!isEmptyObject(syncData?.avatar)"
+          :src="syncData?.avatar"
           class="w-[135px] h-[135px] rounded-full object-contain border p-[3px] bg-white mb-2"
         />
         <div
           v-else
-          class="w-[150px] h-[150px] flex items-center justify-center border p-[3px] bg-white rounded-md"
+          class="w-[135px] h-[135px] flex items-center border p-[3px] bg-white rounded-full"
         >
-          <loading-custom />
+          <loading-custom class="ml-11" />
         </div>
         <up-load-image
           v-model:data-upload="syncData.avatar"

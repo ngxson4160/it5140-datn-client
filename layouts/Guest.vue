@@ -1,6 +1,6 @@
 <template>
   <header-guest class="border-b shadow-md" />
-  <div class="bg-[#F9F9FA] pt-4 md:h-screen">
+  <div class="bg-[#f2f5f8] md:h-screen">
     <slot />
   </div>
 </template>

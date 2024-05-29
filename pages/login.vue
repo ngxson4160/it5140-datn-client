@@ -1,5 +1,5 @@
 <template>
-  <section class="bg-gray-50 dark:bg-gray-900">
+  <section class="bg-[#f2f5f8] dark:bg-gray-900">
     <div
       class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0"
     >
@@ -114,7 +114,6 @@ const state = ref({
   password: undefined,
 });
 
-const loading = ref(false);
 const router = useRouter();
 
 const submit = async (event: any) => {
@@ -133,6 +132,15 @@ const submit = async (event: any) => {
         external: true,
       });
     } else if (data.user.roles[0] === ERole.USER) {
+      const pathPreLogin = useLocalStorage('path-pre-login', '');
+      if (pathPreLogin.value) {
+        navigateTo(`/user${pathPreLogin.value}`, {
+          external: true,
+        });
+        pathPreLogin.value = '';
+        return;
+      }
+
       navigateTo('/user', {
         external: true,
       });

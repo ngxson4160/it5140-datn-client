@@ -1,5 +1,5 @@
 <template>
-  <div class="w-[1140px] mx-auto pb-[104px]">
+  <div class="w-[1140px] mx-auto pb-[104px] pt-4">
     <company-detail
       :company="company"
       :list-job="listJob"
@@ -13,7 +13,9 @@
 <script setup lang="ts">
 definePageMeta({
   layout: 'user-header',
-  middleware: ['redirect'],
+  // middleware: ['redirect'],
+  middleware: ['redirect-to-guest-router'],
+  roles: [ERole.USER],
 });
 const company = ref();
 const listJob = ref();

@@ -1,11 +1,10 @@
 <template>
-  <company-list />
+  <div>About Us Page</div>
 </template>
 
 <script setup lang="ts">
 definePageMeta({
   layout: 'user-header',
-  // middleware: ['redirect'],
   middleware: ['redirect-to-guest-router'],
   roles: [ERole.USER],
 });

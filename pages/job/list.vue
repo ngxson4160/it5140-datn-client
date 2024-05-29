@@ -1,11 +1,12 @@
 <template>
-  <header-guest />
   <job-list />
 </template>
 
 <script setup lang="ts">
 definePageMeta({
-  middleware: ['redirect'],
+  layout: 'guest',
+  // middleware: ['redirect'],
+  middleware: ['redirect-to-user-router'],
 });
 </script>
 

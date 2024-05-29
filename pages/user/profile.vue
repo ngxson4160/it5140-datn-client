@@ -3,28 +3,202 @@
     <div class="flex-1">
       <el-tabs v-model="activeName" class="demo-tabs">
         <el-tab-pane label="Danh sách hồ sơ" name="general">
+          <div id="part1" class="w-full rounded-sm bg-white px-6 py-4">
+            <div class="flex mb-6 t justify-between items-center">
+              <p class="font-bold text-xl">Thông tin cá nhân</p>
+              <img
+                src="@/assets/images/edit-title-primary.svg"
+                class="cursor-pointer w-8"
+                @click="showEditInformationGeneral = true"
+              />
+            </div>
+            <div class="grid grid-cols-2 mt-6 gap-y-6">
+              <div class="col-span-1">
+                <p class="font-bold">Họ và tên</p>
+                <p class="text-sm">
+                  {{
+                    `${userStore.myProfile.firstName} ${userStore.myProfile.lastName}`
+                  }}
+                </p>
+              </div>
+              <div class="col-span-1">
+                <p class="font-bold">Tỉnh/Thành phố</p>
+                <p class="text-sm">
+                  {{ userStore.myProfile.city?.name || '' }}
+                </p>
+              </div>
+
+              <div class="col-span-1">
+                <p class="font-bold">Số điện thoại</p>
+                <p class="text-sm">{{ userStore.myProfile.phoneNumber }}</p>
+              </div>
+              <div class="col-span-1">
+                <p class="font-bold">Quận/Huyện</p>
+                <p class="text-sm">
+                  {{ userStore.myProfile?.district?.name || '' }}
+                </p>
+              </div>
+
+              <div class="col-span-1">
+                <p class="font-bold">Giới tính</p>
+                <p class="text-sm">
+                  {{
+                    userStore.myProfile.gender !== null
+                      ? CGender[userStore.myProfile?.gender].name
+                      : ''
+                  }}
+                </p>
+              </div>
+              <div class="col-span-1">
+                <p class="font-bold">Địa chỉ</p>
+                <p class="text-sm">{{ userStore.myProfile?.address || '' }}</p>
+              </div>
+
+              <div class="col-span-1">
+                <p class="font-bold">Ngày sinh</p>
+                <p class="text-sm">
+                  {{
+                    userStore.myProfile?.dob
+                      ? formatDateShort(userStore.myProfile?.dob)
+                      : ''
+                  }}
+                </p>
+              </div>
+              <div class="col-span-1">
+                <p class="font-bold">Tình trạng hôn nhân</p>
+                <p class="text-sm">
+                  {{
+                    userStore.myProfile.maritalStatus !== null
+                      ? CMaritalStatus[userStore.myProfile?.maritalStatus].name
+                      : ''
+                  }}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div id="part2" class="w-full rounded-sm bg-white px-6 py-4 my-4">
+            <div class="flex mb-6 t justify-between items-center">
+              <p class="font-bold text-xl">Thông tin chung</p>
+              <img
+                src="@/assets/images/edit-title-primary.svg"
+                class="cursor-pointer w-8"
+                @click="showEditProfile = true"
+              />
+            </div>
+            <p class="font-bold">Mục tiêu nghề nghiệp</p>
+            <p class="text-sm">
+              {{ userStore.myProfile.candidateInformation?.target || '' }}
+            </p>
+            <div class="grid grid-cols-2 mt-6 gap-y-6">
+              <div class="col-span-1">
+                <p class="font-bold">Ví trị mong muốn</p>
+                <p class="text-sm">
+                  {{
+                    userStore.myProfile.candidateInformation?.desiredJobCategory
+                      ? userStore.myProfile.candidateInformation
+                          .desiredJobCategory?.name
+                      : ''
+                  }}
+                </p>
+              </div>
+
+              <div class="col-span-1">
+                <p class="font-bold">Số năm kinh nghiệm</p>
+                <p class="text-sm">
+                  {{
+                    userStore.myProfile.candidateInformation?.yearExperience ||
+                    ''
+                  }}
+                </p>
+              </div>
+
+              <div class="col-span-1">
+                <p class="font-bold">Cấp bậc mong muốn</p>
+                <p class="text-sm">
+                  {{
+                    userStore.myProfile.candidateInformation
+                      ?.desiredJobLevel !== null
+                      ? CJobLevel[
+                          userStore.myProfile.candidateInformation
+                            .desiredJobLevel
+                        ].name
+                      : ''
+                  }}
+                </p>
+              </div>
+              <div class="col-span-1">
+                <p class="font-bold">Mức lương mong muốn</p>
+                <p class="text-sm">
+                  {{
+                    userStore.myProfile.candidateInformation?.desiredSalary ||
+                    ''
+                  }}
+                  VND
+                </p>
+              </div>
+
+              <div class="col-span-1">
+                <p class="font-bold">Trình độ học vấn</p>
+                <p class="text-sm">
+                  {{
+                    userStore.myProfile?.educationalLevel !== null
+                      ? CEducationLevel[userStore.myProfile.educationalLevel]
+                          .name
+                      : ''
+                  }}
+                </p>
+              </div>
+              <div class="col-span-1">
+                <p class="font-bold">Hình thức làm việc mong muốn</p>
+                <p class="text-sm">
+                  {{
+                    userStore.myProfile.candidateInformation?.desiredJobMode !==
+                    null
+                      ? CJobMode[
+                          userStore.myProfile.candidateInformation
+                            .desiredJobMode
+                        ].name
+                      : ''
+                  }}
+                </p>
+              </div>
+            </div>
+          </div>
+
           <div class="bg-white px-4 py-6 mr-4">
             <div class="flex justify-between">
               <p class="font-bold text-xl">Hồ sơ Job Nest</p>
-              <div
-                class="flex gap-x-1 items-center rounded-full bg-[#f2f5f8] px-2 cursor-pointer"
-                :class="
-                  userStore.myProfile.candidateInformation?.publicCvType ===
-                  EPublicCvType.SYSTEM_CV
-                    ? 'is-public-cv'
-                    : 'custom-public-cv'
-                "
-                @click="openDialogPublicSystemCV"
-              >
-                <el-rate max="1" :void-icon="StarFilled" clearable />
-                <p>Cho phép tìm kiếm</p>
+              <div>
+                <div
+                  class="flex gap-x-1 items-center rounded-full bg-[#f2f5f8] px-2 cursor-pointer"
+                  :class="
+                    userStore.myProfile.candidateInformation?.publicCvType ===
+                    EPublicCvType.SYSTEM_CV
+                      ? 'is-public-cv'
+                      : 'custom-public-cv'
+                  "
+                  @click="openDialogPublicSystemCV"
+                >
+                  <el-rate max="1" :void-icon="StarFilled" clearable />
+                  <p>Cho phép tìm kiếm</p>
+                </div>
+                <el-button
+                  class="mt-2"
+                  type="warning"
+                  :icon="View"
+                  round
+                  @click="showCVPreviewSystem = true"
+                >
+                  Xem như nhà tuyển dụng
+                </el-button>
               </div>
             </div>
 
             <div class="flex gap-x-8 mt-6 mx-4">
               <div>
                 <img
-                  src="@/assets/images/logo.jpg"
+                  :src="userStore.myProfile?.avatar"
                   class="rounded-full w-[150px] h-[150px] border object-contain"
                 />
               </div>
@@ -115,7 +289,7 @@
               >
                 <iframe
                   :src="`${cv?.url}#toolbar=0&navpanes=0&scrolling=0`"
-                  class="border rounded-lg !overflow-hidden w-[220px] h-[283px]"
+                  class="border rounded-lg !overflow-hidden w-[220px] h-[283px] !m-0"
                 ></iframe>
                 <div class="absolute inset-0 bg-[#0000001a]"></div>
                 <div
@@ -141,24 +315,30 @@
                     {{ cv?.title }}
                   </p>
                 </div>
-                <div class="absolute right-0 bottom-14">
+                <div class="absolute flex right-4 bottom-2">
+                  <el-button
+                    type="warning"
+                    :icon="View"
+                    circle
+                    @click="handleShowPreviewAttachmentCV(cv?.url)"
+                  />
                   <el-button
                     type="danger"
                     :icon="Delete"
                     circle
-                    class="absolute right-4 top-4"
                     @click="onShowDeleteCV(index)"
                   />
                 </div>
               </div>
             </div>
-            <div class="mt-6">
+            <div class="mt-6 mx-auto w-[750px]">
               <drag-to-upload @on-success="onAddCV" />
             </div>
           </div>
         </el-tab-pane>
+
         <el-tab-pane label="Hồ sơ đính kèm" name="system-cv">
-          <div id="part1" class="w-full rounded-sm bg-white px-6 py-4">
+          <!-- <div id="part1" class="w-full rounded-sm bg-white px-6 py-4">
             <div class="flex mb-6 t justify-between items-center">
               <p class="font-bold text-xl">Thông tin cá nhân</p>
               <img
@@ -330,9 +510,9 @@
                 </p>
               </div>
             </div>
-          </div>
+          </div> -->
 
-          <div id="part3" class="w-full rounded-sm bg-white px-6 py-4 mt-4">
+          <div id="part3" class="w-full rounded-sm bg-white px-6 py-4">
             <div class="flex mb-6 t justify-between items-center">
               <p class="font-bold text-xl">Kinh nghiệm làm việc</p>
               <img
@@ -628,7 +808,14 @@
       @on-confirm="handlePublicSystemCV()"
     >
       <template #default>
-        <p>Xác nhận cho phép tìm kiếm hồ sơ Job Nest</p>
+        <p>Xác nhận cho phép tìm kiếm hồ sơ Job Nest?</p>
+        <p class="mt-2">
+          Lưu ý điền đầy đủ
+          <span class="font-bold">Thông tin cá nhân</span>
+          và
+          <span class="font-bold">Thông tin chung</span>
+          để nhà tuyển dụng có thể dễ dàng tìm thấy bạn.
+        </p>
       </template>
     </dialog-confirm-action>
 
@@ -638,7 +825,14 @@
       @on-confirm="handlePublicAttachmentCV(attachmentCVUrl)"
     >
       <template #default>
-        <p>{{ `Xác nhận cho phép tìm kiếm hồ sơ '${attachmentCVTitle}'` }}</p>
+        <p>{{ `Xác nhận cho phép tìm kiếm hồ sơ '${attachmentCVTitle}'?` }}</p>
+        <p class="mt-2">
+          Lưu ý điền đầy đủ
+          <span class="font-bold">Thông tin cá nhân</span>
+          và
+          <span class="font-bold">Thông tin chung</span>
+          để nhà tuyển dụng có thể dễ dàng tìm thấy bạn.
+        </p>
       </template>
     </dialog-confirm-action>
 
@@ -655,11 +849,23 @@
         </p>
       </template>
     </dialog-confirm-action>
+
+    <!-- Preview CV -->
+    <dialog-preview-cv-system
+      v-if="showCVPreviewSystem"
+      v-model:dialog-visible="showCVPreviewSystem"
+      :data="userStore.myProfile"
+    />
+    <dialog-preview-cv-attachment
+      v-if="showCVPreviewAttachment"
+      v-model:dialog-visible="showCVPreviewAttachment"
+      :url="urlCVPreview"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-import { Delete, StarFilled } from '@element-plus/icons-vue';
+import { View, Delete, StarFilled } from '@element-plus/icons-vue';
 import {
   CMaritalStatus,
   CGender,
@@ -669,7 +875,8 @@ import { CJobLevel, CJobMode } from '@/utils/constant/job';
 
 definePageMeta({
   layout: 'user-dashboard',
-  middleware: ['redirect'],
+  // middleware: ['redirect'],
+  roles: [ERole.USER],
 });
 
 const activeName = ref('general');
@@ -684,6 +891,10 @@ const showCertificate = ref(false);
 const showAdvancedSkill = ref(false);
 const showLanguageSkill = ref(false);
 const showProject = ref(false);
+const showCVPreviewAttachment = ref(false);
+const showCVPreviewSystem = ref(false);
+
+const urlCVPreview = ref('');
 
 await userStore.getMyProfile();
 
@@ -1019,6 +1230,11 @@ const handleNotPublicCV = async () => {
   await userStore.updateMyProfile({
     publicCvType: EPublicCvType.NOT_PUBLIC,
   });
+};
+
+const handleShowPreviewAttachmentCV = (url: string) => {
+  urlCVPreview.value = url;
+  showCVPreviewAttachment.value = true;
 };
 </script>
 
