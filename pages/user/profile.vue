@@ -875,7 +875,8 @@ import { CJobLevel, CJobMode } from '@/utils/constant/job';
 
 definePageMeta({
   layout: 'user-dashboard',
-  middleware: ['redirect'],
+  // middleware: ['redirect'],
+  roles: [ERole.USER],
 });
 
 const activeName = ref('general');

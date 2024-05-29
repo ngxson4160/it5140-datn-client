@@ -12,7 +12,8 @@
 <script setup lang="ts">
 definePageMeta({
   layout: 'user-dashboard',
-  middleware: ['redirect'],
+  // middleware: ['redirect'],
+  roles: [ERole.USER],
 });
 
 const userStore = useUserStore();

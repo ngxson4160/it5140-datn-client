@@ -68,7 +68,8 @@ import type { IGetListJobApplication, IJobApplication } from '~/types/user';
 
 definePageMeta({
   layout: 'user-dashboard',
-  middleware: ['redirect'],
+  // middleware: ['redirect'],
+  roles: [ERole.USER],
 });
 
 const currentPage = ref<number>(1);
@@ -116,9 +117,6 @@ const setCurrentPageFavorite = async (page: number) => {
   listJobFavorite.value = data.data as IJobApplication[];
   metaFavorite.value = data.meta;
 };
-
-console.log(listJobApply.value);
-console.log(listJobFavorite.value);
 </script>
 
 <style lang="scss">

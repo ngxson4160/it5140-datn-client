@@ -4,8 +4,9 @@
 
 <script setup lang="ts">
 definePageMeta({
-  layout: 'guest',
-  middleware: ['redirect-to-user-router'],
+  layout: 'user-header',
+  middleware: ['redirect-to-guest-router'],
+  roles: [ERole.USER],
 });
 </script>
 

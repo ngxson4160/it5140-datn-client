@@ -146,7 +146,8 @@
 <script setup lang="ts">
 definePageMeta({
   layout: 'company-dashboard',
-  middleware: ['redirect'],
+  // middleware: ['redirect'],
+  roles: [ERole.COMPANY],
 });
 
 const activeName = ref('information-general');

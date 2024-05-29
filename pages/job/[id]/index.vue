@@ -7,7 +7,8 @@
 
 <script setup lang="ts">
 definePageMeta({
-  middleware: ['redirect'],
+  // middleware: ['redirect'],
+  middleware: ['redirect-to-user-router'],
 });
 
 const job = ref();

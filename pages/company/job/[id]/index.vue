@@ -230,7 +230,8 @@ import { CJobExperience, CJobLevel, CJobMode } from '~/utils/constant/job';
 
 definePageMeta({
   layout: 'company-dashboard',
-  middleware: ['redirect'],
+  // middleware: ['redirect'],
+  roles: [ERole.COMPANY],
 });
 
 const job = ref();
