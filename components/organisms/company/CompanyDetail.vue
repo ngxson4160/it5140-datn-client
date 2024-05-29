@@ -23,7 +23,7 @@
 
           <div class="flex gap-x-2">
             <img src="@/assets/images/people-group-black.svg" class="w-6" />
-            <p>{{ CCompanySizeType[company?.sizeType].name }}</p>
+            <p>{{ CCompanySizeType[company?.sizeType]?.name }}</p>
           </div>
 
           <div class="flex gap-x-2">

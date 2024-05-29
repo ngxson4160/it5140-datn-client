@@ -165,6 +165,7 @@
             </div>
             <div
               class="flex items-center justify-center gap-x-1 mt-4 text-sm text-green cursor-pointer"
+              @click="router.push(`/company/${company.id}`)"
             >
               <p>Xem chi tiết công ty</p>
               <img
@@ -278,6 +279,8 @@ const props = defineProps({
     required: true,
   },
 });
+
+const router = useRouter();
 
 const emits = defineEmits(['onApplyJob', 'onFollowJob']);
 
