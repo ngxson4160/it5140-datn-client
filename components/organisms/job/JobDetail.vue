@@ -70,12 +70,21 @@
                   Đã ứng tuyển
                 </el-button>
                 <el-button
-                  v-else
+                  v-else-if="new Date(job.hiringEndDate) > new Date()"
                   type="primary"
                   class="col-span-3 !h-10"
                   @click="handleApplyJob"
                 >
                   Ứng tuyển ngay
+                </el-button>
+                <el-button
+                  v-else-if="new Date(job.hiringEndDate) <= new Date()"
+                  type="info"
+                  class="col-span-3 !h-10"
+                  disabled
+                  @click="handleApplyJob"
+                >
+                  Hết hạn
                 </el-button>
                 <el-button
                   v-if="job.userFollowJob"

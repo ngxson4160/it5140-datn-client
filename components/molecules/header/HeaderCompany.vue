@@ -84,15 +84,22 @@
           <img src="@/assets/images/message-gray.svg" class="w-8 mr-1" />
         </el-badge>
       </div>
-      <div
-        class="flex items-center gap-x-2 border rounded-full px-[6px] py-[3px]"
-      >
-        <img
-          :src="userStore.accountInfo?.avatar"
-          class="w-[48px] h-[48px] rounded-full border hover:cursor-pointer focus:outline-none"
-        />
-        <p class="text-[15px] text-[#606266]">Bộ phận tuyển dụng</p>
-      </div>
+      <el-dropdown>
+        <div
+          class="flex items-center gap-x-2 border rounded-full px-[6px] py-[3px] focus:outline-none"
+        >
+          <img
+            :src="userStore.accountInfo?.avatar"
+            class="w-[48px] h-[48px] rounded-full border hover:cursor-pointer focus:outline-none"
+          />
+          <p class="text-[15px] text-[#606266]">Bộ phận tuyển dụng</p>
+        </div>
+        <template #dropdown>
+          <el-dropdown-menu class="w-[200px]">
+            <el-dropdown-item @click="handleLogout">Đăng xuất</el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
     </div>
   </div>
 </template>
