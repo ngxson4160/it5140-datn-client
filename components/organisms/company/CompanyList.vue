@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-auto w-[1300px] mt-10">
+  <div class="mx-auto w-[1300px] pt-10">
     <div class="flex gap-x-4 w-[750px] bg-[#E6EFFF] px-4 py-2 rounded-md">
       <el-input v-model:model-value="name" placeholder="Nhập tên công ty" />
       <el-button type="primary" size="large" @click="handleSearch">

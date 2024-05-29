@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white h-full mr-4 p-4 shadow-md rounded-md">
+  <div class="bg-white mr-4 px-4 pt-4 pb-10 shadow-md rounded-md">
     <el-tabs v-model="activeName">
       <el-tab-pane label="Thông tin chung" name="information-general">
         <div class="w-[1250px]">

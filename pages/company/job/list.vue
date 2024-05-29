@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white h-full mr-4 p-4 shadow-md rounded-md">
+  <div class="bg-white mr-4 px-4 pt-4 pb-10 shadow-md rounded-md">
     <p class="font-bold text-xl mb-10 pb-2 border-b">Công việc tuyển dụng</p>
 
     <div class="flex justify-between mb-4">
@@ -214,7 +214,7 @@
       </el-table>
     </div>
 
-    <div class="w-full flex justify-end mt-8 mb-16">
+    <div class="w-full flex justify-end mt-8">
       <el-pagination
         :current-page="currentPage"
         :page-size="meta.pagination.pageSize"

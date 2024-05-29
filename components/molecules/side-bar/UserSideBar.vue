@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white h-full p-4 text-sm w-[350px]">
+  <div class="bg-white h-[350px] p-4 text-sm w-[350px]">
     <NuxtLink
       v-for="(item, index) in menuData"
       :key="index"
@@ -10,6 +10,12 @@
       <img :src="item.img" alt="" class="w-8" />
       <p class="text-base">{{ item.label }}</p>
     </NuxtLink>
+    <p
+      class="text-base hover:underline font-bold text-center cursor-pointer mt-4 text-green"
+      @click="handleLogout"
+    >
+      Đăng xuất
+    </p>
   </div>
 </template>
 

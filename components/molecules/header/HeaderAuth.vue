@@ -1,9 +1,9 @@
 <template>
   <div
-    class="h-[80px] px-[250px] flex w-full justify-between items-center shadow-lg"
+    class="h-[80px] pr-[250px] pl-[100px] flex w-full justify-between items-center shadow-lg"
   >
     <div
-      class="text-4xl font-bold hover:cursor-pointer"
+      class="text-4xl font-bold hover:cursor-pointer pr-[200px]"
       @click="router.push('/user')"
     >
       Job
@@ -34,7 +34,7 @@
 
       <p
         class="hover:cursor-pointer hover:text-green font-medium"
-        @click="router.push('/user/blogs')"
+        @click="router.push('/user/blog')"
       >
         Blog
       </p>

@@ -32,6 +32,7 @@
               v-for="(data, index) in listJobFavorite"
               :key="index"
               :data="data"
+              class="!mb-2"
             />
             <div class="w-full flex justify-end mt-4 mb-16">
               <el-pagination

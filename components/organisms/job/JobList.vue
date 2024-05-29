@@ -42,11 +42,6 @@
 <script setup lang="ts">
 import type { IGetListJobParams, IJob } from '~/types/job';
 
-definePageMeta({
-  layout: 'guest',
-  middleware: ['redirect-to-user-router'],
-});
-
 const jobStore = useJobStore();
 
 const { query: queryUrl } = useRoute();

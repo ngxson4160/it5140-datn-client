@@ -1,12 +1,13 @@
 <template>
   <div>
-    <header-guest />
+    <!-- <header-guest /> -->
     <job-detail :job="job" :company="company" />
   </div>
 </template>
 
 <script setup lang="ts">
 definePageMeta({
+  layout: 'guest',
   // middleware: ['redirect'],
   middleware: ['redirect-to-user-router'],
 });
