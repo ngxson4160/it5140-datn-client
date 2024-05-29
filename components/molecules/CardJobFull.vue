@@ -103,6 +103,8 @@ const userFollowJob = ref(props.data.userFollowJob);
 
 const handleFavoriteJob = async () => {
   try {
+    const isLogin = handleCheckLogin();
+    if (!isLogin) return;
     await jobStore.favoriteJob(props.data.id, { isFavorite: true });
     userFollowJob.value = true;
   } catch (error: any) {

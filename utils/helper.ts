@@ -223,3 +223,20 @@ export function handleLogout() {
 
   navigateTo({ path: '/' });
 }
+
+/**
+ * check login
+ */
+export function handleCheckLogin() {
+  const userData = getUserData();
+  const route = useRoute();
+
+  if (!userData?.id) {
+    const pathPreLogin = useLocalStorage('path-pre-login', '');
+    pathPreLogin.value = route.path;
+
+    navigateTo({ path: '/login' });
+  }
+
+  return !!userData?.id;
+}

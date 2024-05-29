@@ -114,7 +114,6 @@ const state = ref({
   password: undefined,
 });
 
-const loading = ref(false);
 const router = useRouter();
 
 const submit = async (event: any) => {
@@ -133,6 +132,15 @@ const submit = async (event: any) => {
         external: true,
       });
     } else if (data.user.roles[0] === ERole.USER) {
+      const pathPreLogin = useLocalStorage('path-pre-login', '');
+      if (pathPreLogin.value) {
+        navigateTo(`/user${pathPreLogin.value}`, {
+          external: true,
+        });
+        pathPreLogin.value = '';
+        return;
+      }
+
       navigateTo('/user', {
         external: true,
       });

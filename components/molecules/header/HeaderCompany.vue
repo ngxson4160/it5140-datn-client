@@ -174,8 +174,6 @@ onBeforeMount(() => {
   });
 
   socket.on('create_conversation', ({ payload }) => {
-    console.log(userData?.id, payload.fromUserId, payload.toUserId);
-
     if (
       userData?.id === payload.fromUserId ||
       userData?.id === payload.toUserId

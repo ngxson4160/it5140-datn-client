@@ -82,7 +82,6 @@
                   type="info"
                   class="col-span-3 !h-10"
                   disabled
-                  @click="handleApplyJob"
                 >
                   Hết hạn
                 </el-button>
@@ -285,10 +284,14 @@ const router = useRouter();
 const emits = defineEmits(['onApplyJob', 'onFollowJob']);
 
 const handleApplyJob = () => {
+  const isLogin = handleCheckLogin();
+  if (!isLogin) return;
   emits('onApplyJob');
 };
 
 const handleFollowJob = (isFavorite: boolean) => {
+  const isLogin = handleCheckLogin();
+  if (!isLogin) return;
   emits('onFollowJob', isFavorite);
 };
 </script>

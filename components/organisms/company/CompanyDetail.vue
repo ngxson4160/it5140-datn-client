@@ -161,6 +161,9 @@ const { params } = useRoute();
 const conversationStore = useConversationStore();
 
 const redirectToMessagePage = async () => {
+  const isLogin = handleCheckLogin();
+  if (!isLogin) return;
+
   const conversation = await conversationStore.createConversation({
     withUserId: props.company.users.id,
   });
