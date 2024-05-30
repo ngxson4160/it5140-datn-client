@@ -3,8 +3,8 @@
     <div class="flex-1">
       <el-tabs v-model="activeName" class="demo-tabs">
         <el-tab-pane label="Danh sách hồ sơ" name="general">
-          <div id="part1" class="w-full rounded-sm bg-white px-6 py-4">
-            <div class="flex mb-6 t justify-between items-center">
+          <div id="part1" class="rounded-sm bg-white px-6 py-4 !mr-4">
+            <div class="flex mb-6 justify-between items-center">
               <p class="font-bold text-xl">Thông tin cá nhân</p>
               <img
                 src="@/assets/images/edit-title-primary.svg"
@@ -77,7 +77,7 @@
             </div>
           </div>
 
-          <div id="part2" class="w-full rounded-sm bg-white px-6 py-4 my-4">
+          <div id="part2" class="rounded-sm bg-white px-6 py-4 my-4 mr-4">
             <div class="flex mb-6 t justify-between items-center">
               <p class="font-bold text-xl">Thông tin chung</p>
               <img
@@ -338,181 +338,7 @@
         </el-tab-pane>
 
         <el-tab-pane label="Hồ sơ đính kèm" name="system-cv">
-          <!-- <div id="part1" class="w-full rounded-sm bg-white px-6 py-4">
-            <div class="flex mb-6 t justify-between items-center">
-              <p class="font-bold text-xl">Thông tin cá nhân</p>
-              <img
-                src="@/assets/images/edit-title-primary.svg"
-                class="cursor-pointer w-8"
-                @click="showEditInformationGeneral = true"
-              />
-            </div>
-            <div class="grid grid-cols-2 mt-6 gap-y-6">
-              <div class="col-span-1">
-                <p class="font-bold">Họ và tên</p>
-                <p class="text-sm">
-                  {{
-                    `${userStore.myProfile.firstName} ${userStore.myProfile.lastName}`
-                  }}
-                </p>
-              </div>
-              <div class="col-span-1">
-                <p class="font-bold">Tỉnh/Thành phố</p>
-                <p class="text-sm">
-                  {{ userStore.myProfile.city?.name || '' }}
-                </p>
-              </div>
-
-              <div class="col-span-1">
-                <p class="font-bold">Số điện thoại</p>
-                <p class="text-sm">{{ userStore.myProfile.phoneNumber }}</p>
-              </div>
-              <div class="col-span-1">
-                <p class="font-bold">Quận/Huyện</p>
-                <p class="text-sm">
-                  {{ userStore.myProfile?.district?.name || '' }}
-                </p>
-              </div>
-
-              <div class="col-span-1">
-                <p class="font-bold">Giới tính</p>
-                <p class="text-sm">
-                  {{
-                    userStore.myProfile.gender !== null
-                      ? CGender[userStore.myProfile?.gender].name
-                      : ''
-                  }}
-                </p>
-              </div>
-              <div class="col-span-1">
-                <p class="font-bold">Địa chỉ</p>
-                <p class="text-sm">{{ userStore.myProfile?.address || '' }}</p>
-              </div>
-
-              <div class="col-span-1">
-                <p class="font-bold">Ngày sinh</p>
-                <p class="text-sm">
-                  {{
-                    userStore.myProfile?.dob
-                      ? formatDateShort(userStore.myProfile?.dob)
-                      : ''
-                  }}
-                </p>
-              </div>
-              <div class="col-span-1">
-                <p class="font-bold">Tình trạng hôn nhân</p>
-                <p class="text-sm">
-                  {{
-                    userStore.myProfile.maritalStatus !== null
-                      ? CMaritalStatus[userStore.myProfile?.maritalStatus].name
-                      : ''
-                  }}
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div id="part2" class="w-full rounded-sm bg-white px-6 py-4 mt-4">
-            <div class="flex mb-6 t justify-between items-center">
-              <p class="font-bold text-xl">Thông tin chung</p>
-              <img
-                src="@/assets/images/edit-title-primary.svg"
-                class="cursor-pointer w-8"
-                @click="showEditProfile = true"
-              />
-            </div>
-            <p class="font-bold">Mục tiêu nghề nghiệp</p>
-            <p class="text-sm">
-              {{ userStore.myProfile.candidateInformation?.target || '' }}
-            </p>
-            <div class="grid grid-cols-2 mt-6 gap-y-6">
-              <div class="col-span-1">
-                <p class="font-bold">Ví trị mong muốn</p>
-                <p class="text-sm">
-                  {{
-                    userStore.myProfile.candidateInformation?.desiredJobCategory
-                      ? userStore.myProfile.candidateInformation
-                          .desiredJobCategory?.name
-                      : ''
-                  }}
-                </p>
-              </div>
-              <div class="col-span-1">
-                <p class="font-bold">Địa điểm làm việc mong muốn</p>
-                <p class="text-sm">
-                  {{
-                    userStore.myProfile.candidateInformation?.desiredCity
-                      ? userStore.myProfile.candidateInformation.desiredCity
-                          ?.name
-                      : ''
-                  }}
-                </p>
-              </div>
-
-              <div class="col-span-1">
-                <p class="font-bold">Cấp bậc mong muốn</p>
-                <p class="text-sm">
-                  {{
-                    userStore.myProfile.candidateInformation
-                      ?.desiredJobLevel !== null
-                      ? CJobLevel[
-                          userStore.myProfile.candidateInformation
-                            .desiredJobLevel
-                        ].name
-                      : ''
-                  }}
-                </p>
-              </div>
-              <div class="col-span-1">
-                <p class="font-bold">Mức lương mong muốn</p>
-                <p class="text-sm">
-                  {{
-                    userStore.myProfile.candidateInformation?.desiredSalary ||
-                    ''
-                  }}
-                  VND
-                </p>
-              </div>
-
-              <div class="col-span-1">
-                <p class="font-bold">Trình độ học vấn</p>
-                <p class="text-sm">
-                  {{
-                    userStore.myProfile?.educationalLevel !== null
-                      ? CEducationLevel[userStore.myProfile.educationalLevel]
-                          .name
-                      : ''
-                  }}
-                </p>
-              </div>
-              <div class="col-span-1">
-                <p class="font-bold">Hình thức làm việc mong muốn</p>
-                <p class="text-sm">
-                  {{
-                    userStore.myProfile.candidateInformation?.desiredJobMode !==
-                    null
-                      ? CJobMode[
-                          userStore.myProfile.candidateInformation
-                            .desiredJobMode
-                        ].name
-                      : ''
-                  }}
-                </p>
-              </div>
-
-              <div class="col-span-1">
-                <p class="font-bold">Số năm kinh nghiệm</p>
-                <p class="text-sm">
-                  {{
-                    userStore.myProfile.candidateInformation?.yearExperience ||
-                    ''
-                  }}
-                </p>
-              </div>
-            </div>
-          </div> -->
-
-          <div id="part3" class="w-full rounded-sm bg-white px-6 py-4">
+          <div id="part3" class="rounded-sm bg-white px-6 py-4 mr-4">
             <div class="flex mb-6 t justify-between items-center">
               <p class="font-bold text-xl">Kinh nghiệm làm việc</p>
               <img
@@ -549,7 +375,7 @@
             </el-timeline>
           </div>
 
-          <div id="part5" class="w-full rounded-sm bg-white px-6 py-4 mt-4">
+          <div id="part5" class="rounded-sm bg-white px-6 py-4 mr-4 mt-4">
             <div class="flex mb-6 t justify-between items-center">
               <p class="font-bold text-xl">Thông tin học vấn</p>
               <img
@@ -585,7 +411,7 @@
             </el-timeline>
           </div>
 
-          <div id="part6" class="w-full rounded-sm bg-white px-6 py-4 mt-4">
+          <div id="part6" class="rounded-sm bg-white px-6 py-4 mr-4 mt-4">
             <div class="flex mb-6 t justify-between items-center">
               <p class="font-bold text-xl">Chứng chỉ</p>
               <img
@@ -620,7 +446,7 @@
             </el-timeline>
           </div>
 
-          <div id="part8" class="w-full rounded-sm bg-white px-6 py-4 mt-4">
+          <div id="part8" class="rounded-sm bg-white px-6 py-4 mr-4 mt-4">
             <div class="flex mb-6 t justify-between items-center">
               <p class="font-bold text-xl">Kỹ năng chuyên môn</p>
               <img
@@ -655,7 +481,7 @@
             </div>
           </div>
 
-          <div id="part7" class="w-full rounded-sm bg-white px-6 pt-4 mt-4">
+          <div id="part7" class="rounded-sm bg-white px-6 pt-4 mr-4 mt-4">
             <div class="flex mb-6 t justify-between items-center">
               <p class="font-bold text-xl">Kỹ năng ngoại ngữ</p>
               <img
@@ -693,7 +519,7 @@
 
           <div
             id="part9"
-            class="w-full rounded-sm bg-white px-6 py-4 mt-4 mb-[104px]"
+            class="rounded-sm bg-white px-6 py-4 mr-4 mt-4 mb-[104px]"
           >
             <div class="flex mb-6 t justify-between items-center">
               <p class="font-bold text-xl">Dự án đã làm</p>
