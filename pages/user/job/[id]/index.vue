@@ -4,6 +4,7 @@
     :company="company"
     @on-apply-job="showApplyJob = true"
     @on-follow-job="handleFollowJob"
+    @on-delete-application="handleDeleteApplication"
   />
 
   <dialog-apply-job
@@ -56,7 +57,8 @@ const handleApplyJob = async (data: any) => {
       cvType = EPublicCvType.ATTACHMENT_CV;
     }
     await userStore.applyJob(+params.id, { ...data, cvType });
-    job.value.application.status = true;
+    job.value.application.status = EApplicationStatus.WAITING;
+    job.value.totalCandidate++;
   } catch (error: any) {
     console.log(error);
   }
@@ -66,6 +68,16 @@ const handleFollowJob = async (isFavorite: boolean) => {
   try {
     await jobStore.favoriteJob(+params.id, { isFavorite });
     job.value.userFollowJob = isFavorite;
+  } catch (error: any) {
+    console.log(error);
+  }
+};
+
+const handleDeleteApplication = async () => {
+  try {
+    await userStore.deleteJobApplication(+params.id);
+    job.value.application.status = null;
+    job.value.totalCandidate--;
   } catch (error: any) {
     console.log(error);
   }

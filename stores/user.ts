@@ -64,6 +64,14 @@ export const useUserStore = defineStore(EStoreName.User, {
       return data;
     },
 
+    async deleteJobApplication(jobId: number) {
+      return await useBaseFetch(`users/jobs/${jobId}/applications`, {
+        method: 'DELETE',
+        loading: true,
+        notification: true,
+      });
+    },
+
     async getListFavorite(query: IGetListFavoriteJob) {
       return await useBaseFetch(`users/jobs/favorites`, {
         query,

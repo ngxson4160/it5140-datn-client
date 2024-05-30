@@ -140,15 +140,18 @@
                   <el-dropdown-menu>
                     <el-dropdown-item
                       :disabled="
-                        scoped.row.hiringEndDate <= new Date().toISOString()
+                        new Date(scoped.row.hiringEndDate) < new Date()
                       "
                       @click="handleEndJobEarly(scoped.row.id)"
                     >
                       <div class="flex">
                         <img
-                          v-if="
-                            scoped.row.hiringEndDate > new Date().toISOString()
-                          "
+                          v-if="new Date(scoped.row.hiringEndDate) < new Date()"
+                          src="@/assets/images/time-gray.svg"
+                          class="w-5 mr-2"
+                        />
+                        <img
+                          v-else
                           src="@/assets/images/time-black.svg"
                           class="w-5 mr-2"
                         />
@@ -157,14 +160,14 @@
                     </el-dropdown-item>
                     <el-dropdown-item
                       :disabled="
-                        scoped.row.hiringEndDate > new Date().toISOString()
+                        new Date(scoped.row.hiringEndDate) >= new Date()
                       "
                       @click="handleConfirmReopen(scoped.row.id)"
                     >
                       <div class="flex">
                         <img
                           v-if="
-                            scoped.row.hiringEndDate > new Date().toISOString()
+                            new Date(scoped.row.hiringEndDate) >= new Date()
                           "
                           src="@/assets/images/reopen-gray.svg"
                           class="w-5 mr-2"
@@ -357,7 +360,7 @@ const handleConfirmReopen = (id: number) => {
 };
 const handleReopenJob = async () => {
   const id = jobIdChose.value;
-  await jobStore.update(id, {
+  await jobStore.reopen(id, {
     hiringEndDate: jobHiringEndDateChose.value,
   });
   const jobUpdate = listJobs.value.find((el) => el.id === id);

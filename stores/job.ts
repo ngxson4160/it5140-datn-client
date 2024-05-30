@@ -92,6 +92,15 @@ export const useJobStore = defineStore(EStoreName.JOB, {
       });
     },
 
+    async reopen(jobId: number, body: { hiringEndDate: string }) {
+      return await useBaseFetch(`/jobs/${jobId}/reopen`, {
+        method: 'PUT',
+        body,
+        loading: true,
+        notification: true,
+      });
+    },
+
     async favoriteJob(jobId: number, body: { isFavorite: boolean }) {
       return await useBaseFetch(`/jobs/${jobId}/favorites`, {
         method: 'POST',
