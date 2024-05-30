@@ -3,13 +3,15 @@
     v-model:file-list="fileList"
     :on-success="uploadImage"
     class="upload-image"
+    :limit="1"
+    :before-upload="beforeAvatarUpload"
   >
     <el-button :type="type">{{ title }}</el-button>
   </el-upload>
 </template>
 
 <script setup lang="ts">
-import type { UploadUserFile } from 'element-plus';
+import type { UploadProps, UploadUserFile } from 'element-plus';
 
 const uploadStore = useUploadStore();
 
@@ -48,6 +50,21 @@ const uploadImage = async () => {
 
   emits('onSuccess', data.absolutePath);
   syncDataUpload.value = data.absolutePath;
+};
+
+const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile: any) => {
+  const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+  const fileType = rawFile.type;
+  if (!allowedTypes.includes(fileType)) {
+    useNotificationError({
+      title: 'Ảnh tải lên phải ở định dạng jpg/png/webp!',
+    });
+    return false;
+  } else if (rawFile.size / 1024 / 1024 > 5) {
+    useNotificationError({ title: 'Kích thước ảnh không được vượt quá 5MB!' });
+    return false;
+  }
+  return true;
 };
 </script>
 
