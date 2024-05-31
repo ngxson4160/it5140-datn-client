@@ -13,51 +13,53 @@
             Đăng ký thành viên
           </h1>
 
-          <UForm
-            class="space-y-4 md:space-y-6"
-            :schema="schema"
-            :state="state"
-            @submit="submit"
+          <el-form
+            ref="ruleForm"
+            label-position="top"
+            :model="formSignUp"
+            :rules="rules"
           >
             <div class="flex gap-x-6">
-              <UFormGroup label="Họ" name="firstName" class="w-full">
-                <UInput v-model="state.firstName" size="md" />
-              </UFormGroup>
+              <el-form-item label="Họ" prop="firstName" class="w-full" required>
+                <el-input v-model="formSignUp.firstName" size="large" />
+              </el-form-item>
 
-              <UFormGroup label="Tên" name="lastName" class="w-full">
-                <UInput v-model="state.lastName" size="md" />
-              </UFormGroup>
+              <el-form-item label="Tên" prop="lastName" class="w-full" required>
+                <el-input v-model="formSignUp.lastName" size="large" />
+              </el-form-item>
             </div>
 
-            <UFormGroup label="Số điện thoại" name="phoneNumber">
-              <UInput v-model="state.phoneNumber" size="md" />
-            </UFormGroup>
+            <el-form-item label="Số điện thoại" prop="phoneNumber" required>
+              <el-input v-model="formSignUp.phoneNumber" size="large" />
+            </el-form-item>
 
-            <UFormGroup label="Email" name="email">
-              <UInput
-                v-model="state.email"
+            <el-form-item label="Email" prop="email" required>
+              <el-input
+                v-model="formSignUp.email"
                 placeholder="name@company.com"
-                size="md"
+                size="large"
               />
-            </UFormGroup>
+            </el-form-item>
 
-            <UFormGroup label="Mật khẩu" name="password">
-              <UInput
-                v-model="state.password"
+            <el-form-item label="Mật khẩu" prop="password" required>
+              <el-input
+                v-model="formSignUp.password"
                 type="password"
                 placeholder="••••••••"
+                size="large"
               />
-            </UFormGroup>
+            </el-form-item>
 
-            <UButton
-              type="submit"
-              label="Đăng ký"
-              size="xl"
-              :loading="loading"
-              :ui="{ rounded: 'rounded-full' }"
-              class="text-center justify-center w-full bg-green hover:bg-[#8ed7ab]"
-            />
-          </UForm>
+            <el-button
+              type="primary"
+              round
+              class="w-full"
+              size="large"
+              @click="submit"
+            >
+              Đăng ký
+            </el-button>
+          </el-form>
         </div>
 
         <p class="text-center">
@@ -85,8 +87,9 @@
 </template>
 
 <script setup lang="ts">
+import type { FormInstance, FormRules } from 'element-plus';
 import { ref } from 'vue';
-import { object, string, type InferType } from 'yup';
+import { MESSAGE_VALIDATE } from '~/utils/constant/message-validate';
 
 definePageMeta({
   middleware: ['redirect'],
@@ -96,21 +99,7 @@ definePageMeta({
 const authStore = useAuthStore();
 const router = useRouter();
 
-const phoneRegex = /(84|0[3|5|7|8|9])+([0-9]{8})\b/;
-
-const schema = object({
-  firstName: string().required('Bắt buộc'),
-  lastName: string().required('Bắt buộc'),
-  phoneNumber: string()
-    .required('Bắt buộc')
-    .matches(phoneRegex, 'Số điện thoại không hợp lệ'),
-  email: string().email('Email không hợp lệ').required('Bắt buộc'),
-  password: string().min(8, 'Tối thiểu 8 ký tự').required('Bắt buộc'),
-});
-
-type Schema = InferType<typeof schema>;
-
-const state = ref({
+const formSignUp = ref({
   firstName: undefined,
   lastName: undefined,
   phoneNumber: undefined,
@@ -118,13 +107,44 @@ const state = ref({
   password: undefined,
 });
 
-const loading = ref(false);
+const ruleForm = ref<FormInstance>();
+const rules = reactive<FormRules<any>>({
+  firstName: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
+  lastName: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
+  phoneNumber: [
+    { required: true, message: 'Bắt buộc', trigger: 'change' },
+    {
+      validator: validatePhoneNumber,
+      message: MESSAGE_VALIDATE.PHONE_NUMBER,
+      trigger: 'change',
+    },
+  ],
+  email: [
+    { required: true, message: 'Bắt buộc', trigger: 'change' },
+    {
+      validator: validateEmail,
+      message: MESSAGE_VALIDATE.EMAIL,
+      trigger: 'change',
+    },
+  ],
+  password: [
+    { required: true, message: 'Bắt buộc', trigger: 'change' },
+    { min: 8, message: 'Tối thiểu 8 ký tự', trigger: 'change' },
+  ],
+});
 
-const submit = async (event: any) => {
-  const { data, meta } = await authStore.userSignUp({ ...event.data });
+const submit = () => {
+  if (!ruleForm.value) return;
+  ruleForm.value.validate(async (valid) => {
+    if (valid) {
+      const { data, meta } = await authStore.userSignUp({
+        ...formSignUp.value,
+      });
 
-  if (meta.statusCode === 200) {
-    router.push('/sign-up/sent-mail');
-  }
+      if (meta.statusCode === 200) {
+        router.push('/sign-up/sent-mail');
+      }
+    }
+  });
 };
 </script>

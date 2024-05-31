@@ -2,93 +2,151 @@
   <div class="bg-white mr-4 px-4 pt-4 pb-10 shadow-md rounded-md">
     <el-tabs v-model="activeName">
       <el-tab-pane label="Thông tin chung" name="information-general">
-        <div class="w-[1250px]">
+        <el-form
+          ref="ruleForm"
+          label-position="top"
+          :model="company"
+          :rules="rules"
+          class="w-[1250px]"
+        >
           <div class="grid grid-cols-2 gap-x-6 mt-4">
             <div class="col-span-1">
-              <p class="mb-2 text-sm">Tên công ty</p>
-              <el-input
-                v-model:model-value="company.name"
-                class="col-span-1"
-                size="large"
-              />
+              <el-form-item
+                label="Tên công ty"
+                prop="name"
+                class="w-full"
+                required
+              >
+                <el-input
+                  v-model:model-value="company.name"
+                  class="col-span-1"
+                  size="large"
+                />
+              </el-form-item>
             </div>
             <div class="col-span-1">
-              <p class="mb-2 text-sm">Email</p>
-              <el-input
-                v-model:model-value="company.primaryEmail"
-                class="col-span-1"
-                size="large"
-              />
+              <el-form-item
+                label="Email"
+                prop="primaryEmail"
+                class="w-full"
+                required
+              >
+                <el-input
+                  v-model:model-value="company.primaryEmail"
+                  class="col-span-1"
+                  size="large"
+                />
+              </el-form-item>
             </div>
           </div>
 
           <div class="grid grid-cols-2 gap-x-6 mt-4">
             <div class="col-span-1">
-              <p class="mb-2 text-sm">Mã số thuế</p>
-              <el-input
-                v-model:model-value="company.taxCode"
-                class="col-span-1"
-                size="large"
-              />
+              <el-form-item
+                label="Mã số thuế"
+                prop="taxCode"
+                class="w-full"
+                required
+              >
+                <el-input
+                  v-model:model-value="company.taxCode"
+                  class="col-span-1"
+                  size="large"
+                />
+              </el-form-item>
             </div>
             <div class="col-span-1">
-              <p class="mb-2 text-sm">Website</p>
-              <el-input
-                v-model:model-value="company.website"
-                class="col-span-1"
-                size="large"
-              />
+              <el-form-item label="Website" prop="website" class="w-full">
+                <el-input
+                  v-model:model-value="company.website"
+                  class="col-span-1"
+                  size="large"
+                />
+              </el-form-item>
             </div>
           </div>
 
           <div class="grid grid-cols-2 gap-x-6 mt-4">
             <div class="col-span-1">
-              <p class="mb-2 text-sm">Lĩnh vực hoạt động</p>
-              <select-job-parent
-                v-model="company.jobCategoryParentId"
-                class="col-span-1 w-full"
-                size="large"
-                :is-multiple="false"
-              />
+              <el-form-item
+                label="Lĩnh vực hoạt động"
+                prop="jobCategoryParentId"
+                class="w-full"
+                required
+              >
+                <select-job-parent
+                  v-model="company.jobCategoryParentId"
+                  class="col-span-1 w-full"
+                  size="large"
+                  :is-multiple="false"
+                />
+              </el-form-item>
             </div>
             <div class="col-span-1">
-              <p class="mb-2 text-sm">Quy mô công ty</p>
-              <select-company-size
-                v-model="company.sizeType"
-                class="col-span-1 w-full"
-                size="large"
-              />
+              <el-form-item
+                label="Quy mô công ty"
+                prop="sizeType"
+                class="w-full"
+                required
+              >
+                <select-company-size
+                  v-model="company.sizeType"
+                  class="col-span-1 w-full"
+                  size="large"
+                />
+              </el-form-item>
             </div>
           </div>
 
           <div class="grid grid-cols-2 gap-x-6 mt-4">
             <div class="col-span-1">
-              <p class="mb-2 text-sm">Địa chỉ</p>
-              <el-input
-                v-model:model-value="company.primaryAddress"
-                class="col-span-1"
-                size="large"
-              />
+              <el-form-item
+                label="Địa chỉ"
+                prop="primaryAddress"
+                class="w-full"
+                required
+              >
+                <el-input
+                  v-model:model-value="company.primaryAddress"
+                  class="col-span-1"
+                  size="large"
+                />
+              </el-form-item>
             </div>
             <div class="col-span-1">
-              <p class="mb-2 text-sm">Số điện thoại</p>
-              <el-input
-                v-model:model-value="company.primaryPhoneNumber"
-                class="col-span-1"
-                size="large"
-              />
+              <el-form-item
+                label="Số điện thoại"
+                prop="primaryPhoneNumber"
+                class="w-full"
+                required
+              >
+                <el-input
+                  v-model:model-value="company.primaryPhoneNumber"
+                  class="col-span-1"
+                  size="large"
+                />
+              </el-form-item>
             </div>
           </div>
 
-          <p class="text-sm mt-4 mb-2">Mô tả công ty</p>
-          <content-editor v-model:model-value="company.aboutUs" />
+          <el-form-item
+            label="Mô tả công ty"
+            prop="aboutUs"
+            class="w-full"
+            required
+          >
+            <content-editor
+              v-model:model-value="company.aboutUs"
+              class="w-full"
+            />
+          </el-form-item>
 
           <div class="flex justify-end mt-10">
             <el-button type="primary" size="large" @click="onUpdateCompany">
               Lưu
             </el-button>
           </div>
-        </div>
+        </el-form>
       </el-tab-pane>
       <el-tab-pane label="Avatar/Ảnh bìa" name="avatar-coverImage">
         <div class="w-[1196px]">
@@ -144,6 +202,9 @@
 </template>
 
 <script setup lang="ts">
+import type { FormInstance, FormRules } from 'element-plus';
+import { MESSAGE_VALIDATE } from '~/utils/constant/message-validate';
+
 definePageMeta({
   layout: 'company-dashboard',
   // middleware: ['redirect'],
@@ -160,8 +221,48 @@ const company = ref();
 const { data } = await companyStore.getMyCompany();
 company.value = data;
 
-const onUpdateCompany = async () => {
-  await companyStore.updateMyCompany({ ...company.value });
+const ruleForm = ref<FormInstance>();
+const rules = reactive<FormRules<any>>({
+  name: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
+  primaryEmail: [
+    { required: true, message: 'Bắt buộc', trigger: 'change' },
+    {
+      validator: validateEmail,
+      message: MESSAGE_VALIDATE.EMAIL,
+      trigger: 'change',
+    },
+  ],
+  taxCode: [
+    { required: true, message: 'Bắt buộc', trigger: 'change' },
+    {
+      validator: validateNumber,
+      message: MESSAGE_VALIDATE.TAX_CODE,
+      trigger: 'change',
+    },
+  ],
+  jobCategoryParentId: [
+    { required: true, message: 'Bắt buộc', trigger: 'change' },
+  ],
+  sizeType: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
+  primaryAddress: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
+  primaryPhoneNumber: [
+    { required: true, message: 'Bắt buộc', trigger: 'change' },
+    {
+      validator: validatePhoneNumber,
+      message: MESSAGE_VALIDATE.PHONE_NUMBER,
+      trigger: 'change',
+    },
+  ],
+  aboutUs: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
+});
+
+const onUpdateCompany = () => {
+  if (!ruleForm.value) return;
+  ruleForm.value.validate(async (valid) => {
+    if (valid) {
+      await companyStore.updateMyCompany({ ...company.value });
+    }
+  });
 };
 
 const onUpdateAvatar = async (url: string) => {

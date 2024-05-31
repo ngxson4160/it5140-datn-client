@@ -3,86 +3,133 @@
     <template #header>
       <p class="text-center font-bold text-xl">Thông tin cá nhân</p>
     </template>
+    <el-form
+      ref="ruleForm"
+      label-position="top"
+      :model="formData"
+      :rules="rules"
+    >
+      <div class="grid grid-cols-2 gap-x-10 mt-4">
+        <div class="col-span-1">
+          <el-form-item label="Họ" prop="firstName" class="w-full" required>
+            <el-input v-model="formData.firstName" size="large" />
+          </el-form-item>
+        </div>
 
-    <div class="grid grid-cols-2 gap-y-4 gap-x-10 mt-4">
-      <div class="col-span-1">
-        <p class="mb-2">Họ</p>
-        <el-input v-model="formData.firstName" />
-      </div>
+        <div class="col-span-1">
+          <el-form-item label="Tên" prop="lastName" class="w-full" required>
+            <el-input v-model="formData.lastName" size="large" />
+          </el-form-item>
+        </div>
 
-      <div class="col-span-1">
-        <p class="mb-2">Tên</p>
-        <el-input v-model="formData.lastName" />
-      </div>
-
-      <div class="col-span-1">
-        <p class="mb-2">Số điện thoại</p>
-        <el-input v-model="formData.phoneNumber" />
-      </div>
-
-      <div class="col-span-1">
-        <p class="mb-2">Ngày sinh</p>
-        <el-date-picker v-model="formData.dob" class="!w-full" />
-      </div>
-
-      <div class="col-span-1">
-        <p class="mb-2">Giới tính</p>
-        <select-gender v-model="formData.gender" class="w-full" size="medium" />
-      </div>
-
-      <div class="col-span-1">
-        <p class="mb-2">Tình trạng hôn nhân</p>
-        <select-marital-status
-          v-model="formData.maritalStatus"
-          class="w-full"
-          size="medium"
-        />
-      </div>
-
-      <div class="col-span-1">
-        <p class="mb-2">Tỉnh/Thành phố</p>
-        <el-select
-          v-model="formData.cityId"
-          size="large"
-          placeholder="Chọn thành phố"
-          class="w-full"
-          @change="handleChangeCity"
-        >
-          <el-option
-            v-for="item in useCity.listCities"
-            :key="item.id"
-            :label="item.name"
-            :value="item.id"
+        <div class="col-span-1">
+          <el-form-item
+            label="Số điện thoại"
+            prop="phoneNumber"
+            class="w-full"
+            required
           >
-            {{ item.name }}
-          </el-option>
-        </el-select>
-      </div>
+            <el-input v-model="formData.phoneNumber" size="large" />
+          </el-form-item>
+        </div>
 
-      <div class="col-span-1">
-        <p class="mb-2">Quận/Huyện</p>
-        <el-select
-          v-model="formData.districtId"
-          size="large"
-          placeholder="Chọn quận/huyện"
-          class="w-full"
-        >
-          <el-option
-            v-for="item in listDistrict"
-            :key="item.id"
-            :label="item.name"
-            :value="item.id"
+        <div class="col-span-1">
+          <el-form-item label="Ngày sinh" prop="dob" class="w-full" required>
+            <el-date-picker
+              v-model="formData.dob"
+              class="!w-full"
+              size="large"
+            />
+          </el-form-item>
+        </div>
+
+        <div class="col-span-1">
+          <el-form-item label="Giới tính" prop="gender" class="w-full" required>
+            <select-gender
+              v-model="formData.gender"
+              class="w-full"
+              size="large"
+            />
+          </el-form-item>
+        </div>
+
+        <div class="col-span-1">
+          <el-form-item
+            label="Tình trạng hôn nhân"
+            prop="maritalStatus"
+            class="w-full"
+            required
           >
-            {{ item.name }}
-          </el-option>
-        </el-select>
-      </div>
-    </div>
+            <select-marital-status
+              v-model="formData.maritalStatus"
+              class="w-full"
+              size="large"
+            />
+          </el-form-item>
+        </div>
 
-    <div class="mt-4">
-      <p>Địa chỉ</p>
-      <el-input v-model="formData.address" class="mt-2 !h-10" />
-    </div>
+        <div class="col-span-1">
+          <el-form-item
+            label="Tỉnh/Thành phố"
+            prop="cityId"
+            class="w-full"
+            required
+          >
+            <el-select
+              v-model="formData.cityId"
+              size="large"
+              placeholder="Chọn thành phố"
+              class="w-full"
+              @change="handleChangeCity"
+            >
+              <el-option
+                v-for="item in useCity.listCities"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id"
+              >
+                {{ item.name }}
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </div>
+
+        <div class="col-span-1">
+          <el-form-item
+            label="Quận/Huyện"
+            prop="districtId"
+            class="w-full"
+            required
+          >
+            <el-select
+              v-model="formData.districtId"
+              size="large"
+              placeholder="Chọn quận/huyện"
+              class="w-full"
+            >
+              <el-option
+                v-for="item in listDistrict"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id"
+              >
+                {{ item.name }}
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </div>
+      </div>
+
+      <div>
+        <el-form-item label="Địa chỉ" prop="address" class="w-full" required>
+          <el-input
+            v-model="formData.address"
+            class="mt-2 !h-10"
+            size="large"
+          />
+        </el-form-item>
+      </div>
+    </el-form>
 
     <template #footer>
       <div class="flex justify-center">
@@ -93,6 +140,9 @@
 </template>
 
 <script setup lang="ts">
+import type { FormInstance, FormRules } from 'element-plus';
+import { MESSAGE_VALIDATE } from '~/utils/constant/message-validate';
+
 const props = defineProps({
   dialogVisible: {
     type: Boolean,
@@ -115,9 +165,34 @@ const syncDialogVisible = computed({
   },
 });
 
+const ruleForm = ref<FormInstance>();
+const rules = reactive<FormRules<any>>({
+  firstName: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
+  lastName: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
+  phoneNumber: [
+    { required: true, message: 'Bắt buộc', trigger: 'change' },
+    {
+      validator: validatePhoneNumber,
+      message: MESSAGE_VALIDATE.PHONE_NUMBER,
+      trigger: 'change',
+    },
+  ],
+  dob: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
+  gender: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
+  maritalStatus: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
+  cityId: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
+  districtId: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
+  address: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
+});
+
 const handleConfirm = () => {
-  emits('onConfirm', formData.value);
-  syncDialogVisible.value = false;
+  if (!ruleForm.value) return;
+  ruleForm.value.validate((valid) => {
+    if (valid) {
+      emits('onConfirm', formData.value);
+      syncDialogVisible.value = false;
+    }
+  });
 };
 
 const useCity = useCityStore();

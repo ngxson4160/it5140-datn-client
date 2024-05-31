@@ -4,13 +4,22 @@
       <p class="text-center font-bold text-xl">Kỹ năng chuyên môn</p>
     </template>
 
-    <p>Tên Kỹ năng</p>
-    <el-input v-model="formData.name" class="mt-2 !h-10" />
+    <el-form
+      ref="ruleForm"
+      label-position="top"
+      :model="formData"
+      :rules="rules"
+    >
+      <el-form-item label="Tên Kỹ năng" prop="name" class="w-full" required>
+        <el-input v-model="formData.name" class="mt-2 !h-10" />
+      </el-form-item>
 
-    <p class="mt-4">Trình độ</p>
-    <div class="mx-1">
-      <el-slider v-model="formData.level" :step="10" />
-    </div>
+      <div class="mx-1">
+        <el-form-item label="Trình độ" prop="level" class="w-full">
+          <el-slider v-model="formData.level" :step="10" />
+        </el-form-item>
+      </div>
+    </el-form>
 
     <template #footer>
       <div class="flex justify-center">
@@ -21,6 +30,8 @@
 </template>
 
 <script setup lang="ts">
+import type { FormInstance, FormRules } from 'element-plus';
+
 const props = defineProps({
   dialogVisible: {
     type: Boolean,
@@ -43,8 +54,19 @@ const syncDialogVisible = computed({
   },
 });
 
+const ruleForm = ref<FormInstance>();
+const rules = reactive<FormRules<any>>({
+  name: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
+  // level: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
+});
+
 const handleConfirm = () => {
-  emits('onConfirm', formData.value);
-  syncDialogVisible.value = false;
+  if (!ruleForm.value) return;
+  ruleForm.value.validate((valid) => {
+    if (valid) {
+      emits('onConfirm', formData.value);
+      syncDialogVisible.value = false;
+    }
+  });
 };
 </script>
