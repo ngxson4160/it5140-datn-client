@@ -75,6 +75,18 @@
                 <el-button
                   v-if="
                     job.application.status !== null &&
+                    job.application.status !== EApplicationStatus.WAITING &&
+                    new Date(job.hiringEndDate) > new Date()
+                  "
+                  type="primary"
+                  class="col-span-3 !h-10"
+                  disabled
+                >
+                  Đã ứng tuyển
+                </el-button>
+                <el-button
+                  v-if="
+                    job.application.status !== null &&
                     new Date(job.hiringEndDate) <= new Date()
                   "
                   type="primary"
