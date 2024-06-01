@@ -28,13 +28,13 @@
           </p>
           <p>
             Giới tính:
-            {{ data.gender !== null ? CGender[data?.gender].name : '' }}
+            {{ data.gender !== null ? CGender[data?.gender]?.name : '' }}
           </p>
           <p>
             Tình trạng hôn nhân:
             {{
               data.maritalStatus !== null
-                ? CMaritalStatus[data?.maritalStatus].name
+                ? CMaritalStatus[data?.maritalStatus]?.name
                 : ''
             }}
           </p>
@@ -80,7 +80,7 @@
             <p class="text-sm">
               {{
                 data?.candidateInformation?.desiredJobLevel
-                  ? CJobLevel[data.candidateInformation?.desiredJobLevel].name
+                  ? CJobLevel[data.candidateInformation?.desiredJobLevel]?.name
                   : ''
               }}
             </p>
@@ -98,7 +98,7 @@
             <p class="text-sm">
               {{
                 data?.educationalLevel !== null
-                  ? CEducationLevel[data.educationalLevel].name
+                  ? CEducationLevel[data.educationalLevel]?.name
                   : ''
               }}
             </p>
@@ -108,7 +108,7 @@
             <p class="text-sm">
               {{
                 data?.candidateInformation?.desiredJobMode
-                  ? CJobMode[data.candidateInformation.desiredJobMode].name
+                  ? CJobMode[data.candidateInformation.desiredJobMode]?.name
                   : ''
               }}
             </p>
