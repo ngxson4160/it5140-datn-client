@@ -132,16 +132,21 @@
           </el-form-item>
 
           <el-form-item label="Khu vực làm việc" class="w-full" required>
-            <div v-for="(el, index) in region" :key="index" class="mt-2">
-              <select-job-region
-                v-model:value="region[index]"
-                :index-region="index + 1"
-                @rule-form="handleSetRuleFormSelectRegion"
-              />
+            <div>
+              <div v-for="(el, index) in region" :key="index" class="mt-2">
+                <select-job-region
+                  v-model:value="region[index]"
+                  class="w-full"
+                  :show-remove-region="region.length > 1"
+                  :index-region="index + 1"
+                  @rule-form="handleSetRuleFormSelectRegion"
+                  @remove-region="handleRemoveRegion(index)"
+                />
+              </div>
+              <el-button class="mt-4" type="primary" @click="handleAddRegion">
+                Thêm khu vực
+              </el-button>
             </div>
-            <el-button class="mt-4" type="primary" @click="handleAddRegion">
-              Thêm khu vực
-            </el-button>
           </el-form-item>
         </div>
       </div>
@@ -206,6 +211,7 @@
                 type="date"
                 placeholder="dd/mm/yyyy"
                 format="DD/MM/YYYY"
+                :disabled-date="handleDisableDate"
               />
             </el-form-item>
 
@@ -281,6 +287,11 @@ import type { IJobCreate } from '~/types/job';
 definePageMeta({
   layout: 'company-dashboard',
 });
+
+const handleDisableDate = (data: any) => {
+  const now = new Date();
+  return data.getTime() < now.getTime();
+};
 
 const props = defineProps({
   value: {
@@ -386,6 +397,12 @@ const handleAddRegion = () => {
       },
     ],
   });
+};
+
+const handleRemoveRegion = (index: number) => {
+  if (index > -1) {
+    region.value.splice(index, 1);
+  }
 };
 
 const ruleFormSelectSalary = ref<FormInstance>();

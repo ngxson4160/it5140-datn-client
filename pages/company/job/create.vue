@@ -136,9 +136,11 @@
               <div v-for="(el, index) in region" :key="index" class="mt-2">
                 <select-job-region
                   v-model:value="region[index]"
-                  :index-region="index + 1"
                   class="w-full"
+                  :show-remove-region="region.length > 1"
+                  :index-region="index + 1"
                   @rule-form="handleSetRuleFormSelectRegion"
+                  @remove-region="handleRemoveRegion(index)"
                 />
               </div>
               <el-button class="mt-4" type="primary" @click="handleAddRegion">
@@ -209,6 +211,7 @@
                 type="date"
                 placeholder="dd/mm/yyyy"
                 format="DD/MM/YYYY"
+                :disabled-date="handleDisableDate"
               />
             </el-form-item>
 
@@ -267,6 +270,11 @@ definePageMeta({
   // middleware: ['redirect'],
   roles: [ERole.COMPANY],
 });
+
+const handleDisableDate = (data: any) => {
+  const now = new Date();
+  return data.getTime() < now.getTime();
+};
 
 const router = useRouter();
 
@@ -354,6 +362,12 @@ const handleAddRegion = () => {
       },
     ],
   });
+};
+
+const handleRemoveRegion = (index: number) => {
+  if (index > -1) {
+    region.value.splice(index, 1);
+  }
 };
 
 const ruleFormSelectSalary = ref<FormInstance>();
