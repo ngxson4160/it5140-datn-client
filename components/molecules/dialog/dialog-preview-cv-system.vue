@@ -87,9 +87,12 @@
           </div>
           <div class="col-span-1">
             <p class="font-bold">Mức lương mong muốn</p>
-            <p class="text-sm">
-              {{ data.candidateInformation?.desiredSalary || '' }}
-              VND
+            <p v-if="data.candidateInformation?.desiredSalary" class="text-sm">
+              {{
+                (data.candidateInformation?.desiredSalary / 1000000).toFixed(
+                  1,
+                ) + ' triệu'
+              }}
             </p>
           </div>
 

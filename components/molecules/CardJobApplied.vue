@@ -22,25 +22,27 @@
             v-if="data.job.salaryMin && data.job.salaryMax"
             class="text-sm text-danger text-one-line"
           >
-            {{ `$ ${data.job.salaryMin}-${data.job.salaryMax}` }}
+            {{
+              `${(data.job.salaryMin / 1000000).toFixed(1)} triệu - ${(data.job.salaryMax / 1000000).toFixed(1)} triệu`
+            }}
           </p>
           <p
             v-if="!data.job.salaryMin && data.job.salaryMax"
             class="text-sm text-danger text-one-line"
           >
-            {{ `$ Lên tới ${data.job.salaryMax}` }}
+            {{ `Lên tới ${(data.job.salaryMax / 1000000).toFixed(1)} triệu` }}
           </p>
           <p
             v-if="data.job.salaryMin && !data.job.salaryMax"
             class="text-sm text-danger text-one-line"
           >
-            {{ `$ Ít nhất ${data.job.salaryMin}` }}
+            {{ `Ít nhất ${(data.job.salaryMin / 1000000).toFixed(1)} triệu` }}
           </p>
           <p
             v-if="!data.job.salaryMin && !data.job.salaryMax"
             class="text-sm text-danger text-one-line"
           >
-            {{ `$ Thương lượng` }}
+            {{ `Thương lượng` }}
           </p>
           <div class="flex gap-x-1">
             <div

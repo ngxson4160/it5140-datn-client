@@ -129,12 +129,16 @@
               </div>
               <div class="col-span-1">
                 <p class="font-bold">Mức lương mong muốn</p>
-                <p class="text-sm">
+                <p
+                  v-if="userStore.myProfile.candidateInformation?.desiredSalary"
+                  class="text-sm"
+                >
                   {{
-                    userStore.myProfile.candidateInformation?.desiredSalary ||
-                    ''
+                    (
+                      userStore.myProfile.candidateInformation?.desiredSalary /
+                      1000000
+                    ).toFixed(1) + ' triệu'
                   }}
-                  VND
                 </p>
               </div>
 
@@ -243,13 +247,21 @@
                     src="@/assets/images/dollar-circle-gray.svg"
                     class="w-5"
                   />
-                  <p class="text-sm">
+                  <p>
                     Mức lương mong muốn:
-                    {{
-                      userStore.myProfile.candidateInformation?.desiredSalary ||
-                      ''
-                    }}
-                    VND
+                    <span
+                      v-if="
+                        userStore.myProfile.candidateInformation?.desiredSalary
+                      "
+                      class="text-sm"
+                    >
+                      {{
+                        (
+                          userStore.myProfile.candidateInformation
+                            ?.desiredSalary / 1000000
+                        ).toFixed(1) + ' triệu'
+                      }}
+                    </span>
                   </p>
                 </div>
                 <div class="flex items-center gap-x-1">
