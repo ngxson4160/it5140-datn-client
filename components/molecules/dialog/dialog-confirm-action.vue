@@ -9,7 +9,7 @@
     <template #header>
       <p class="text-base font-bold text-center">{{ title }}</p>
     </template>
-    <div class="text-center">
+    <div class="flex justify-center">
       <slot></slot>
     </div>
 
@@ -42,6 +42,10 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  autoCloseDialog: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 const emits = defineEmits(['update:dialogVisible', 'onConfirm']);
@@ -55,6 +59,8 @@ const syncDialogVisible = computed({
 
 const handleConfirm = () => {
   emits('onConfirm');
-  syncDialogVisible.value = false;
+  if (props.autoCloseDialog) {
+    syncDialogVisible.value = false;
+  }
 };
 </script>
