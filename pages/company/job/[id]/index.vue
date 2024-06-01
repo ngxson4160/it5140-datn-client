@@ -65,7 +65,7 @@
               <div v-for="(address, index) in job.address" :key="index">
                 <p v-for="(data, index) in address.address" :key="index">
                   {{
-                    `• ${data.data}, ${data.districtName}, ${address.cityName}`
+                    `• ${data.data ? data.data + ',' : ''}${data.districtName ? data.districtName + ', ' : ''}${address.cityName}`
                   }}
                 </p>
               </div>
@@ -116,7 +116,7 @@
             </div>
             <div class="col-span-2">
               <p class="font-bold text-sm">
-                {{ CCompanySizeType[company?.sizeType].name }}
+                {{ CCompanySizeType[company?.sizeType]?.name }}
               </p>
             </div>
             <div class="col-span-1">

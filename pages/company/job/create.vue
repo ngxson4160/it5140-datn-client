@@ -72,13 +72,13 @@
             </div>
 
             <div class="col-span-3">
-              <el-form-item
-                label="Giới tính"
-                prop="gender"
-                class="w-full"
-                required
-              >
-                <el-select v-model="data.gender" class="w-full">
+              <el-form-item label="Giới tính" prop="gender" class="w-full">
+                <el-select
+                  v-model="data.gender"
+                  class="w-full"
+                  clearable
+                  placeholder="Bỏ qua nếu không yêu cầu"
+                >
                   <el-option
                     v-for="(item, index) in genderOption"
                     :key="index"
@@ -124,7 +124,10 @@
 
           <el-form-item label="Mức lương" class="w-full" required>
             <div class="flex flex-col">
-              <select-type-salary v-model:value="salary" />
+              <select-type-salary
+                v-model:value="salary"
+                @rule-form="handleSetRuleFormSelectSalary"
+              />
             </div>
           </el-form-item>
 
@@ -134,6 +137,8 @@
                 <select-job-region
                   v-model:value="region[index]"
                   :index-region="index + 1"
+                  class="w-full"
+                  @rule-form="handleSetRuleFormSelectRegion"
                 />
               </div>
               <el-button class="mt-4" type="primary" @click="handleAddRegion">
@@ -264,11 +269,6 @@ const genderOption = [
     label: 'Khác',
     value: 2,
   },
-  {
-    id: 3,
-    label: 'Không yêu cầu',
-    value: null,
-  },
 ];
 
 const jobStore = useJobStore();
@@ -296,18 +296,22 @@ const ruleForm = ref<FormInstance>();
 const rules = reactive<FormRules<any>>({
   title: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
   jobCategoryId: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
-  quantity: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
+  quantity: [
+    { required: true, message: 'Bắt buộc', trigger: 'change' },
+    {
+      validator: validateNumber,
+      message: 'Số lượng không hợp lệ',
+      trigger: 'change',
+    },
+  ],
   jobMode: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
-  gender: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
+  // gender: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
   level: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
   yearExperience: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
-  // time: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
   description: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
   requirement: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
   benefits: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
   hiringEndDate: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
-  // end: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
-  // end: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
 });
 
 const handleAddRegion = () => {
@@ -324,12 +328,42 @@ const handleAddRegion = () => {
   });
 };
 
-const handleSubmitCreateJob = () => {
-  if (!ruleForm.value) return;
-  ruleForm.value.validate(async (valid) => {
-    if (valid) {
-      // if (region.value?.cityId) data.value.cityIds = [region.value?.cityId];
+const ruleFormSelectSalary = ref<FormInstance>();
+const handleSetRuleFormSelectSalary = (val: FormInstance) => {
+  ruleFormSelectSalary.value = val;
+};
+const ruleFormSelectRegion = ref<FormInstance[]>([]);
+const handleSetRuleFormSelectRegion = (val: FormInstance) => {
+  ruleFormSelectRegion.value.push(val);
+};
+const handleSubmitCreateJob = async () => {
+  if (
+    !ruleForm.value ||
+    !ruleFormSelectSalary.value ||
+    !ruleFormSelectRegion.value
+  )
+    return;
+  let validForm = true;
+  // Validate salary form
+  await new Promise((resolve) => {
+    ruleFormSelectSalary.value?.validate((valid) => {
+      validForm = valid;
+      resolve(valid);
+    });
+  });
 
+  // Validate region forms
+  for (const el of ruleFormSelectRegion.value) {
+    await new Promise((resolve) => {
+      el?.validate((valid) => {
+        validForm = validForm && valid;
+        resolve(valid);
+      });
+    });
+  }
+
+  ruleForm.value.validate(async (valid) => {
+    if (valid && validForm) {
       region.value.forEach((el) => {
         if (el.cityId) data.value.cityIds.push(el.cityId);
       });

@@ -151,9 +151,13 @@
               <div class="tiptap" v-html="job.benefits"></div>
               <h2 class="border-l-title mt-6">Địa điểm làm việc</h2>
               <div class="text-sm">
-                <p v-for="(address, index) in job.address" :key="index">
-                  {{ `• ${address.data}` }}
-                </p>
+                <div v-for="(address, index) in job.address" :key="index">
+                  <p v-for="(data, index) in address.address" :key="index">
+                    {{
+                      `• ${data.data ? data.data + ',' : ''}${data.districtName ? data.districtName + ', ' : ''}${address.cityName}`
+                    }}
+                  </p>
+                </div>
               </div>
 
               <h2 class="border-l-title mt-6">Thời gian làm việc</h2>

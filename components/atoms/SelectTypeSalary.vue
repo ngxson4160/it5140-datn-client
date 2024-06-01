@@ -1,7 +1,14 @@
 <template>
-  <div class="flex items-center justify-between w-[800px]">
+  <!-- <div class="flex items-center justify-between w-[800px]"> -->
+  <el-form
+    ref="ruleForm"
+    label-position="top"
+    :model="syncValue"
+    :rules="rules"
+    class="flex items-center justify-between w-[800px]"
+  >
     <div>
-      <p class="text-sm text-gray mb-1">Chọn kiểu</p>
+      <p class="text-sm mb-1">Chọn kiểu</p>
       <el-select v-model="type" @change="changeSalaryType">
         <el-option
           v-for="(item, index) in ETypeSalary"
@@ -13,20 +20,25 @@
     </div>
     <div class="flex justify-between">
       <div v-if="type === ETypeSalary.FROM || type === ETypeSalary.FROM_TO">
-        <p class="text-sm text-gray mb-1">Từ</p>
-        <el-input v-model="syncValue.salaryMin" />
+        <el-form-item label="Từ" prop="salaryMin" class="w-full" required>
+          <el-input v-model="syncValue.salaryMin" />
+        </el-form-item>
       </div>
       <span v-if="type === ETypeSalary.FROM_TO" class="mx-8 pt-7">-</span>
       <div v-if="type === ETypeSalary.TO || type === ETypeSalary.FROM_TO">
-        <p class="text-sm text-gray mb-1">Lên tới</p>
-        <el-input v-model="syncValue.salaryMax" />
+        <el-form-item label="Lên tới" prop="salaryMax" class="w-full" required>
+          <el-input v-model="syncValue.salaryMax" />
+        </el-form-item>
       </div>
     </div>
-  </div>
+  </el-form>
+  <!-- </div> -->
 </template>
 
 <script setup lang="ts">
+import type { FormInstance, FormRules } from 'element-plus';
 import type { PropType } from 'vue';
+import { MESSAGE_VALIDATE } from '~/utils/constant/message-validate';
 
 enum ETypeSalary {
   FROM = 'Từ',
@@ -49,6 +61,26 @@ const props = defineProps({
 });
 const type = ref();
 
+const ruleForm = ref<FormInstance>();
+const rules = reactive<FormRules<any>>({
+  salaryMin: [
+    { required: true, message: 'Bắt buộc', trigger: 'change' },
+    {
+      validator: validateSalary,
+      message: MESSAGE_VALIDATE.DESIRED_SALARY,
+      trigger: 'blur',
+    },
+  ],
+  salaryMax: [
+    { required: true, message: 'Bắt buộc', trigger: 'change' },
+    {
+      validator: validateSalary,
+      message: MESSAGE_VALIDATE.DESIRED_SALARY,
+      trigger: 'blur',
+    },
+  ],
+});
+
 if (props.value.salaryMin && !props.value.salaryMax) {
   type.value = ETypeSalary.FROM;
 } else if (!props.value.salaryMin && props.value.salaryMax) {
@@ -59,7 +91,7 @@ if (props.value.salaryMin && !props.value.salaryMax) {
   type.value = ETypeSalary.DEAL;
 }
 
-const emits = defineEmits(['update:value']);
+const emits = defineEmits(['update:value', 'ruleForm']);
 
 const syncValue = computed({
   get: () => props.value,
@@ -74,6 +106,10 @@ const changeSalaryType = () => {
     salaryMax: null,
   };
 };
+
+onMounted(() => {
+  emits('ruleForm', ruleForm.value);
+});
 </script>
 
 <style scoped></style>

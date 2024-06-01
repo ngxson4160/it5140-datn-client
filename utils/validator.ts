@@ -15,7 +15,7 @@ export const validatePhoneNumber = (rule: any, value: string): RuleResult => {
 export const validateNumber = (rule: any, value: string): RuleResult => {
   if (!value) return true;
 
-  return /^\d+$/g.test(value);
+  return /^\d+$/g.test(value) && parseInt(value, 10) > 0;
 };
 
 export const validateYearExperience = (
@@ -30,5 +30,5 @@ export const validateYearExperience = (
 export const validateSalary = (rule: any, value: string): RuleResult => {
   if (!value) return true;
 
-  return /^(1000000|[1-9]\d{6,8}|[1-4]\d{8}|500000000)$/g.test(value);
+  return /^(1000000|[1-9]\d{6,8}|[1-4]\d{8}|1000000000)$/g.test(value);
 };

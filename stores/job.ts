@@ -57,7 +57,7 @@ export const initCreateJob: IJobCreate = {
   requirement: '',
   time: '',
   gender: null,
-  yearExperience: 0,
+  yearExperience: null,
   hiringStartDate: '',
   hiringEndDate: '',
   status: EJobStatus.PUBLIC,
