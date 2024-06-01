@@ -1,7 +1,7 @@
 <template>
   <div class="grid grid-cols-10 gap-x-4 mr-4 mb-[104px]">
     <div class="col-span-7 bg-white p-4 h-fit">
-      <el-tabs class="custom-tabs">
+      <el-tabs class="">
         <el-tab-pane
           label="Việc làm đã ứng tuyển"
           class="flex flex-col gap-y-2"

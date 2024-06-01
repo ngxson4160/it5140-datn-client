@@ -1,31 +1,44 @@
 <template>
   <div class="bg-[#f2f5f8] rounded-sm p-6">
     <div class="flex items-center">
-      <img src="@/assets/images/location-gray.svg" class="w-5" />
-      <p class="ml-2 mr-6 text-sm">Khu vực {{ indexRegion }}:</p>
-      <el-select
-        v-model="syncValue.cityId"
-        class="w-[300px]"
-        @change="handleChangeCity"
+      <el-form
+        ref="ruleForm"
+        :model="syncValue"
+        :rules="rules"
+        label-width="auto"
       >
-        <el-option
-          v-for="item in useCity.listCities"
-          :key="item.id"
-          :label="item.name"
-          :value="item.id"
+        <!-- <img src="@/assets/images/location-gray.svg" class="w-5" /> -->
+        <el-form-item
+          :label="`Khu vực ${indexRegion}:`"
+          prop="cityId"
+          required
+          class="!flex !items-center"
         >
-          {{ item.name }}
-        </el-option>
-      </el-select>
+          <el-select
+            v-model="syncValue.cityId"
+            class="w-[300px]"
+            @change="handleChangeCity"
+          >
+            <el-option
+              v-for="item in useCity.listCities"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id"
+            >
+              {{ item.name }}
+            </el-option>
+          </el-select>
+        </el-form-item>
+      </el-form>
     </div>
 
     <p class="mt-10 mb-2 text-sm">Địa chỉ</p>
     <div
       v-for="(address, index) in syncValue.address"
       :key="index"
-      class="flex mb-2 gap-6 w-[750px]"
+      class="flex mb-2 gap-6 w-[1025px]"
     >
-      <el-select v-model="address.districtName">
+      <el-select v-model="address.districtName" class="w-[350px]">
         <el-option
           v-for="item in listDistrict"
           :key="item.id"
@@ -52,6 +65,7 @@
 </template>
 
 <script setup lang="ts">
+import type { FormInstance, FormRules } from 'element-plus';
 import type { PropType } from 'vue';
 
 const props = defineProps({
@@ -88,13 +102,18 @@ export interface IJobRegion {
 const useCity = useCityStore();
 await useCity.getListCityAndDistrict();
 
-const emits = defineEmits(['update:value']);
+const emits = defineEmits(['update:value', 'ruleForm']);
 
 const syncValue = computed({
   get: () => props.value,
   set: (value: IJobRegion) => {
     return emits('update:value', value);
   },
+});
+
+const ruleForm = ref<FormInstance>();
+const rules = reactive<FormRules<any>>({
+  cityId: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
 });
 
 const listDistrict = ref<Array<{ id: number; name: string }>>();
@@ -121,6 +140,10 @@ const handleChangeCity = () => {
   syncValue.value.cityName = city?.name ?? '';
   listDistrict.value = city?.districts;
 };
+
+onMounted(() => {
+  emits('ruleForm', ruleForm.value);
+});
 </script>
 
 <style scoped></style>

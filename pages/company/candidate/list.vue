@@ -337,19 +337,30 @@
     <dialog-confirm-action
       v-model:dialog-visible="showEditInterviewSchedule"
       title="Chọn ngày kết thúc"
+      :auto-close-dialog="false"
       @on-confirm="handleEditInterviewSchedule"
     >
-      <el-date-picker
-        v-model="interviewScheduleDateChose"
-        type="datetime"
-        placeholder="Chọn này kết thúc"
-        format="DD-MM-YYYY HH:mm"
-      />
+      <el-form
+        ref="ruleForm"
+        label-position="top"
+        :model="formInterviewScheduleDateChose"
+        :rules="rules"
+      >
+        <el-form-item prop="interviewScheduleDateChose" required>
+          <el-date-picker
+            v-model="formInterviewScheduleDateChose.interviewScheduleDateChose"
+            type="datetime"
+            placeholder="Chọn này kết thúc"
+            format="DD-MM-YYYY HH:mm"
+          />
+        </el-form-item>
+      </el-form>
     </dialog-confirm-action>
   </div>
 </template>
 
 <script setup lang="ts">
+import type { FormInstance, FormRules } from 'element-plus';
 import type { ICandidate, IGetListCandidate } from '~/types/company';
 import {
   CApplicationClassify,
@@ -382,8 +393,10 @@ const urlCVPreview = ref('');
 const showCVPreviewSystem = ref(false);
 const showCVPreview = ref(false);
 const showEditInterviewSchedule = ref(false);
-const interviewScheduleDateChose = ref();
-
+// const interviewScheduleDateChose = ref();
+const formInterviewScheduleDateChose = ref({
+  interviewScheduleDateChose: '',
+});
 const showRemark = ref(false);
 const textRemark = ref('');
 const jobIdClicked = ref<number>(0);
@@ -530,21 +543,38 @@ const handleConfirmEditInterviewSchedule = (
   showEditInterviewSchedule.value = true;
   jobIdClicked.value = jobId;
   applicationIdClick.value = applicationId;
-  interviewScheduleDateChose.value = interviewSchedule;
+  formInterviewScheduleDateChose.value.interviewScheduleDateChose =
+    interviewSchedule;
 };
 
-const handleEditInterviewSchedule = async () => {
-  await companyStore.updateJobApplication(
-    jobIdClicked.value,
-    applicationIdClick.value,
-    { interviewSchedule: interviewScheduleDateChose.value },
-  );
-  const candidateUpdated = listCandidates.value.find(
-    (el) => el.id === applicationIdClick.value,
-  );
-  if (candidateUpdated) {
-    candidateUpdated.interviewSchedule = interviewScheduleDateChose.value;
-  }
+const ruleForm = ref<FormInstance>();
+const rules = reactive<FormRules<any>>({
+  interviewScheduleDateChose: [
+    { required: true, message: 'Bắt buộc', trigger: 'change' },
+  ],
+});
+const handleEditInterviewSchedule = () => {
+  if (!ruleForm.value) return;
+  ruleForm.value.validate(async (valid) => {
+    if (valid) {
+      await companyStore.updateJobApplication(
+        jobIdClicked.value,
+        applicationIdClick.value,
+        {
+          interviewSchedule:
+            formInterviewScheduleDateChose.value.interviewScheduleDateChose,
+        },
+      );
+      const candidateUpdated = listCandidates.value.find(
+        (el) => el.id === applicationIdClick.value,
+      );
+      if (candidateUpdated) {
+        candidateUpdated.interviewSchedule =
+          formInterviewScheduleDateChose.value.interviewScheduleDateChose;
+      }
+      showEditInterviewSchedule.value = false;
+    }
+  });
 };
 
 const redirectToMessagePage = async (userId: number) => {

@@ -57,7 +57,7 @@ export const initCreateJob: IJobCreate = {
   requirement: '',
   time: '',
   gender: null,
-  yearExperience: 0,
+  yearExperience: null,
   hiringStartDate: '',
   hiringEndDate: '',
   status: EJobStatus.PUBLIC,
@@ -85,6 +85,15 @@ export const useJobStore = defineStore(EStoreName.JOB, {
 
     async update(jobId: number, body: Partial<IJobCreate>) {
       return await useBaseFetch(`/jobs/${jobId}`, {
+        method: 'PUT',
+        body,
+        loading: true,
+        notification: true,
+      });
+    },
+
+    async reopen(jobId: number, body: { hiringEndDate: string }) {
+      return await useBaseFetch(`/jobs/${jobId}/reopen`, {
         method: 'PUT',
         body,
         loading: true,

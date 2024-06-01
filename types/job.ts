@@ -75,7 +75,7 @@ export interface IJob {
   requirement: string;
   time: string;
   gender: EGender | null;
-  yearExperience: number;
+  yearExperience: number | null;
   hiringStartDate: string;
   hiringEndDate: string;
   status: EJobStatus;
@@ -108,7 +108,7 @@ export interface IJobCreate {
   requirement: string;
   time: string;
   gender: null;
-  yearExperience: number;
+  yearExperience: number | null;
   hiringStartDate: string;
   hiringEndDate: string;
   status: EJobStatus;

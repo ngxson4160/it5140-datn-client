@@ -140,15 +140,18 @@
                   <el-dropdown-menu>
                     <el-dropdown-item
                       :disabled="
-                        scoped.row.hiringEndDate <= new Date().toISOString()
+                        new Date(scoped.row.hiringEndDate) < new Date()
                       "
                       @click="handleEndJobEarly(scoped.row.id)"
                     >
                       <div class="flex">
                         <img
-                          v-if="
-                            scoped.row.hiringEndDate > new Date().toISOString()
-                          "
+                          v-if="new Date(scoped.row.hiringEndDate) < new Date()"
+                          src="@/assets/images/time-gray.svg"
+                          class="w-5 mr-2"
+                        />
+                        <img
+                          v-else
                           src="@/assets/images/time-black.svg"
                           class="w-5 mr-2"
                         />
@@ -157,14 +160,14 @@
                     </el-dropdown-item>
                     <el-dropdown-item
                       :disabled="
-                        scoped.row.hiringEndDate > new Date().toISOString()
+                        new Date(scoped.row.hiringEndDate) >= new Date()
                       "
                       @click="handleConfirmReopen(scoped.row.id)"
                     >
                       <div class="flex">
                         <img
                           v-if="
-                            scoped.row.hiringEndDate > new Date().toISOString()
+                            new Date(scoped.row.hiringEndDate) >= new Date()
                           "
                           src="@/assets/images/reopen-gray.svg"
                           class="w-5 mr-2"
@@ -244,18 +247,29 @@
   <dialog-confirm-action
     v-model:dialog-visible="showReopenJob"
     title="Chọn ngày kết thúc"
+    :auto-close-dialog="false"
     @on-confirm="handleReopenJob"
   >
-    <el-date-picker
-      v-model="jobHiringEndDateChose"
-      type="date"
-      placeholder="Chọn này kết thúc"
-      :disabled-date="handleDisableDate"
-    />
+    <el-form
+      ref="ruleForm"
+      label-position="top"
+      :model="formReopen"
+      :rules="rules"
+    >
+      <el-form-item prop="jobHiringEndDateChose" required>
+        <el-date-picker
+          v-model="formReopen.jobHiringEndDateChose"
+          type="date"
+          placeholder="Chọn này kết thúc"
+          :disabled-date="handleDisableDate"
+        />
+      </el-form-item>
+    </el-form>
   </dialog-confirm-action>
 </template>
 
 <script setup lang="ts">
+import type { FormInstance, FormRules } from 'element-plus';
 import { Plus } from '@element-plus/icons-vue';
 import type { IJob } from '~/types/job';
 import type { IGetListJob } from '~/types/company';
@@ -277,13 +291,23 @@ const showConfirmDelete = ref(false);
 const showReopenJob = ref(false);
 const jobIdChose = ref();
 const jobTitleChose = ref();
-const jobHiringEndDateChose = ref();
+// const jobHiringEndDateChose = ref();
+const formReopen = ref({
+  jobHiringEndDateChose: '',
+});
 
 const currentPage = ref<number>(1);
 const query = ref<IGetListJob>({ sortCreatedAt: EOrderPaging.DESC });
 const filterTitle = ref<string>();
 const listJobs = ref<IJob[]>([]);
 const meta = ref<any>({});
+
+const ruleForm = ref<FormInstance>();
+const rules = reactive<FormRules<any>>({
+  jobHiringEndDateChose: [
+    { required: true, message: 'Bắt buộc', trigger: 'change' },
+  ],
+});
 
 query.value.limit = 5;
 
@@ -355,16 +379,22 @@ const handleConfirmReopen = (id: number) => {
   showReopenJob.value = true;
   jobIdChose.value = id;
 };
-const handleReopenJob = async () => {
-  const id = jobIdChose.value;
-  await jobStore.update(id, {
-    hiringEndDate: jobHiringEndDateChose.value,
+const handleReopenJob = () => {
+  if (!ruleForm.value) return;
+  ruleForm.value.validate(async (valid) => {
+    if (valid) {
+      const id = jobIdChose.value;
+      await jobStore.reopen(id, {
+        hiringEndDate: formReopen.value.jobHiringEndDateChose,
+      });
+      const jobUpdate = listJobs.value.find((el) => el.id === id);
+      if (jobUpdate) {
+        jobUpdate.hiringEndDate = formReopen.value.jobHiringEndDateChose;
+      }
+      formReopen.value.jobHiringEndDateChose = '';
+      showReopenJob.value = false;
+    }
   });
-  const jobUpdate = listJobs.value.find((el) => el.id === id);
-  if (jobUpdate) {
-    jobUpdate.hiringEndDate = jobHiringEndDateChose.value;
-  }
-  jobHiringEndDateChose.value = null;
 };
 
 watch(

@@ -51,7 +51,7 @@
                   <img src="@/assets/images/two-guy-gray.svg" class="w-6" />
                   <span>{{ `${job.totalCandidate} Lượt ứng tuyển` }}</span>
                 </div>
-                <div class="flex items-center gap-x-1 truncate w-[375px]">
+                <div class="flex items-center gap-x-1 truncate w-[350px]">
                   <img src="@/assets/images/location-gray.svg" class="w-6" />
                   <span v-for="(city, index) in job.cities" :key="index">
                     {{
@@ -62,15 +62,44 @@
               </div>
               <div class="grid grid-cols-4">
                 <el-button
-                  v-if="job.application.status !== null"
-                  type="info"
+                  v-if="
+                    job.application.status === EApplicationStatus.WAITING &&
+                    new Date(job.hiringEndDate) > new Date()
+                  "
+                  type="warning"
+                  class="col-span-3 !h-10"
+                  @click="handleConfirmDeleteApplication"
+                >
+                  Hủy ứng tuyển
+                </el-button>
+                <el-button
+                  v-if="
+                    job.application.status !== null &&
+                    job.application.status !== EApplicationStatus.WAITING &&
+                    new Date(job.hiringEndDate) > new Date()
+                  "
+                  type="primary"
                   class="col-span-3 !h-10"
                   disabled
                 >
                   Đã ứng tuyển
                 </el-button>
                 <el-button
-                  v-else-if="new Date(job.hiringEndDate) > new Date()"
+                  v-if="
+                    job.application.status !== null &&
+                    new Date(job.hiringEndDate) <= new Date()
+                  "
+                  type="primary"
+                  class="col-span-3 !h-10"
+                  disabled
+                >
+                  Đã ứng tuyển
+                </el-button>
+                <el-button
+                  v-if="
+                    job.application.status === null &&
+                    new Date(job.hiringEndDate) > new Date()
+                  "
                   type="primary"
                   class="col-span-3 !h-10"
                   @click="handleApplyJob"
@@ -78,7 +107,10 @@
                   Ứng tuyển ngay
                 </el-button>
                 <el-button
-                  v-else-if="new Date(job.hiringEndDate) <= new Date()"
+                  v-if="
+                    job.application.status === null &&
+                    new Date(job.hiringEndDate) <= new Date()
+                  "
                   type="info"
                   class="col-span-3 !h-10"
                   disabled
@@ -119,9 +151,13 @@
               <div class="tiptap" v-html="job.benefits"></div>
               <h2 class="border-l-title mt-6">Địa điểm làm việc</h2>
               <div class="text-sm">
-                <p v-for="(address, index) in job.address" :key="index">
-                  {{ `• ${address.data}` }}
-                </p>
+                <div v-for="(address, index) in job.address" :key="index">
+                  <p v-for="(data, index) in address.address" :key="index">
+                    {{
+                      `• ${data.data ? data.data + ',' : ''}${data.districtName ? data.districtName + ', ' : ''}${address.cityName}`
+                    }}
+                  </p>
+                </div>
               </div>
 
               <h2 class="border-l-title mt-6">Thời gian làm việc</h2>
@@ -151,7 +187,7 @@
               </div>
               <div class="col-span-2">
                 <p class="font-bold text-sm">
-                  {{ CCompanySizeType[company?.sizeType].name }}
+                  {{ CCompanySizeType[company?.sizeType]?.name }}
                 </p>
               </div>
               <div class="col-span-1">
@@ -261,6 +297,15 @@
       </div>
     </div>
   </div>
+
+  <dialog-confirm-action
+    v-model:dialogVisible="showConfirmDeleteApplication"
+    @on-confirm="handleDeleteApplication"
+  >
+    <template #default>
+      <p>Xác nhận hủy ứng tuyển công việc này?</p>
+    </template>
+  </dialog-confirm-action>
 </template>
 
 <script setup lang="ts">
@@ -280,13 +325,22 @@ const props = defineProps({
 });
 
 const router = useRouter();
+const showConfirmDeleteApplication = ref(false);
 
-const emits = defineEmits(['onApplyJob', 'onFollowJob']);
+const emits = defineEmits(['onApplyJob', 'onFollowJob', 'onDeleteApplication']);
 
 const handleApplyJob = () => {
   const isLogin = handleCheckLogin();
   if (!isLogin) return;
   emits('onApplyJob');
+};
+
+const handleConfirmDeleteApplication = () => {
+  showConfirmDeleteApplication.value = true;
+};
+
+const handleDeleteApplication = () => {
+  emits('onDeleteApplication');
 };
 
 const handleFollowJob = (isFavorite: boolean) => {

@@ -25,16 +25,21 @@
       </div>
     </div>
 
-    <div class="grid grid-cols-2 gap-x-4 mt-4">
-      <div>
-        <p class="mt-4 mb-2 text-sm">Họ</p>
-        <el-input v-model="syncData.firstName" size="large" />
+    <el-form
+      ref="ruleFormAccount"
+      label-position="top"
+      :model="syncData"
+      :rules="rulesAccount"
+    >
+      <div class="grid grid-cols-2 gap-x-4 mt-4">
+        <el-form-item label="Họ" prop="firstName" class="w-full" required>
+          <el-input v-model="syncData.firstName" size="large" />
+        </el-form-item>
+        <el-form-item label="Tên" prop="lastName" class="w-full" required>
+          <el-input v-model="syncData.lastName" size="large" />
+        </el-form-item>
       </div>
-      <div>
-        <p class="mt-4 mb-2 text-sm">Tên</p>
-        <el-input v-model="syncData.lastName" size="large" />
-      </div>
-    </div>
+    </el-form>
 
     <p class="mt-4 mb-2 text-sm">Email</p>
     <el-input v-model="syncData.email" size="large" disabled />
@@ -63,22 +68,51 @@
         <p class="text-base font-bold text-center">Thay đổi mật khẩu</p>
       </template>
 
-      <p class="mt-4 mb-2 text-sm">Mật khẩu hiện tại</p>
-      <el-input
-        v-model="syncNewPass.currentPassword"
-        size="large"
-        type="password"
-      />
+      <el-form
+        ref="ruleFormChangePassword"
+        label-position="top"
+        :model="syncNewPass"
+        :rules="rulesChangePassword"
+      >
+        <el-form-item
+          label="Mật khẩu hiện tại"
+          prop="currentPassword"
+          class="w-full"
+          required
+        >
+          <el-input
+            v-model="syncNewPass.currentPassword"
+            size="large"
+            type="password"
+          />
+        </el-form-item>
 
-      <p class="mt-4 mb-2 text-sm">Mật khẩu mới</p>
-      <el-input v-model="syncNewPass.password" size="large" type="password" />
+        <el-form-item
+          label="Mật khẩu mới"
+          prop="password"
+          class="w-full"
+          required
+        >
+          <el-input
+            v-model="syncNewPass.password"
+            size="large"
+            type="password"
+          />
+        </el-form-item>
 
-      <p class="mt-4 mb-2 text-sm">Nhập lại mật khẩu mới</p>
-      <el-input
-        v-model="syncNewPass.confirmPassword"
-        size="large"
-        type="password"
-      />
+        <el-form-item
+          label="Nhập lại mật khẩu mới"
+          prop="confirmPassword"
+          class="w-full"
+          required
+        >
+          <el-input
+            v-model="syncNewPass.confirmPassword"
+            size="large"
+            type="password"
+          />
+        </el-form-item>
+      </el-form>
 
       <template #footer>
         <el-button
@@ -101,6 +135,8 @@
 </template>
 
 <script setup lang="ts">
+import type { FormInstance, FormRules } from 'element-plus';
+
 const props = defineProps({
   data: {
     type: Object,
@@ -146,12 +182,52 @@ const syncNewPass = computed({
   },
 });
 
+const ruleFormAccount = ref<FormInstance>();
+const rulesAccount = reactive<FormRules<any>>({
+  firstName: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
+  lastName: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
+});
+
+const validatePassConfirm = (rule: any, value: any, callback: any) => {
+  if (value !== syncNewPass.value.password) {
+    callback(new Error('Nhập lại mật khảu không đúng!'));
+  } else {
+    callback();
+  }
+};
+const ruleFormChangePassword = ref<FormInstance>();
+const rulesChangePassword = reactive<FormRules<any>>({
+  currentPassword: [
+    { required: true, message: 'Bắt buộc', trigger: 'change' },
+    { min: 8, message: 'Tối thiểu 8 ký tự', trigger: 'change' },
+  ],
+  password: [
+    { required: true, message: 'Bắt buộc', trigger: 'change' },
+    { min: 8, message: 'Tối thiểu 8 ký tự', trigger: 'change' },
+  ],
+  confirmPassword: [
+    { required: true, message: 'Bắt buộc', trigger: 'change' },
+    { min: 8, message: 'Tối thiểu 8 ký tự', trigger: 'change' },
+    { validator: validatePassConfirm, trigger: 'blur' },
+  ],
+});
+
 const handleUpdatePassword = () => {
-  emits('onUpdatePassword');
+  if (!ruleFormChangePassword.value) return;
+  ruleFormChangePassword.value.validate((valid) => {
+    if (valid) {
+      emits('onUpdatePassword');
+    }
+  });
 };
 
 const handleSave = () => {
-  emits('onSave');
+  if (!ruleFormAccount.value) return;
+  ruleFormAccount.value.validate((valid) => {
+    if (valid) {
+      emits('onSave');
+    }
+  });
 };
 
 const onUpdateAvatar = (url: string) => {

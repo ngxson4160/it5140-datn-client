@@ -115,6 +115,7 @@
 
 <script setup lang="ts">
 import type { FormInstance, FormRules } from 'element-plus';
+import { MESSAGE_VALIDATE } from '~/utils/constant/message-validate';
 definePageMeta({
   middleware: ['redirect'],
 });
@@ -140,12 +141,27 @@ const router = useRouter();
 const account = ref(initCompanyRegisterAccount);
 const companyInformation = ref(initCompanyInformation);
 
+const validatePassConfirm = (rule: any, value: any, callback: any) => {
+  if (value !== account.value.password) {
+    callback(new Error('Nhập lại mật khảu không đúng!'));
+  } else {
+    callback();
+  }
+};
+
 const ruleFormAccount = ref<FormInstance>();
 const ruleFormCompany = ref<FormInstance>();
 const ruleAccount = reactive<FormRules<any>>({
   firstName: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
   lastName: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
-  email: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
+  email: [
+    { required: true, message: 'Bắt buộc', trigger: 'change' },
+    {
+      validator: validateEmail,
+      message: MESSAGE_VALIDATE.EMAIL,
+      trigger: 'change',
+    },
+  ],
   password: [
     { required: true, message: 'Bắt buộc', trigger: 'change' },
     { min: 8, message: 'Tối thiểu 8 ký tự', trigger: 'change' },
@@ -153,6 +169,7 @@ const ruleAccount = reactive<FormRules<any>>({
   confirmPassword: [
     { required: true, message: 'Bắt buộc', trigger: 'change' },
     { min: 8, message: 'Tối thiểu 8 ký tự', trigger: 'change' },
+    { validator: validatePassConfirm, trigger: 'blur' },
   ],
 });
 
@@ -165,6 +182,11 @@ const ruleCompany = reactive<FormRules<any>>({
   sizeType: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
   primaryPhoneNumber: [
     { required: true, message: 'Bắt buộc', trigger: 'change' },
+    {
+      validator: validatePhoneNumber,
+      message: MESSAGE_VALIDATE.PHONE_NUMBER,
+      trigger: 'change',
+    },
   ],
 });
 
@@ -172,11 +194,6 @@ const handleNextAccount = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   formEl.validate(async (valid) => {
     if (valid) {
-      if (account.value.password !== account.value.confirmPassword) {
-        return useNotificationError({
-          title: 'Xác nhận mật khẩu không chính xác!',
-        });
-      }
       const { meta } = await authStore.checkEmailExist(account.value.email);
       if (meta.statusCode === 200) active.value = 1;
     }

@@ -318,7 +318,7 @@ const handleReadConversation = (id: number) => {
   );
 
   if (
-    messageConversation.conversation.status ===
+    messageConversation?.conversation?.status ===
     EUserHasConversationStatus.UNREAD
   ) {
     socket.emit('read_conversation', {

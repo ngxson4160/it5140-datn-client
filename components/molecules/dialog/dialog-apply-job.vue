@@ -19,7 +19,8 @@
     </el-radio-group>
 
     <p class="font-bold mb-2">Hồ sơ đính kèm:</p>
-    <el-scrollbar max-height="255px">
+    <div v-if="!listCV.length" class="text-center">Chưa có hồ sơ đính kèm</div>
+    <el-scrollbar v-else max-height="255px">
       <el-radio-group
         v-model="formData.candidateCv"
         class="custom-radio flex flex-col gap-y-2 !w-full"
@@ -118,9 +119,9 @@ const syncDialogVisible = computed({
 });
 
 const listCV = ref(formData.value.candidateCv);
-if (listCV.value) {
-  formData.value.candidateCv = listCV.value[0].url;
-}
+// if (listCV.value.length) {
+//   formData.value.candidateCv = listCV.value[0]?.url;
+// }
 
 const handleShowPreviewCV = (url: string) => {
   urlCVPreview.value = url;
