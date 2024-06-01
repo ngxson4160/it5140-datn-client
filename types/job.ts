@@ -116,6 +116,7 @@ export interface IJobCreate {
   createdBy: string;
   updatedAt: string;
   updatedBy: string;
+  allowNotification: boolean;
   cityIds: number[];
   address: Array<{
     cityId: number | null;

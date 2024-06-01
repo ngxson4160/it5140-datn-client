@@ -193,24 +193,41 @@
         </div>
       </div>
 
-      <div class="mt-4 bg-white flex gap-x-4 px-4 py-6 rounded-lg">
+      <div class="mt-4 bg-white flex gap-x-4 px-4 py-6 rounded-lg w-full">
         <img src="@/assets/images/receive-box-primary.svg" class="w-8 h-8" />
         <div>
           <p class="font-bold text-xl mb-4">Thông tin nhận CV</p>
+          <div class="flex gap-x-16 w-full">
+            <el-form-item
+              label="Hạn chót nhận CV"
+              prop="hiringEndDate"
+              class="w-full"
+              required
+            >
+              <el-date-picker
+                v-model="data.hiringEndDate"
+                type="date"
+                placeholder="dd/mm/yyyy"
+                format="DD/MM/YYYY"
+              />
+            </el-form-item>
 
-          <el-form-item
-            label="Hạn chót nhận CV"
-            prop="hiringEndDate"
-            class="w-full"
-            required
-          >
-            <el-date-picker
-              v-model="data.hiringEndDate"
-              type="date"
-              placeholder="dd/mm/yyyy"
-              format="DD/MM/YYYY"
-            />
-          </el-form-item>
+            <el-form-item
+              label="Nhận thông báo ứng tuyển"
+              prop="allowNotification"
+              class="w-full"
+              required
+            >
+              <el-select v-model="data.allowNotification" class="w-full">
+                <el-option
+                  v-for="(item, index) in allowNotificationOption"
+                  :key="index"
+                  :label="item.label"
+                  :value="item.value"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </div>
 
           <!-- <p class="text-gray mt-6 mb-2 text-sm">Thông tin người nhận CV</p>
                 <div class="w-[1000px] flex justify-between">
@@ -268,6 +285,17 @@ const genderOption = [
     id: EGender.OTHER,
     label: 'Khác',
     value: 2,
+  },
+];
+
+const allowNotificationOption = [
+  {
+    label: 'Có',
+    value: true,
+  },
+  {
+    label: 'Không',
+    value: false,
   },
 ];
 
