@@ -173,7 +173,7 @@ onBeforeMount(() => {
     totalConversationUnreal.value = count;
   });
 
-  socket.on('create_conversation', ({ payload }) => {
+  socket.on('get_conversation_detail', ({ payload }) => {
     if (
       userData?.id === payload.fromUserId ||
       userData?.id === payload.toUserId

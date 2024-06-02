@@ -75,7 +75,7 @@
         </el-table-column>
         <el-table-column width="220">
           <template #header>
-            <div class="flex cursor-pointer" @click="onOrderCreated">
+            <div class="flex cursor-pointer" @click="onOrderHiringStartDate">
               <p class="mr-2">Ngày đăng</p>
               <img
                 v-if="query.sortHiringStartDate === EOrderPaging.DESC"
@@ -83,9 +83,14 @@
                 src="@/assets/images/sort-up-black.svg"
               />
               <img
-                v-else
+                v-else-if="query.sortHiringStartDate === EOrderPaging.ASC"
                 class="w-[22px]"
                 src="@/assets/images/sort-down-black.svg"
+              />
+              <img
+                v-else
+                class="w-[24px]"
+                src="@/assets/images/sort-up-down-black.svg"
               />
             </div>
           </template>
@@ -94,7 +99,26 @@
           </template>
         </el-table-column>
         <el-table-column width="210">
-          <template #header><p>Thời hạn nộp</p></template>
+          <template #header>
+            <div class="flex cursor-pointer" @click="onOrderHiringEndDate">
+              <p class="mr-2">Thời gian nộp</p>
+              <img
+                v-if="query.sortHiringEndDate === EOrderPaging.DESC"
+                class="w-[22px]"
+                src="@/assets/images/sort-up-black.svg"
+              />
+              <img
+                v-else-if="query.sortHiringEndDate === EOrderPaging.ASC"
+                class="w-[22px]"
+                src="@/assets/images/sort-down-black.svg"
+              />
+              <img
+                v-else
+                class="w-[24px]"
+                src="@/assets/images/sort-up-down-black.svg"
+              />
+            </div>
+          </template>
           <template #default="scoped">
             <p>{{ formatDateFull(scoped.row.hiringEndDate) }}</p>
           </template>
@@ -340,12 +364,37 @@ const onSearchJob = async () => {
   meta.value = data.meta;
 };
 
-const onOrderCreated = async () => {
-  if (query.value.sortHiringStartDate === EOrderPaging.ASC) {
+const onOrderHiringStartDate = async () => {
+  if (
+    query.value.sortHiringStartDate === EOrderPaging.ASC ||
+    !query.value.sortHiringStartDate
+  ) {
     query.value.sortHiringStartDate = EOrderPaging.DESC;
   } else {
     query.value.sortHiringStartDate = EOrderPaging.ASC;
   }
+
+  delete query.value.sortHiringEndDate;
+  const data = await companyStore.getListJobs({
+    ...query.value,
+    page: 1,
+  });
+  currentPage.value = 1;
+  listJobs.value = data.data as IJob[];
+  meta.value = data.meta;
+};
+
+const onOrderHiringEndDate = async () => {
+  if (
+    query.value.sortHiringEndDate === EOrderPaging.ASC ||
+    !query.value.sortHiringEndDate
+  ) {
+    query.value.sortHiringEndDate = EOrderPaging.DESC;
+  } else {
+    query.value.sortHiringEndDate = EOrderPaging.ASC;
+  }
+
+  delete query.value.sortHiringStartDate;
   const data = await companyStore.getListJobs({
     ...query.value,
     page: 1,
