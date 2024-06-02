@@ -35,11 +35,12 @@ const emits = defineEmits(['update:value']);
 watch(
   () => value.value,
   (newVal) => {
-    if (newVal !== '') {
-      emits('update:value', CJobExperienceValue[newVal].value);
-    } else {
-      emits('update:value', undefined);
-    }
+    // if (newVal !== '') {
+    //   emits('update:value', CJobExperienceValue[newVal].value);
+    // } else {
+    //   emits('update:value', undefined);
+    // }
+    emits('update:value', newVal);
   },
 );
 </script>

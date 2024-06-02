@@ -151,7 +151,7 @@ onBeforeMount(() => {
     'createNotification',
     ({ notificationCreated, countNotificationUnread }) => {
       ElNotification({
-        title: '',
+        title: 'Có một thông báo mới',
         message: notificationCreated.content,
         position: 'bottom-left',
         dangerouslyUseHTMLString: true,
