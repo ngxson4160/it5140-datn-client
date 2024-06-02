@@ -78,7 +78,7 @@
             <div class="flex cursor-pointer" @click="onOrderCreated">
               <p class="mr-2">Ngày đăng</p>
               <img
-                v-if="query.sortCreatedAt === EOrderPaging.DESC"
+                v-if="query.sortHiringStartDate === EOrderPaging.DESC"
                 class="w-[22px]"
                 src="@/assets/images/sort-up-black.svg"
               />
@@ -90,7 +90,7 @@
             </div>
           </template>
           <template #default="scoped">
-            <p>{{ formatDateFull(scoped.row.createdAt) }}</p>
+            <p>{{ formatDateFull(scoped.row.hiringStartDate) }}</p>
           </template>
         </el-table-column>
         <el-table-column width="210">
@@ -297,7 +297,7 @@ const formReopen = ref({
 });
 
 const currentPage = ref<number>(1);
-const query = ref<IGetListJob>({ sortCreatedAt: EOrderPaging.DESC });
+const query = ref<IGetListJob>({ sortHiringStartDate: EOrderPaging.DESC });
 const filterTitle = ref<string>();
 const listJobs = ref<IJob[]>([]);
 const meta = ref<any>({});
@@ -341,10 +341,10 @@ const onSearchJob = async () => {
 };
 
 const onOrderCreated = async () => {
-  if (query.value.sortCreatedAt === EOrderPaging.ASC) {
-    query.value.sortCreatedAt = EOrderPaging.DESC;
+  if (query.value.sortHiringStartDate === EOrderPaging.ASC) {
+    query.value.sortHiringStartDate = EOrderPaging.DESC;
   } else {
-    query.value.sortCreatedAt = EOrderPaging.ASC;
+    query.value.sortHiringStartDate = EOrderPaging.ASC;
   }
   const data = await companyStore.getListJobs({
     ...query.value,
@@ -384,11 +384,14 @@ const handleReopenJob = () => {
   ruleForm.value.validate(async (valid) => {
     if (valid) {
       const id = jobIdChose.value;
+      const now = new Date().toISOString();
       await jobStore.reopen(id, {
+        hiringStartDate: now,
         hiringEndDate: formReopen.value.jobHiringEndDateChose,
       });
       const jobUpdate = listJobs.value.find((el) => el.id === id);
       if (jobUpdate) {
+        jobUpdate.hiringStartDate = now;
         jobUpdate.hiringEndDate = formReopen.value.jobHiringEndDateChose;
       }
       formReopen.value.jobHiringEndDateChose = '';

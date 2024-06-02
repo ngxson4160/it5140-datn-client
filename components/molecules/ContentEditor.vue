@@ -28,7 +28,8 @@
       >
         <UnderlineIcon title="Underline" />
       </button>
-      <!-- <button
+      <button
+        v-if="showFull"
         type="button"
         :class="{
           'bg-gray-200 rounded': editor.isActive('heading', { level: 1 }),
@@ -39,6 +40,7 @@
         <H1Icon title="H1" />
       </button>
       <button
+        v-if="showFull"
         type="button"
         :class="{
           'bg-gray-200 rounded': editor.isActive('heading', { level: 2 }),
@@ -47,7 +49,7 @@
         @click="editor.chain().focus().toggleHeading({ level: 2 }).run()"
       >
         <H2Icon title="H2" />
-      </button> -->
+      </button>
       <button
         type="button"
         :class="{ 'bg-gray-200 rounded': editor.isActive('bulletList') }"
@@ -64,29 +66,42 @@
       >
         <OrderedListIcon title="Ordered List" />
       </button>
-      <!-- <button
+      <button
+        v-if="showFull"
         type="button"
-        @click="editor.chain().focus().toggleBlockquote().run()"
         :class="{ 'bg-gray-200 rounded': editor.isActive('blockquote') }"
         class="p-1"
+        @click="editor.chain().focus().toggleBlockquote().run()"
       >
         <BlockquoteIcon title="Blockquote" />
       </button>
       <button
+        v-if="showFull"
         type="button"
-        @click="editor.chain().focus().toggleCode().run()"
         :class="{ 'bg-gray-200 rounded': editor.isActive('code') }"
         class="p-1"
+        @click="editor.chain().focus().toggleCode().run()"
       >
         <CodeIcon title="Code" />
-      </button> -->
-      <!-- <button
+      </button>
+      <button
+        v-if="showFull"
         type="button"
-        @click="editor.chain().focus().setHorizontalRule().run()"
         class="p-1"
+        @click="editor.chain().focus().setHorizontalRule().run()"
       >
         <HorizontalRuleIcon title="Horizontal Rule" />
-      </button> -->
+      </button>
+      <el-upload
+        v-if="showFull"
+        v-model:file-list="fileList"
+        :on-success="uploadImage"
+        class="upload-image flex items-center justify-center"
+        :limit="1"
+        :before-upload="beforeAvatarUpload"
+      >
+        <img src="@/assets/images/image-black.svg" class="w-[25px]" />
+      </el-upload>
       <button
         type="button"
         class="p-1 disabled:text-gray-400"
@@ -108,13 +123,14 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 // import { Head, Link, useForm } from '@inertiajs/vue3'
 import { useEditor, EditorContent } from '@tiptap/vue-3';
 import StarterKit from '@tiptap/starter-kit';
 import Underline from '@tiptap/extension-underline';
 import HardBreak from '@tiptap/extension-hard-break';
 import Placeholder from '@tiptap/extension-placeholder';
+import Image from '@tiptap/extension-image';
 
 import BoldIcon from 'vue-material-design-icons/FormatBold.vue';
 import ItalicIcon from 'vue-material-design-icons/FormatItalic.vue';
@@ -128,6 +144,7 @@ import CodeIcon from 'vue-material-design-icons/CodeTags.vue';
 import HorizontalRuleIcon from 'vue-material-design-icons/Minus.vue';
 import UndoIcon from 'vue-material-design-icons/Undo.vue';
 import RedoIcon from 'vue-material-design-icons/Redo.vue';
+import type { UploadProps, UploadUserFile } from 'element-plus';
 
 const props = defineProps({
   modelValue: {
@@ -137,6 +154,10 @@ const props = defineProps({
   placeholder: {
     type: String,
     default: '',
+  },
+  showFull: {
+    type: Boolean,
+    default: false,
   },
 });
 
@@ -161,6 +182,7 @@ const editor = useEditor({
     Placeholder.configure({
       placeholder: props.placeholder,
     }),
+    Image,
   ],
   editorProps: {
     attributes: {
@@ -169,4 +191,33 @@ const editor = useEditor({
     },
   },
 });
+
+const uploadStore = useUploadStore();
+
+const fileList = ref<UploadUserFile[]>([]);
+const uploadImage = async () => {
+  const formData = new FormData();
+  const file: any = fileList.value[fileList.value.length - 1].raw;
+  formData.append('file', file);
+
+  const { data } = await uploadStore.uploadImage(formData);
+
+  if (data.absolutePath)
+    editor.value?.chain().focus().setImage({ src: data.absolutePath }).run();
+};
+
+const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile: any) => {
+  const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+  const fileType = rawFile.type;
+  if (!allowedTypes.includes(fileType)) {
+    useNotificationError({
+      title: 'Ảnh tải lên phải ở định dạng jpg/png/webp!',
+    });
+    return false;
+  } else if (rawFile.size / 1024 / 1024 > 2) {
+    useNotificationError({ title: 'Kích thước ảnh không được vượt quá 2MB!' });
+    return false;
+  }
+  return true;
+};
 </script>

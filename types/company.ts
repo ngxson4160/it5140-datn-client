@@ -11,7 +11,7 @@ export interface IGetListJob extends IPagination {
   title?: string;
   type?: string;
   status?: string;
-  sortCreatedAt?: EOrderPaging;
+  sortHiringStartDate?: EOrderPaging;
 }
 
 export interface IGetListCandidate extends IPagination {
