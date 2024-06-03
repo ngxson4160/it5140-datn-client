@@ -159,6 +159,14 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  minHeight: {
+    type: String,
+    default: '250',
+  },
+  maxHeight: {
+    type: String,
+    default: '500',
+  },
 });
 
 const emit = defineEmits(['update:modelValue']);
@@ -186,8 +194,9 @@ const editor = useEditor({
   ],
   editorProps: {
     attributes: {
-      class:
-        'border border-gray-400 p-4 min-h-[200px] max-h-[500px] overflow-y-auto outline-none max-w-none',
+      style: `min-height: ${props.minHeight}px; max-height:  ${props.maxHeight}px`,
+      class: `border border-gray-400 p-4  overflow-y-auto outline-none max-w-none`,
+      // `border border-gray-400 p-4 !min-h-[500px] !max-h-[1000px] overflow-y-auto outline-none max-w-none`,
     },
   },
 });

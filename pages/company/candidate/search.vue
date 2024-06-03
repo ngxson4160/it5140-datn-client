@@ -28,7 +28,7 @@
       <div class="col-span-2">
         <div class="flex justify-between items-center">
           <p class="font-bold text-lg">Bộ lọc nâng cao</p>
-          <div class="text-sm">Xóa bộ lọc</div>
+          <!-- <div class="text-sm">Xóa bộ lọc</div> -->
         </div>
 
         <p class="text-sm mt-6 mb-1">Ngành nghề</p>

@@ -3,7 +3,6 @@
     v-model:file-list="fileList"
     :on-success="uploadImage"
     class="upload-image"
-    :limit="1"
     :before-upload="beforeAvatarUpload"
   >
     <el-button :type="type">{{ title }}</el-button>
