@@ -95,6 +95,7 @@
         </div>
 
         <div class="col-span-1">
+          {{ formData.district }}
           <el-form-item
             label="Quận/Huyện"
             prop="districtId"
@@ -201,11 +202,18 @@ await useCity.getListCityAndDistrict();
 const listDistrict = ref<Array<{ id: number; name: string }>>();
 const handleChangeCity = () => {
   if (!formData.value.cityId) listDistrict.value = [];
+
   const city = useCity.listCities.find((el) => el.id === formData.value.cityId);
+
   formData.value.cityName = city?.name ?? '';
   listDistrict.value = city?.districts;
+
+  formData.value.districtId = null;
 };
-handleChangeCity();
+
+const city = useCity.listCities.find((el) => el.id === formData.value.cityId);
+formData.value.cityName = city?.name ?? '';
+listDistrict.value = city?.districts;
 </script>
 
 <style scoped></style>

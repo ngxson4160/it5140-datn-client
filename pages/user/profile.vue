@@ -743,7 +743,7 @@ const formDataEditInformation = ref({
   dob: userStore.myProfile.dob,
   gender: userStore.myProfile.gender,
   cityId: userStore.myProfile.cityId,
-  districtId: userStore.myProfile.districtId,
+  districtId: userStore.myProfile.district.id,
   address: userStore.myProfile.address,
   maritalStatus: userStore.myProfile.maritalStatus,
 });

@@ -2,10 +2,13 @@
   <div class="border rounded-lg px-4 py-2">
     <div class="flex justify-between">
       <div class="text-sm">
-        <p class="font-bold mb-2 text-base">
+        <p v-if="data?.dob" class="font-bold mb-2 text-base">
           {{
             `${data?.firstName} ${data?.lastName} (${calcAge(data?.dob)} tuổi)`
           }}
+        </p>
+        <p v-else class="font-bold mb-2 text-base">
+          {{ `${data?.firstName} ${data?.lastName}` }}
         </p>
         <p class="mb-1">
           {{ data.candidateInformation?.desiredJobCategory?.name }}
