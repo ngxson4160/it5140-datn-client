@@ -25,6 +25,12 @@ export const useConversationStore = defineStore(EStoreName.CONVERSATION, {
       return data;
     },
 
+    async getDetailConversation(id: number) {
+      const data = await useBaseFetch(`conversations/${id}`);
+
+      return data.data;
+    },
+
     async createConversation(body?: ICreateConversation) {
       const data = await useBaseFetch(`conversations`, {
         method: 'POST',

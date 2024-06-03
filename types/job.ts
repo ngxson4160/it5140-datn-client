@@ -116,6 +116,7 @@ export interface IJobCreate {
   createdBy: string;
   updatedAt: string;
   updatedBy: string;
+  allowNotification: boolean;
   cityIds: number[];
   address: Array<{
     cityId: number | null;
@@ -138,6 +139,7 @@ export interface IGetListJobParams extends IPagination {
   salaryMax?: number;
   yearExperienceMin?: number;
   yearExperienceMax?: number;
+  yearExperience?: number;
   companyId?: number;
   all?: boolean;
 }

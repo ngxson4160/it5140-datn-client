@@ -1,6 +1,6 @@
 <template>
   <div class="bg-[#f2f5f8] rounded-sm p-6">
-    <div class="flex items-center">
+    <div class="flex items-center justify-between">
       <el-form
         ref="ruleForm"
         :model="syncValue"
@@ -30,6 +30,12 @@
           </el-select>
         </el-form-item>
       </el-form>
+      <img
+        v-if="showRemoveRegion"
+        src="@/assets/images/multiply-circle-danger.svg"
+        class="w-8 cursor-pointer"
+        @click="handleRemoveRegion"
+      />
     </div>
 
     <p class="mt-10 mb-2 text-sm">Địa chỉ</p>
@@ -49,11 +55,14 @@
         </el-option>
       </el-select>
       <el-input v-model="address.data" />
-      <img
-        src="@/assets/images/multiply-circle-danger.svg"
-        class="w-8 cursor-pointer"
-        @click="removeAddress(index)"
-      />
+      <div class="w-8">
+        <img
+          v-if="syncValue.address.length > 1"
+          src="@/assets/images/multiply-circle-danger.svg"
+          class="w-8 cursor-pointer"
+          @click="removeAddress(index)"
+        />
+      </div>
     </div>
     <span
       class="text-green text-sm font-bold mt-6 cursor-pointer"
@@ -72,6 +81,10 @@ const props = defineProps({
   indexRegion: {
     type: Number,
     default: 1,
+  },
+  showRemoveRegion: {
+    type: Boolean,
+    default: false,
   },
   value: {
     type: Object as PropType<IJobRegion>,
@@ -102,7 +115,7 @@ export interface IJobRegion {
 const useCity = useCityStore();
 await useCity.getListCityAndDistrict();
 
-const emits = defineEmits(['update:value', 'ruleForm']);
+const emits = defineEmits(['update:value', 'ruleForm', 'removeRegion']);
 
 const syncValue = computed({
   get: () => props.value,
@@ -115,8 +128,6 @@ const ruleForm = ref<FormInstance>();
 const rules = reactive<FormRules<any>>({
   cityId: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
 });
-
-const listDistrict = ref<Array<{ id: number; name: string }>>();
 
 const addAddress = () => {
   syncValue.value.address.push({
@@ -139,6 +150,24 @@ const handleChangeCity = () => {
   );
   syncValue.value.cityName = city?.name ?? '';
   listDistrict.value = city?.districts;
+
+  syncValue.value.address = [
+    {
+      districtId: null,
+      districtName: '',
+      data: '',
+    },
+  ];
+};
+
+const listDistrict = ref<Array<{ id: number; name: string }>>();
+if (!syncValue.value.cityId) listDistrict.value = [];
+const city = useCity.listCities.find((el) => el.id === syncValue.value.cityId);
+syncValue.value.cityName = city?.name ?? '';
+listDistrict.value = city?.districts;
+
+const handleRemoveRegion = () => {
+  emits('removeRegion');
 };
 
 onMounted(() => {

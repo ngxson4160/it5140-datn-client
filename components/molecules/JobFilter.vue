@@ -39,27 +39,28 @@
     >
       <select-job-mode
         v-model="filterData.jobMode"
-        class="job-filter-select !w-[220px]"
+        class="job-filter-select !w-[250px]"
       />
       <select-job-salary
         v-model:value="filterData.salary"
-        class="job-filter-select !w-[220px]"
+        class="job-filter-select !w-[250px]"
       />
       <select-job-experience
         v-model:value="filterData.yearExperience"
-        class="job-filter-select !w-[220px]"
+        class="job-filter-select !w-[250px]"
       />
       <select-job-level
         v-model="filterData.level"
-        class="job-filter-select !w-[220px]"
+        class="job-filter-select !w-[250px]"
       />
 
-      <el-button @click="onDeleteFilter">Xóa bộ lọc</el-button>
+      <!-- <el-button @click="onDeleteFilter">Xóa bộ lọc</el-button> -->
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import type { PropType } from 'vue';
 import type { EJobLevel, EJobMode } from '~/types/job';
 
 export interface IFilterJob {
@@ -72,10 +73,11 @@ export interface IFilterJob {
     salaryMin: number | null;
     salaryMax: number | null;
   };
-  yearExperience: {
-    yearExperienceMin: number | null;
-    yearExperienceMax: number | null;
-  };
+  // yearExperience: {
+  //   yearExperienceMin: number | null;
+  //   yearExperienceMax: number | null;
+  // };
+  yearExperience: number | null;
 }
 
 const initFilterJob = {
@@ -88,10 +90,11 @@ const initFilterJob = {
     salaryMin: null,
     salaryMax: null,
   },
-  yearExperience: {
-    yearExperienceMin: null,
-    yearExperienceMax: null,
-  },
+  // yearExperience: {
+  //   yearExperienceMin: null,
+  //   yearExperienceMax: null,
+  // },
+  yearExperience: null,
 };
 
 const filterData = ref<IFilterJob>({
@@ -104,11 +107,31 @@ const filterData = ref<IFilterJob>({
     salaryMin: null,
     salaryMax: null,
   },
-  yearExperience: {
-    yearExperienceMin: null,
-    yearExperienceMax: null,
+  // yearExperience: {
+  //   yearExperienceMin: null,
+  //   yearExperienceMax: null,
+  // },
+  yearExperience: null,
+});
+
+const props = defineProps({
+  initFilter: {
+    type: Object as PropType<{
+      filter: string;
+      cityIds: number[];
+      jobCategoryIds: number[];
+    }>,
+    default: () => ({
+      filter: '',
+      cityIds: [] as number[],
+      jobCategoryIds: [] as number[],
+    }),
   },
 });
+
+filterData.value.filter = props.initFilter?.filter;
+filterData.value.cityIds = props.initFilter?.cityIds;
+filterData.value.jobCategoryIds = props.initFilter?.jobCategoryIds;
 
 const emits = defineEmits([
   'search',
@@ -156,9 +179,9 @@ const emitSearch = () => {
   emits('search', data);
 };
 
-const onDeleteFilter = () => {
-  emits('deleteFilter');
-};
+// const onDeleteFilter = () => {
+//   emits('deleteFilter');
+// };
 </script>
 
 <style lang="scss">

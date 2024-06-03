@@ -22,25 +22,27 @@
             v-if="data.job.salaryMin && data.job.salaryMax"
             class="text-sm text-danger text-one-line"
           >
-            {{ `$ ${data.job.salaryMin}-${data.job.salaryMax}` }}
+            {{
+              `${(data.job.salaryMin / 1000000).toFixed(1)} triệu - ${(data.job.salaryMax / 1000000).toFixed(1)} triệu`
+            }}
           </p>
           <p
             v-if="!data.job.salaryMin && data.job.salaryMax"
             class="text-sm text-danger text-one-line"
           >
-            {{ `$ Lên tới ${data.job.salaryMax}` }}
+            {{ `Lên tới ${(data.job.salaryMax / 1000000).toFixed(1)} triệu` }}
           </p>
           <p
             v-if="data.job.salaryMin && !data.job.salaryMax"
             class="text-sm text-danger text-one-line"
           >
-            {{ `$ Ít nhất ${data.job.salaryMin}` }}
+            {{ `Ít nhất ${(data.job.salaryMin / 1000000).toFixed(1)} triệu` }}
           </p>
           <p
             v-if="!data.job.salaryMin && !data.job.salaryMax"
             class="text-sm text-danger text-one-line"
           >
-            {{ `$ Thương lượng` }}
+            {{ `Thương lượng` }}
           </p>
           <div class="flex gap-x-1">
             <div
@@ -72,10 +74,17 @@
           <p class="text-sm text-[#a3a8ad] rounded-xl italic">
             Ứng tuyển lúc {{ formatDateFull(data.createdAt) }}
           </p>
-          <img src="@/assets/images/heart-gray.svg" class="w-10 ml-4" />
+          <!-- <img src="@/assets/images/heart-gray.svg" class="w-10 ml-4" /> -->
+        </div>
+        <div v-if="data.interviewSchedule" class="flex items-center">
+          <img src="@/assets/images/time-gray.svg" class="w-[18px]" />
+          <p class="ml-1 text-sm text-[#a3a8ad] rounded-xl itali">
+            Lịch hẹn: {{ formatDateFull(data.interviewSchedule) }}
+          </p>
+          <!-- <img src="@/assets/images/heart-gray.svg" class="w-10 ml-4" /> -->
         </div>
         <p
-          class="text-white text-sm py-[2px] px-2 rounded-xl w-fit"
+          class="text-white text-sm py-[2px] px-2 mt-1 rounded-xl w-fit"
           :class="{
             'bg-[#e6a23c]':
               data.status === 0 || data.status === 3 || data.status === 4,
@@ -88,15 +97,30 @@
           TT: {{ CApplicationStatus[data.status].name }}
         </p>
 
-        <div class="mt-10 flex justify-between items-center">
+        <div class="mt-10 flex justify-between items-center hover:underline">
           <div
             class="text-sm flex cursor-pointer"
-            @click.stop="handleShowPreviewCV(data.candidateCv)"
+            @click.stop="handleShowPreviewCV(data)"
           >
-            <img src="@/assets/images/pdf-danger.svg" />
-            <p class="ml-2 w-[125px]">Hồ sơ đính kèm</p>
+            <img
+              v-if="data.cvType === EPublicCvType.ATTACHMENT_CV"
+              src="@/assets/images/pdf-danger.svg"
+              class="w-3 cursor-pointer"
+            />
+            <img
+              v-if="data.cvType === EPublicCvType.SYSTEM_CV"
+              src="@/assets/images/pdf-blue.svg"
+              class="w-3 cursor-pointer"
+            />
+            <p class="ml-1 font-bold">
+              {{
+                data.cvType === EPublicCvType.ATTACHMENT_CV
+                  ? 'Hồ sơ đính kèm'
+                  : 'Hồ sơ Job Nest'
+              }}
+            </p>
           </div>
-          <el-button round size="default" class="!h-7">Hủy ứng tuyển</el-button>
+          <!-- <el-button round size="default" class="!h-7">Hủy ứng tuyển</el-button> -->
         </div>
       </div>
     </div>
@@ -105,6 +129,12 @@
   <dialog-preview-cv-attachment
     v-model:dialog-visible="showCVPreview"
     :url="urlCVPreview"
+  />
+
+  <dialog-preview-cv-system
+    v-if="showCVPreviewSystem"
+    v-model:dialog-visible="showCVPreviewSystem"
+    :data="dataCvSystem"
   />
 </template>
 
@@ -125,11 +155,34 @@ const props = defineProps({
 const router = useRouter();
 
 const urlCVPreview = ref('');
+const dataCvSystem = ref();
 const showCVPreview = ref(false);
+const showCVPreviewSystem = ref(false);
 
-const handleShowPreviewCV = (url: string) => {
-  urlCVPreview.value = url;
-  showCVPreview.value = true;
+const handleShowPreviewCV = (data: any) => {
+  // urlCVPreview.value = url;
+  // showCVPreview.value = true;
+  const typeCV = data.cvType;
+  if (typeCV === EPublicCvType.ATTACHMENT_CV) {
+    urlCVPreview.value = `${data.candidateCv}`;
+    showCVPreview.value = true;
+  } else if (typeCV === EPublicCvType.SYSTEM_CV) {
+    showCVPreviewSystem.value = true;
+    dataCvSystem.value = {
+      avatar: data.user.avatar,
+      firstName: data.user.firstName,
+      lastName: data.user.lastName,
+      email: data.user.email,
+      phoneNumber: data.user.phoneNumber,
+      gender: data.user.gender,
+      maritalStatus: data.user.maritalStatus,
+      dob: data.user.dob,
+      address: data.user.address,
+      district: data.user.district,
+      city: data.user.city,
+      candidateInformation: data.systemCv,
+    };
+  }
 };
 </script>
 

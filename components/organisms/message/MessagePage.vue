@@ -33,7 +33,7 @@
       <top-infinite-scroll
         :key="listMessage.conversation?.id"
         :data="listMessage.message"
-        :height="541"
+        :height="messageBoxHeight"
         :disabled="disabledLoadingListMessage || isLoadingListMessage"
         class="message-top-infinite-scroll"
         :distance="50"
@@ -84,6 +84,7 @@
           v-model:model-value="newMessage"
           size="large"
           @keydown.enter="handleCreateNewMessage"
+          @click="handleReadConversation(conversationId)"
         />
         <el-button type="primary" size="large" @click="handleCreateNewMessage">
           Gửi
@@ -251,12 +252,12 @@ const handleGetListMessageConversation = async () => {
 
 const handleScrollToBottom = (smooth?: boolean) => {
   if (smooth) {
-    scrollBar.value.scrollTo({
+    scrollBar.value?.scrollTo({
       top: scrollBar.value.scrollHeight - scrollBar.value.clientHeight,
       behavior: 'smooth',
     });
   } else {
-    scrollBar.value.scrollTo({
+    scrollBar.value?.scrollTo({
       top: scrollBar.value.scrollHeight - scrollBar.value.clientHeight,
     });
   }
@@ -333,12 +334,17 @@ const handleScrollBarBottom = () => {
   handleReadConversation(conversationId.value);
 };
 
+const messageBoxHeight = ref(541);
+
 onMounted(() => {
   socket.on('createMessage', async ({ message }) => {
     await nextTick();
     const currentScrollBottom =
-      scrollBar.value.scrollTop + scrollBar.value.clientHeight >=
-      scrollBar.value.scrollHeight - 20;
+      scrollBar.value?.scrollTop + scrollBar.value?.clientHeight >=
+      scrollBar.value?.scrollHeight - 20;
+
+    const isShowMessageScroll =
+      scrollBar.value?.scrollHeight > messageBoxHeight.value && scrollBar.value;
 
     if (conversationId.value === message.conversation.id) {
       listMessage.value.message.push(message);
@@ -349,6 +355,15 @@ onMounted(() => {
         });
         message.conversation.status = EUserHasConversationStatus.READ;
       }
+    }
+
+    if (listConversation.value.length === 0 && !conversationId.value) {
+      conversationId.value = message.conversation.id;
+      listMessage.value.conversation = {
+        ...message.conversation,
+        users: [message.conversation.users],
+      };
+      listMessage.value.message.push(message);
     }
 
     let indexConversation;
@@ -374,12 +389,23 @@ onMounted(() => {
       listConversation.value.splice(indexConversation, 1);
     }
 
+    if (userData.id === message?.creatorId && message?.userReceive) {
+      message.conversation.users = message.userReceive;
+    }
+
     listConversation.value.unshift(message);
 
     await nextTick();
-    if (currentScrollBottom || userData.id === message?.creatorId) {
+    if (
+      (currentScrollBottom || userData.id === message?.creatorId) &&
+      isShowMessageScroll
+    ) {
       handleScrollToBottom();
-    } else if (!currentScrollBottom && userData.id !== message?.creatorId) {
+    } else if (
+      !currentScrollBottom &&
+      userData.id !== message?.creatorId &&
+      isShowMessageScroll
+    ) {
       showScrollBottom.value = true;
     }
   });
@@ -393,6 +419,13 @@ onMounted(() => {
 
 onBeforeUpdate(() => {
   scrollBar.value = document.querySelector('.message-top-infinite-scroll');
+});
+
+onBeforeUnmount(() => {
+  socket.off('createMessage');
+  if (scrollBar.value) {
+    scrollBar.value.removeEventListener('scroll', handleScroll);
+  }
 });
 
 watch(

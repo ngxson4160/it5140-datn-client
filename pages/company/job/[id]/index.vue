@@ -9,25 +9,27 @@
               v-if="job.salaryMin && job.salaryMax"
               class="text-sm text-danger text-one-line"
             >
-              {{ `$ ${job.salaryMin}-${job.salaryMax}` }}
+              {{
+                `${(job.salaryMin / 1000000).toFixed(1)} triệu - ${(job.salaryMax / 1000000).toFixed(1)} triệu`
+              }}
             </p>
             <p
               v-if="!job.salaryMin && job.salaryMax"
               class="text-sm text-danger text-one-line"
             >
-              {{ `$ Lên tới ${job.salaryMax}` }}
+              {{ `Lên tới ${(job.salaryMax / 1000000).toFixed(1)} triệu` }}
             </p>
             <p
               v-if="job.salaryMin && !job.salaryMax"
               class="text-sm text-danger text-one-line"
             >
-              {{ `$ Ít nhất ${job.salaryMin}` }}
+              {{ `Ít nhất ${(job.salaryMin / 1000000).toFixed(1)} triệu` }}
             </p>
             <p
               v-if="!job.salaryMin && !job.salaryMax"
               class="text-sm text-danger text-one-line"
             >
-              {{ `$ Thương lượng` }}
+              {{ `Thương lượng` }}
             </p>
             <div class="flex text-sm gap-x-2">
               <div class="flex items-center gap-x-1">
@@ -177,25 +179,27 @@
                 v-if="job.salaryMin && job.salaryMax"
                 class="text-sm text-danger text-one-line"
               >
-                {{ `$ ${job.salaryMin}-${job.salaryMax}` }}
+                {{
+                  `${(job.salaryMin / 1000000).toFixed(1)} triệu - ${(job.salaryMax / 1000000).toFixed(1)} triệu`
+                }}
               </p>
               <p
                 v-if="!job.salaryMin && job.salaryMax"
                 class="text-sm text-danger text-one-line"
               >
-                {{ `$ Lên tới ${job.salaryMax}` }}
+                {{ `Lên tới ${(job.salaryMax / 1000000).toFixed(1)} triệu` }}
               </p>
               <p
                 v-if="job.salaryMin && !job.salaryMax"
                 class="text-sm text-danger text-one-line"
               >
-                {{ `$ Ít nhất ${job.salaryMin}` }}
+                {{ `Ít nhất ${(job.salaryMin / 1000000).toFixed(1)} triệu` }}
               </p>
               <p
                 v-if="!job.salaryMin && !job.salaryMax"
                 class="text-sm text-danger text-one-line"
               >
-                {{ `$ Thương lượng` }}
+                {{ `Thương lượng` }}
               </p>
             </div>
           </div>

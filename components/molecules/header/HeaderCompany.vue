@@ -151,7 +151,7 @@ onBeforeMount(() => {
     'createNotification',
     ({ notificationCreated, countNotificationUnread }) => {
       ElNotification({
-        title: '',
+        title: 'Có một thông báo mới',
         message: notificationCreated.content,
         position: 'bottom-left',
         dangerouslyUseHTMLString: true,
@@ -173,7 +173,7 @@ onBeforeMount(() => {
     totalConversationUnreal.value = count;
   });
 
-  socket.on('create_conversation', ({ payload }) => {
+  socket.on('get_conversation_detail', ({ payload }) => {
     if (
       userData?.id === payload.fromUserId ||
       userData?.id === payload.toUserId

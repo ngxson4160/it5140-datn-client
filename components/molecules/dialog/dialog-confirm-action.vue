@@ -10,7 +10,9 @@
       <p class="text-base font-bold text-center">{{ title }}</p>
     </template>
     <div class="flex justify-center">
-      <slot></slot>
+      <div class="text-center">
+        <slot></slot>
+      </div>
     </div>
 
     <template #footer>

@@ -2,6 +2,7 @@
   <div class="h-[160px] bg-[#007c32b8] flex items-center justify-center">
     <job-filter
       class="mx-auto"
+      :init-filter="initFilter"
       @job-mode="handleChangeJobMode"
       @salary="handleChangeSalary"
       @year-experience="handleChangeYearExperience"
@@ -24,7 +25,7 @@
           :data="job"
         />
       </div>
-      <div class="w-full flex justify-center mt-4 mb-16">
+      <div class="w-full flex justify-center mt-4 pb-16">
         <el-pagination
           :current-page="currentPage"
           :page-size="meta.pagination.pageSize"
@@ -48,6 +49,20 @@ const { query: queryUrl } = useRoute();
 
 const currentPage = ref<number>(1);
 const query = ref<IGetListJobParams>({ ...queryUrl });
+
+const convertStringToArray = (string: any) => {
+  if (typeof string === 'string') {
+    const arr = string.split(',');
+    return arr.map((el) => +el);
+  }
+};
+const initFilter = {
+  filter: queryUrl?.filter,
+  cityIds: queryUrl?.cityIds ? convertStringToArray(queryUrl?.cityIds) : [],
+  jobCategoryIds: queryUrl?.jobCategoryIds
+    ? convertStringToArray(queryUrl?.jobCategoryIds)
+    : [],
+};
 const listJob = ref<IJob[]>([]);
 const meta = ref<any>({});
 
@@ -91,12 +106,18 @@ const handleChangeSalary = async (salary: any) => {
 };
 
 const handleChangeYearExperience = async (yearExperience: any) => {
-  if (yearExperience) {
-    query.value.yearExperienceMin = yearExperience.yearExperienceMin;
-    query.value.yearExperienceMax = yearExperience.yearExperienceMax;
+  // if (yearExperience) {
+  //   query.value.yearExperienceMin = yearExperience.yearExperienceMin;
+  //   query.value.yearExperienceMax = yearExperience.yearExperienceMax;
+  // } else {
+  //   delete query.value.yearExperienceMin;
+  //   delete query.value.yearExperienceMax;
+  // }
+
+  if (yearExperience || yearExperience === 0) {
+    query.value.yearExperience = yearExperience;
   } else {
-    delete query.value.yearExperienceMin;
-    delete query.value.yearExperienceMax;
+    delete query.value.yearExperience;
   }
 
   query.value.page = 1;

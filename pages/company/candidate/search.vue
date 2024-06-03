@@ -145,10 +145,11 @@ definePageMeta({
 export interface IFilterCandidate {
   filter: string;
   cityId: number | null;
-  yearExperience: {
-    yearExperienceMin: number | null;
-    yearExperienceMax: number | null;
-  };
+  // yearExperience: {
+  //   yearExperienceMin: number | null;
+  //   yearExperienceMax: number | null;
+  // };
+  yearExperience: number | null;
   desiredJobCategoryIds: number[];
   gender: EGender | null;
   jobMode: EJobMode | null;
@@ -161,10 +162,11 @@ export interface IFilterCandidate {
 const filterData = ref<IFilterCandidate>({
   filter: '',
   cityId: null,
-  yearExperience: {
-    yearExperienceMin: null,
-    yearExperienceMax: null,
-  },
+  // yearExperience: {
+  //   yearExperienceMin: null,
+  //   yearExperienceMax: null,
+  // },
+  yearExperience: null,
   desiredJobCategoryIds: [] as number[],
   gender: null,
   jobMode: null,
@@ -296,8 +298,9 @@ watch(
 watch(
   () => filterData.value.yearExperience,
   async (newVal) => {
-    query.value.yearExperienceMin = newVal?.yearExperienceMin ?? undefined;
-    query.value.yearExperienceMax = newVal?.yearExperienceMax ?? undefined;
+    // query.value.yearExperienceMin = newVal?.yearExperienceMin ?? undefined;
+    // query.value.yearExperienceMax = newVal?.yearExperienceMax ?? undefined;
+    query.value.yearExperience = newVal;
     await callGetListCandidate();
   },
 );

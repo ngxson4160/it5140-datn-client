@@ -136,9 +136,11 @@
               <div v-for="(el, index) in region" :key="index" class="mt-2">
                 <select-job-region
                   v-model:value="region[index]"
-                  :index-region="index + 1"
                   class="w-full"
+                  :show-remove-region="region.length > 1"
+                  :index-region="index + 1"
                   @rule-form="handleSetRuleFormSelectRegion"
+                  @remove-region="handleRemoveRegion(index)"
                 />
               </div>
               <el-button class="mt-4" type="primary" @click="handleAddRegion">
@@ -193,24 +195,42 @@
         </div>
       </div>
 
-      <div class="mt-4 bg-white flex gap-x-4 px-4 py-6 rounded-lg">
+      <div class="mt-4 bg-white flex gap-x-4 px-4 py-6 rounded-lg w-full">
         <img src="@/assets/images/receive-box-primary.svg" class="w-8 h-8" />
         <div>
           <p class="font-bold text-xl mb-4">Thông tin nhận CV</p>
+          <div class="flex gap-x-16 w-full">
+            <el-form-item
+              label="Hạn chót nhận CV"
+              prop="hiringEndDate"
+              class="w-full"
+              required
+            >
+              <el-date-picker
+                v-model="data.hiringEndDate"
+                type="date"
+                placeholder="dd/mm/yyyy"
+                format="DD/MM/YYYY"
+                :disabled-date="handleDisableDate"
+              />
+            </el-form-item>
 
-          <el-form-item
-            label="Hạn chót nhận CV"
-            prop="hiringEndDate"
-            class="w-full"
-            required
-          >
-            <el-date-picker
-              v-model="data.hiringEndDate"
-              type="date"
-              placeholder="dd/mm/yyyy"
-              format="DD/MM/YYYY"
-            />
-          </el-form-item>
+            <el-form-item
+              label="Nhận thông báo ứng tuyển"
+              prop="allowNotification"
+              class="w-full"
+              required
+            >
+              <el-select v-model="data.allowNotification" class="w-full">
+                <el-option
+                  v-for="(item, index) in allowNotificationOption"
+                  :key="index"
+                  :label="item.label"
+                  :value="item.value"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </div>
 
           <!-- <p class="text-gray mt-6 mb-2 text-sm">Thông tin người nhận CV</p>
                 <div class="w-[1000px] flex justify-between">
@@ -251,6 +271,11 @@ definePageMeta({
   roles: [ERole.COMPANY],
 });
 
+const handleDisableDate = (data: any) => {
+  const now = new Date();
+  return data.getTime() < now.getTime();
+};
+
 const router = useRouter();
 
 const genderOption = [
@@ -268,6 +293,17 @@ const genderOption = [
     id: EGender.OTHER,
     label: 'Khác',
     value: 2,
+  },
+];
+
+const allowNotificationOption = [
+  {
+    label: 'Có',
+    value: true,
+  },
+  {
+    label: 'Không',
+    value: false,
   },
 ];
 
@@ -326,6 +362,12 @@ const handleAddRegion = () => {
       },
     ],
   });
+};
+
+const handleRemoveRegion = (index: number) => {
+  if (index > -1) {
+    region.value.splice(index, 1);
+  }
 };
 
 const ruleFormSelectSalary = ref<FormInstance>();

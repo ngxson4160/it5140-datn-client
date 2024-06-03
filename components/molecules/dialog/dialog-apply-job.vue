@@ -10,9 +10,9 @@
       v-model="formData.candidateCv"
       class="custom-radio flex flex-col gap-y-2 !w-full mb-4"
     >
-      <el-radio size="large" border class="!mx-0 !w-full !h-14">
+      <el-radio size="large" border class="!mx-0 !w-full !h-14" label="">
         <div class="flex justify-between !w-full grow-1">
-          <p>Nguyen Xuan Son</p>
+          <p>{{ formData.candidateName }}</p>
           <p class="font-bold" @click="showCVPreviewSystem = true">Xem hồ sơ</p>
         </div>
       </el-radio>
@@ -119,6 +119,7 @@ const syncDialogVisible = computed({
 });
 
 const listCV = ref(formData.value.candidateCv);
+formData.value.candidateCv = '';
 // if (listCV.value.length) {
 //   formData.value.candidateCv = listCV.value[0]?.url;
 // }
