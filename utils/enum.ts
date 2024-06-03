@@ -22,6 +22,7 @@ export enum EStoreName {
   User = 'user',
   Notification = 'notification',
   CONVERSATION = 'conversation',
+  BLOG = 'blog',
 }
 
 export enum EGender {
