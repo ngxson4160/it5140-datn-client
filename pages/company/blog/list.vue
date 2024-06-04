@@ -171,6 +171,7 @@ definePageMeta({
 });
 
 const blogStore = useBlogStore();
+const userData = getUserData();
 
 const router = useRouter();
 
@@ -181,6 +182,7 @@ const blogTitleChose = ref();
 const currentPage = ref<number>(1);
 const query = ref<IGetListBlog>({
   sortCreatedAt: EOrderPaging.DESC,
+  creatorId: userData.id,
 });
 const meta = ref<any>({});
 const listBlogs = ref<any[]>([]);

@@ -80,7 +80,32 @@
             </div>
           </div>
         </el-tab-pane>
-        <el-tab-pane label="Blog" name="blog">Blog</el-tab-pane>
+        <el-tab-pane label="Blog" name="blog">
+          <div v-if="!metaBlog?.pagination.totalItem" class="text-center mt-4">
+            Chưa có blog nào
+          </div>
+          <div v-else>
+            <card-blog-short
+              v-for="(blog, index) in listBlog"
+              :key="index"
+              class="mt-1 w-full"
+              :data="blog"
+            />
+            <div class="w-full flex justify-end mt-4 mb-16">
+              <el-pagination
+                :current-page="pageBlog"
+                :page-size="metaBlog?.pagination.pageSize"
+                :total="
+                  metaBlog?.pagination.totalPage * metaBlog?.pagination.pageSize
+                "
+                :pager-count="9"
+                layout="prev, pager, next"
+                background
+                @current-change="handleSetPageBlog"
+              />
+            </div>
+          </div>
+        </el-tab-pane>
       </el-tabs>
     </div>
     <div class="col-span-3 rounded-sm bg-white py-2 shadow-sm h-fit">
@@ -140,15 +165,23 @@ const props = defineProps({
     type: Object,
     required: true,
   },
-  listBlog: {
-    type: Object,
-    required: true,
-  },
   metaJob: {
     type: Object,
     required: true,
   },
   pageJob: {
+    type: Number,
+    required: true,
+  },
+  listBlog: {
+    type: Object,
+    required: true,
+  },
+  metaBlog: {
+    type: Object,
+    required: true,
+  },
+  pageBlog: {
     type: Number,
     required: true,
   },
