@@ -1,27 +1,48 @@
 <template>
-  <div class="w-[434px] h-[588px] bg-white border p-4 rounded-lg">
+  <div class="w-[425px] h-[411px] bg-white rounded-lg shadow-md">
     <img
-      src="@/assets/images/logo.jpg"
-      class="w-full h-[255px] object-contain border rounded-md"
+      :src="data.image"
+      class="w-[425px] h-[251px] rounded-t-lg object-contain cursor-pointer"
+      @click="router.push(`/blog/${data.id}`)"
     />
-    <p class="my-2">18/04/2024</p>
-    <p class="text-lg font-bold mb-4 max-h-14 line-clamp-2">
-      fdjkas sajdk asjidh auisdfgh iuasfgh iuasgfu sadufk asiufyas fduiasdhgf
-      asdiu
-    </p>
-    <p class="text-gray text-sm max-h-[100px] overflow-hidden">
-      fdjkas sajdk asjidh auisdfgh iuasfgh iuasgfu sadufk asiufyas fduiasdhgf
-      asdiu fdjkas sajdk asjidh auisdfgh iuasfgh iuasgfu sadufk asiufyas
-      fduiasdhgf asdiu fdjkas sajdk asjidh auisdfgh iuasfgh iuasgfu sadufk
-      asiufyas fduiasdhgf asdiufdjkas sajdk asjidh auisdfgh iuasfgh iuasgfu
-    </p>
-    <el-button type="primary" class="mt-6 !h-11 !font-bold !text-base">
-      Chi tiết
-      <img src="@/assets/images/arrow-right.svg" class="w-8 ml-1" />
-    </el-button>
+
+    <div class="p-4">
+      <div class="h-14">
+        <p
+          class="text-xl font-bold line-clamp-2 cursor-pointer hover:underline"
+          @click="router.push(`/blog/${data.id}`)"
+        >
+          {{ data.title }}
+        </p>
+      </div>
+      <div class="mt-2 flex justify-between items-center">
+        <div class="flex gap-x-2 items-center">
+          <img
+            :src="data.company?.avatar"
+            class="rounded-full border w-16 h-16 object-contain"
+          />
+          <div>
+            <p class="line-clamp-1">
+              {{ data.company?.name }}
+            </p>
+            <p class="text-sm">{{ formatDateFull(data.createdAt) }}</p>
+          </div>
+        </div>
+        <img src="@/assets/images/heart-gray.svg" class="w-8 cursor-pointer" />
+      </div>
+    </div>
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+defineProps({
+  data: {
+    type: Object,
+    required: true,
+  },
+});
 
-<style></style>
+const router = useRouter();
+</script>
+
+<style scoped></style>

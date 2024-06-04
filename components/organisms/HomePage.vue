@@ -213,9 +213,9 @@
         >
           <el-carousel-item v-for="item in 5" :key="item">
             <div class="flex justify-center gap-6 w-full">
-              <card-blog />
-              <card-blog />
-              <card-blog />
+              <card-blog-home />
+              <card-blog-home />
+              <card-blog-home />
             </div>
           </el-carousel-item>
         </el-carousel>

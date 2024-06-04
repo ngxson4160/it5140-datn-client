@@ -6,30 +6,35 @@
           <div class="pb-10 border-b mb-6">
             <img
               class="border rounded-lg w-[760px] h-[450px] object-contain shadow-sm mx-auto"
-              src="@/assets/images/logo.jpg"
+              :src="blogDetail.image"
             />
             <p class="font-bold text-xl mt-10 mb-2">
-              {{ blogDetail.blog.title }}
+              {{ blogDetail.title }}
             </p>
 
             <div class="flex justify-between">
               <div class="flex gap-x-4 items-center justify-center">
                 <img
-                  src="@/assets/images/logo.jpg"
+                  :src="blogDetail.company?.avatar"
                   class="border w-[68px] h-[68px] rounded-full object-contain"
                 />
                 <div>
-                  <p>Wanosoft</p>
-                  <p>4/6/2034</p>
+                  <p>{{ blogDetail.company?.name }}</p>
+                  <p class="text-sm">
+                    {{ formatDateFull(blogDetail.createdAt) }}
+                  </p>
                 </div>
               </div>
               <div class="flex gap-x-2 items-center">
-                <img src="@/assets/images/heart-gray.svg" class="w-8 h-8" />
+                <img
+                  src="@/assets/images/heart-gray.svg"
+                  class="w-8 h-8 cursor-pointer"
+                />
                 <span>12</span>
               </div>
             </div>
           </div>
-          <div v-html="blogDetail.blog.content"></div>
+          <div v-html="blogDetail.content"></div>
         </div>
       </div>
 
