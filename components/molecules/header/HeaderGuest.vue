@@ -41,7 +41,7 @@
 
       <p
         class="hover:cursor-pointer hover:text-green font-medium"
-        @click="router.push('/blog')"
+        @click="router.push('/blog/list')"
       >
         Blog
       </p>

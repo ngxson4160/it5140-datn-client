@@ -34,9 +34,16 @@
 
       <p
         class="hover:cursor-pointer hover:text-green font-medium"
-        @click="router.push('/user/blog')"
+        @click="router.push('/user/blog/list')"
       >
         Blog
+      </p>
+
+      <p
+        class="hover:cursor-pointer hover:text-green font-medium"
+        @click="router.push('/user/job/application')"
+      >
+        Ứng tuyển
       </p>
 
       <p

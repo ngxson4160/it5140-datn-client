@@ -1,11 +1,11 @@
 <template>
-  <div>Blog Page</div>
+  <blog-detail />
 </template>
 
 <script setup lang="ts">
 definePageMeta({
   layout: 'guest',
-  middleware: ['redirect-to-user-router'],
+  middleware: 'redirect-to-user-router',
 });
 </script>
 

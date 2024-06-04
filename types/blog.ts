@@ -9,4 +9,5 @@ export interface CreateBlog {
 export interface IGetListBlog extends IPagination {
   sortCreatedAt?: EOrderPaging;
   creatorId?: number;
+  companyId?: number;
 }
