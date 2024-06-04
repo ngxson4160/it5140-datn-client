@@ -49,5 +49,14 @@ export const useBlogStore = defineStore(EStoreName.BLOG, {
         loading: true,
       });
     },
+
+    async favoriteBlog(jobId: number, body: { isFavorite: boolean }) {
+      return await useBaseFetch(`/blogs/${jobId}/favorites`, {
+        method: 'POST',
+        body,
+        loading: true,
+        notification: true,
+      });
+    },
   },
 });

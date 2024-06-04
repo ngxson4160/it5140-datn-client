@@ -1,6 +1,6 @@
 <template>
-  <div class="bg-[#f2f5f8] pt-4 pb-20">
-    <div class="grid grid-cols-7 w-[1300px] mx-auto gap-x-6">
+  <div class="bg-[#f2f5f8] pb-20">
+    <div class="grid grid-cols-7 w-[1300px] gap-x-6">
       <div class="col-span-5">
         <div class="bg-white rounded-lg px-6 pt-6 pb-10">
           <div class="pb-10 border-b mb-6">
@@ -29,16 +29,37 @@
                 <img
                   src="@/assets/images/heart-gray.svg"
                   class="w-8 h-8 cursor-pointer"
+                  @click="handleFollowBlog(true)"
                 />
-                <span>12</span>
+                <!-- <img src="@/assets/images/heart-primary.svg" class="w-6 mr-1" /> -->
+                <span>{{ blogDetail.totalFollow }}</span>
               </div>
             </div>
           </div>
           <div v-html="blogDetail.content"></div>
         </div>
+
+        <div v-if="isCompany" class="flex justify-end gap-x-6 mt-4">
+          <el-button
+            class="w-[200px]"
+            type="default"
+            size="large"
+            @click="router.push('/company/blog/list')"
+          >
+            Quay lại
+          </el-button>
+          <el-button
+            class="w-[200px]"
+            type="primary"
+            size="large"
+            @click="router.push(`/company/blog/${blogDetail.id}/edit`)"
+          >
+            Chỉnh sửa
+          </el-button>
+        </div>
       </div>
 
-      <div class="col-span-2">
+      <div v-if="!isCompany" class="col-span-2">
         <div class="bg-white rounded-lg px-6 py-4">
           <div class="grid grid-cols-3 gap-x-4 gap-y-2">
             <div class="col-span-1">
@@ -88,6 +109,13 @@
 <script setup lang="ts">
 import { CCompanySizeType } from '~/utils/constant/common';
 
+defineProps({
+  isCompany: {
+    type: Boolean,
+    default: false,
+  },
+});
+
 const router = useRouter();
 const { params } = useRoute();
 
@@ -106,6 +134,17 @@ if (meta?.statusCode === 404) {
 }
 
 const blogDetail = ref(data);
+
+const handleFollowBlog = async (isFavorite: boolean) => {
+  const isLogin = handleCheckLogin();
+  if (!isLogin) return;
+  await blogStore.favoriteBlog(+blogId, { isFavorite });
+  if (isFavorite) {
+    blogDetail.value.totalFollow++;
+  } else {
+    blogDetail.value.totalFollow--;
+  }
+};
 </script>
 
 <style scoped></style>

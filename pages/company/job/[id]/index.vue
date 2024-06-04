@@ -100,7 +100,7 @@
       </div>
 
       <div class="col-span-2">
-        <div class="bg-white rounded-lg px-6 py-4">
+        <!-- <div class="bg-white rounded-lg px-6 py-4">
           <div class="grid grid-cols-3 gap-x-4 gap-y-2">
             <div class="col-span-1">
               <img
@@ -135,9 +135,9 @@
             <p>Xem chi tiết công ty</p>
             <img src="@/assets/images/newscreen-primary.svg" class="w-[22px]" />
           </div>
-        </div>
+        </div> -->
 
-        <div class="mt-6 px-6 py-4 bg-white round-lg">
+        <div class="px-6 py-4 bg-white round-lg">
           <p class="text-xl font-bold mb-4">Thông tin chung</p>
           <div class="grid grid-cols-2">
             <div class="flex items-center gap-x-2">
