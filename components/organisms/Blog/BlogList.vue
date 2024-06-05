@@ -19,7 +19,12 @@
   </div>
   <div v-else>
     <div class="w-fit grid grid-cols-3 mx-auto gap-x-4 gap-y-6">
-      <card-blog v-for="(el, index) in listBlog" :key="index" :data="el" />
+      <card-blog
+        v-for="(el, index) in listBlog"
+        :key="index"
+        :data="el"
+        @on-click-hear="handleFollowBlog"
+      />
     </div>
 
     <div class="w-full flex justify-center mt-4 pb-[104px]">
@@ -75,6 +80,24 @@ const handleSearch = async () => {
 
   query.value.page = 1;
   await getListBlog();
+};
+
+const handleFollowBlog = async (data: {
+  blogId: number;
+  isFavorite: boolean;
+}) => {
+  const isLogin = handleCheckLogin();
+  if (!isLogin) return;
+
+  await blogStore.favoriteBlog(data.blogId, { isFavorite: data.isFavorite });
+
+  const blogClick = listBlog.value.find((el) => el.id === data.blogId);
+  if (data.isFavorite) {
+    blogClick.totalFollow++;
+  } else {
+    blogClick.totalFollow--;
+  }
+  blogClick.isFollow = data.isFavorite;
 };
 </script>
 

@@ -1,5 +1,7 @@
 <template>
-  <blog-detail />
+  <div class="pt-4 flex justify-center">
+    <blog-detail />
+  </div>
 </template>
 
 <script setup lang="ts">

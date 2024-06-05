@@ -32,3 +32,9 @@ export const validateSalary = (rule: any, value: string): RuleResult => {
 
   return /^(1000000|[1-9]\d{6,8}|[1-4]\d{8}|1000000000)$/g.test(value);
 };
+
+export const validateContent = (rule: any, value: string): RuleResult => {
+  if (!value) return true;
+
+  return value !== '<p></p>';
+};

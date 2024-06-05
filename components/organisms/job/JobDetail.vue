@@ -171,7 +171,7 @@
         </div>
 
         <div class="col-span-2">
-          <div class="bg-white rounded-lg px-6 py-4">
+          <div v-if="showCompany" class="bg-white rounded-lg px-6 py-4">
             <div class="grid grid-cols-3 gap-x-4 gap-y-2">
               <div class="col-span-1">
                 <img
@@ -325,6 +325,10 @@ const props = defineProps({
   company: {
     type: Object,
     required: true,
+  },
+  showCompany: {
+    type: Boolean,
+    default: true,
   },
 });
 
