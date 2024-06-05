@@ -223,7 +223,7 @@
     </div>
   </div>
 
-  <div class="bg-[#13161c] h-[435px] mx-auto py-12 text-white">
+  <!-- <div class="bg-[#13161c] h-[435px] mx-auto py-12 text-white">
     <div class="grid grid-cols-9 gap-x-16 mx-[290px] pb-4 border-b">
       <div class="col-span-3">
         <p class="text-xl font-bold mb-8">Thông tin công ty</p>
@@ -277,7 +277,7 @@
         <img src="@/assets/images/linkedin-white.svg" class="w-6" />
       </div>
     </div>
-  </div>
+  </div> -->
 </template>
 
 <script setup lang="ts">
