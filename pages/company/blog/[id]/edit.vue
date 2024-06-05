@@ -1,7 +1,9 @@
 <template>
   <create-blog
     :data="data"
-    title-button-submit="Cập nhật"
+    title-button-submit="Lưu"
+    :url-back="`/company/blog/${blogId}`"
+    show-button-back
     @on-submit="handleUpdateBlog"
   />
 </template>
@@ -26,7 +28,8 @@ if (!blogId) {
   router.push('/404');
 }
 
-const data = ref<CreateBlog>({
+const data = ref<CreateBlog & { id: number | null }>({
+  id: null,
   title: '',
   image: '',
   content: '',

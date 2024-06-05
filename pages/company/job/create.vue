@@ -344,9 +344,18 @@ const rules = reactive<FormRules<any>>({
   // gender: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
   level: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
   yearExperience: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
-  description: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
-  requirement: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
-  benefits: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
+  description: [
+    { required: true, message: 'Bắt buộc', trigger: 'change' },
+    { validator: validateContent, message: 'Bắt buộc', trigger: 'change' },
+  ],
+  requirement: [
+    { required: true, message: 'Bắt buộc', trigger: 'change' },
+    { validator: validateContent, message: 'Bắt buộc', trigger: 'change' },
+  ],
+  benefits: [
+    { required: true, message: 'Bắt buộc', trigger: 'change' },
+    { validator: validateContent, message: 'Bắt buộc', trigger: 'change' },
+  ],
   hiringEndDate: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
 });
 

@@ -28,21 +28,39 @@
             <p class="text-sm">{{ formatDateFull(data.createdAt) }}</p>
           </div>
         </div>
-        <img src="@/assets/images/heart-gray.svg" class="w-8 cursor-pointer" />
+
+        <img
+          v-if="data.isFollow"
+          src="@/assets/images/heart-primary.svg"
+          class="w-8 h-8 cursor-pointer"
+          @click="handleFollowBlog(false)"
+        />
+        <img
+          v-else
+          src="@/assets/images/heart-gray.svg"
+          class="w-8 h-8 cursor-pointer"
+          @click="handleFollowBlog(true)"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-defineProps({
+const props = defineProps({
   data: {
     type: Object,
     required: true,
   },
 });
 
+const emits = defineEmits(['onClickHear']);
+
 const router = useRouter();
+
+const handleFollowBlog = (isFavorite: boolean) => {
+  emits('onClickHear', { blogId: props.data.id, isFavorite });
+};
 </script>
 
 <style scoped></style>

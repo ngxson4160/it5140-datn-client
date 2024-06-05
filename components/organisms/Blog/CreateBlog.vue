@@ -74,8 +74,24 @@
         </div>
       </div>
 
-      <div class="flex justify-end mt-10">
-        <el-button type="primary" class="!h-10" @click="handleSubmitCreateBlog">
+      <div class="flex gap-x-6 justify-end mt-10">
+        <!-- <el-button
+          v-if="showButtonBack"
+          class="!h-10"
+          @click="router.push(`/company/blog/${formData.id}`)"
+        > -->
+        <el-button
+          v-if="showButtonBack"
+          class="!h-10 w-[200px]"
+          @click="router.push(urlBack)"
+        >
+          Quay lại
+        </el-button>
+        <el-button
+          type="primary"
+          class="!h-10 w-[200px]"
+          @click="handleSubmitCreateBlog"
+        >
           {{ titleButtonSubmit }}
         </el-button>
       </div>
@@ -90,7 +106,10 @@ const ruleForm = ref<FormInstance>();
 const rules = reactive<FormRules<any>>({
   title: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
   image: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
-  content: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
+  content: [
+    { required: true, message: 'Bắt buộc', trigger: 'change' },
+    { validator: validateContent, message: 'Bắt buộc', trigger: 'change' },
+  ],
 });
 
 const props = defineProps({
@@ -102,14 +121,29 @@ const props = defineProps({
     type: String,
     default: 'Tạo',
   },
+  showButtonBack: {
+    type: Boolean,
+    default: false,
+  },
+  urlBack: {
+    type: String,
+    default: '',
+  },
 });
 
 const emits = defineEmits(['onSubmit']);
 
+const router = useRouter();
+
 const formData = ref(props.data);
 
 const handleSubmitCreateBlog = () => {
-  emits('onSubmit', formData.value);
+  if (!ruleForm.value) return;
+  ruleForm.value.validate((valid) => {
+    if (valid) {
+      emits('onSubmit', formData.value);
+    }
+  });
 };
 </script>
 

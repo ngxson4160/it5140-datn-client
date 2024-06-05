@@ -27,11 +27,17 @@
               </div>
               <div class="flex gap-x-2 items-center">
                 <img
+                  v-if="blogDetail.isFollow"
+                  src="@/assets/images/heart-primary.svg"
+                  class="w-8 h-8 cursor-pointer"
+                  @click="handleFollowBlog(false)"
+                />
+                <img
+                  v-else
                   src="@/assets/images/heart-gray.svg"
                   class="w-8 h-8 cursor-pointer"
                   @click="handleFollowBlog(true)"
                 />
-                <!-- <img src="@/assets/images/heart-primary.svg" class="w-6 mr-1" /> -->
                 <span>{{ blogDetail.totalFollow }}</span>
               </div>
             </div>
@@ -139,11 +145,13 @@ const handleFollowBlog = async (isFavorite: boolean) => {
   const isLogin = handleCheckLogin();
   if (!isLogin) return;
   await blogStore.favoriteBlog(+blogId, { isFavorite });
+
   if (isFavorite) {
     blogDetail.value.totalFollow++;
   } else {
     blogDetail.value.totalFollow--;
   }
+  blogDetail.value.isFollow = isFavorite;
 };
 </script>
 
