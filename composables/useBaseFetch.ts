@@ -74,7 +74,7 @@ export async function useBaseFetch<T>(
   // @ts-expect-error
   const meta = (dataOrigin?.value?.meta || error?.meta) as any;
 
-  if (notification)
+  if (notification && !error)
     useNotificationSuccess({ title: successMessage || 'Thành công' });
 
   return { error, pending, refresh, data, meta };

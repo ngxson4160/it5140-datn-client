@@ -41,10 +41,13 @@ export const useAuthStore = defineStore(EStoreName.AUTH, {
     },
 
     async systemLogin(body: ISystemLogin) {
-      const data = await handleSignIn('/auth/sign-in', body);
-      if (data.meta.statusCode === 200) {
-        useNotificationSuccess({ title: 'Thành công!' });
-      }
+      const data = await handleSignIn('/auth/sign-in', {
+        body,
+        loading: true,
+      });
+      // if (data.meta.statusCode === 200) {
+      //   useNotificationSuccess({ title: 'Thành công!' });
+      // }
       return data;
     },
 
@@ -55,6 +58,7 @@ export const useAuthStore = defineStore(EStoreName.AUTH, {
       return await useBaseFetch('/auth/company/sign-up', {
         method: 'POST',
         body: data,
+        loading: true,
       });
     },
 
@@ -62,6 +66,7 @@ export const useAuthStore = defineStore(EStoreName.AUTH, {
       const data = await useBaseFetch('/auth/check-email', {
         method: 'POST',
         body: { email },
+        loading: true,
       });
       return data;
     },

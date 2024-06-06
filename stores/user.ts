@@ -12,7 +12,9 @@ export const useUserStore = defineStore(EStoreName.User, {
   }),
   actions: {
     async getMyProfile(): Promise<IUserProfile> {
-      const { data } = await useBaseFetch(`/users/my-profile`);
+      const { data } = await useBaseFetch(`/users/my-profile`, {
+        loading: true,
+      });
       this.setMyProfile(data);
       return data;
     },
@@ -22,9 +24,9 @@ export const useUserStore = defineStore(EStoreName.User, {
         method: 'PUT',
         body: { ...body },
         loading: true,
+        notification: true,
       });
       this.setMyProfile(data);
-      useNotificationSuccess({ title: 'Thành công!' });
       return data;
     },
 
@@ -33,13 +35,16 @@ export const useUserStore = defineStore(EStoreName.User, {
         method: 'POST',
         body: { ...body },
         loading: true,
+        notification: true,
       });
-      useNotificationSuccess({ title: 'Thành công!' });
       return data;
     },
 
     async getListJobApplication(query: IGetListJobApplication) {
-      const data = await useBaseFetch(`/users/applications`, { query });
+      const data = await useBaseFetch(`/users/applications`, {
+        query,
+        loading: true,
+      });
       return data;
     },
 
@@ -58,9 +63,9 @@ export const useUserStore = defineStore(EStoreName.User, {
         method: 'PUT',
         body: { ...body },
         loading: true,
+        notification: true,
       });
       this.setAccountInfo(data);
-      useNotificationSuccess({ title: 'Thành công!' });
       return data;
     },
 

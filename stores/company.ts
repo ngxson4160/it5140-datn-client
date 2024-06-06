@@ -26,7 +26,9 @@ export const useCompanyStore = defineStore(EStoreName.COMPANY, {
     // },
 
     async getMyCompany() {
-      return await useBaseFetch(`companies/my-company`);
+      return await useBaseFetch(`companies/my-company`, {
+        loading: true,
+      });
     },
 
     async updateMyCompany(body: IUpdateCompany) {
@@ -34,16 +36,19 @@ export const useCompanyStore = defineStore(EStoreName.COMPANY, {
         method: 'PUT',
         body,
         loading: true,
+        notification: true,
       });
-      useNotificationSuccess({ title: 'Thành công!' });
     },
 
     async getListCandidate(query: any) {
-      return await useBaseFetch(`companies/candidates`, { query });
+      return await useBaseFetch(`companies/candidates`, {
+        query,
+        loading: true,
+      });
     },
 
     async getDetail(id: number) {
-      return await useBaseFetch(`companies/${id}`);
+      return await useBaseFetch(`companies/${id}`, { loading: true });
     },
 
     async updateJobApplication(
