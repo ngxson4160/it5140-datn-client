@@ -194,11 +194,13 @@ const getListBlog = async (query: IGetListBlog) => {
   listBlogs.value = data.data as any[];
   meta.value = data.meta;
 };
-query.value.limit = 5;
+query.value.limit = 15;
 
 await getListBlog({ ...query.value });
 
 const setCurrentPage = async (page: number) => {
+  window.scrollTo({ top: 0 });
+
   currentPage.value = page;
   await getListBlog({
     ...query.value,

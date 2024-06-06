@@ -65,6 +65,7 @@ const getListBlog = async () => {
 await getListBlog();
 
 const setCurrentPage = async (page: number) => {
+  window.scrollTo({ top: 0 });
   currentPage.value = page;
   const data = await blogStore.getListBlog({
     ...query.value,

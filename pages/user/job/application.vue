@@ -78,7 +78,7 @@ const query = ref<IGetListJobApplication>({});
 const listJobApply = ref<IJobApplication[]>([]);
 const meta = ref<any>({});
 
-query.value.limit = 5;
+query.value.limit = 15;
 
 const userStore = useUserStore();
 const data = await userStore.getListJobApplication({
@@ -88,6 +88,8 @@ listJobApply.value = data.data;
 meta.value = data.meta;
 
 const setCurrentPage = async (page: number) => {
+  window.scrollTo({ top: 0 });
+
   currentPage.value = page;
   const data = await userStore.getListJobApplication({
     ...query.value,
@@ -102,7 +104,7 @@ const queryFavorite = ref<IGetListJobApplication>({});
 const listJobFavorite = ref<IJobApplication[]>([]);
 const metaFavorite = ref<any>({});
 
-queryFavorite.value.limit = 5;
+queryFavorite.value.limit = 15;
 const dataJobFavorite = await userStore.getListFavorite({
   ...queryFavorite.value,
 });
@@ -110,6 +112,8 @@ listJobFavorite.value = dataJobFavorite.data;
 metaFavorite.value = dataJobFavorite.meta;
 
 const setCurrentPageFavorite = async (page: number) => {
+  window.scrollTo({ top: 0 });
+
   currentPageFavorite.value = page;
   const data = await userStore.getListFavorite({
     ...query.value,

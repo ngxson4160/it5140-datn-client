@@ -191,6 +191,8 @@ const listCandidate = ref<any[]>([]);
 const meta = ref<any>({});
 
 const setCurrentPage = async (page: number) => {
+  window.scrollTo({ top: 0 });
+
   currentPage.value = page;
   const data = await companyStore.searchCandidate({
     ...query.value,

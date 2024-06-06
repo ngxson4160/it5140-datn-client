@@ -333,7 +333,7 @@ const rules = reactive<FormRules<any>>({
   ],
 });
 
-query.value.limit = 5;
+query.value.limit = 15;
 
 const companyStore = useCompanyStore();
 const jobStore = useJobStore();
@@ -344,6 +344,8 @@ listJobs.value = data.data;
 meta.value = data.meta;
 
 const setCurrentPage = async (page: number) => {
+  window.scrollTo({ top: 0 });
+
   currentPage.value = page;
   const data = await companyStore.getListJobs({
     ...query.value,

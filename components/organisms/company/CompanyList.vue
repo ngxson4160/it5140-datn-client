@@ -61,6 +61,8 @@ const callGetListCompany = async () => {
 await callGetListCompany();
 
 const setCurrentPage = async (page: number) => {
+  window.scrollTo({ top: 0 });
+
   currentPage.value = page;
   const data = await companyStore.getListCompany({
     ...query.value,
