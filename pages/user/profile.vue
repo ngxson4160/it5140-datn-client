@@ -207,7 +207,11 @@
                 />
               </div>
               <div>
-                <p class="text-lg font-bold">Nguyễn Xuân Sơn</p>
+                <p class="text-lg font-bold">
+                  {{
+                    `${userStore.myProfile.firstName} ${userStore.myProfile.lastName}`
+                  }}
+                </p>
                 <p class="text-sm font-bold">
                   {{
                     userStore.myProfile.candidateInformation?.desiredJobCategory
