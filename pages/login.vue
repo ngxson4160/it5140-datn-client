@@ -116,6 +116,12 @@ const state = ref({
 
 const router = useRouter();
 
+const pathPreLogin = useLocalStorage('path-pre-login', '');
+if (pathPreLogin.value) {
+  authStore.pathBeforeLogin = pathPreLogin.value;
+}
+pathPreLogin.value = '';
+
 const submit = async (event: any) => {
   const { data, meta } = await authStore.systemLogin({ ...event.data });
 
@@ -132,12 +138,19 @@ const submit = async (event: any) => {
         external: true,
       });
     } else if (data.user.roles[0] === ERole.USER) {
-      const pathPreLogin = useLocalStorage('path-pre-login', '');
-      if (pathPreLogin.value) {
-        navigateTo(`/user${pathPreLogin.value}`, {
+      // const pathPreLogin = useLocalStorage('path-pre-login', '');
+      // if (pathPreLogin.value) {
+      //   navigateTo(`/user${pathPreLogin.value}`, {
+      //     external: true,
+      //   });
+      //   pathPreLogin.value = '';
+      //   return;
+      // }
+
+      if (authStore.pathBeforeLogin) {
+        navigateTo(`/user${authStore.pathBeforeLogin}`, {
           external: true,
         });
-        pathPreLogin.value = '';
         return;
       }
 
@@ -147,4 +160,11 @@ const submit = async (event: any) => {
     }
   }
 };
+
+onBeforeRouteLeave((to, from, next) => {
+  if (to.fullPath !== '/sign-up' && to.fullPath !== '/login') {
+    authStore.pathBeforeLogin = '';
+  }
+  next();
+});
 </script>

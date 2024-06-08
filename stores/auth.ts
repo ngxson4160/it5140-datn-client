@@ -9,6 +9,7 @@ export interface IAuthState {
   roles: TRole[];
   firstName?: string;
   lastName?: string;
+  pathBeforeLogin?: string;
 }
 
 export interface ISystemLogin {
@@ -29,6 +30,7 @@ export const useAuthStore = defineStore(EStoreName.AUTH, {
       roles: [],
       firstName: '',
       lastName: '',
+      pathBeforeLogin: '',
     };
   },
   actions: {
