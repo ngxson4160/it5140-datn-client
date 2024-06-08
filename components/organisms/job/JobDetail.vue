@@ -1,7 +1,8 @@
 <template>
   <div>
-    <div class="h-[125px] bg-[#007c32b8] flex items-center justify-center">
-      <span class="text-5xl font-bold text-center text-white">Job Detail</span>
+    <div class="h-24 bg-[#007c32b8] flex items-center justify-center">
+      <!-- <span class="text-5xl font-bold text-center text-white">Job Detail</span> -->
+      <search-job @search="handleSearchJob" />
     </div>
 
     <div class="bg-[#f2f5f8] pt-4 pb-20">
@@ -313,6 +314,7 @@
 </template>
 
 <script setup lang="ts">
+import type { ISearchJobHome } from '~/components/molecules/SearchJob.vue';
 import { VGender } from '~/types/common';
 import { CCompanySizeType } from '~/utils/constant/common';
 import { CJobExperience, CJobLevel, CJobMode } from '~/utils/constant/job';
@@ -355,6 +357,23 @@ const handleFollowJob = (isFavorite: boolean) => {
   const isLogin = handleCheckLogin();
   if (!isLogin) return;
   emits('onFollowJob', isFavorite);
+};
+
+const handleSearchJob = (data: ISearchJobHome) => {
+  const filter = data.filter ? data.filter : undefined;
+  const cityIds = data.cityIds.length ? data.cityIds.join(',') : undefined;
+  const jobCategoryIds = data.jobCategoryIds.length
+    ? data.jobCategoryIds.join(',')
+    : undefined;
+
+  navigateTo({
+    path: '/job/list',
+    query: {
+      filter,
+      cityIds,
+      jobCategoryIds,
+    },
+  });
 };
 </script>
 
