@@ -73,7 +73,7 @@ export const useJobStore = defineStore(EStoreName.JOB, {
   state: () => ({}),
   actions: {
     async getJob(id: number) {
-      return await useBaseFetch(`/jobs/${id}`);
+      return await useBaseFetch(`/jobs/${id}`, { loading: true });
     },
 
     async getListJob(query: IGetListJobParams) {
@@ -81,7 +81,12 @@ export const useJobStore = defineStore(EStoreName.JOB, {
     },
 
     async createJob(body: IJobCreate) {
-      return await useBaseFetch(`/jobs`, { method: 'POST', body });
+      return await useBaseFetch(`/jobs`, {
+        method: 'POST',
+        body,
+        loading: true,
+        notification: true,
+      });
     },
 
     async update(jobId: number, body: Partial<IJobCreate>) {

@@ -402,7 +402,7 @@ const textRemark = ref('');
 const jobIdClicked = ref<number>(0);
 const applicationIdClick = ref<number>(0);
 
-query.value.limit = 5;
+query.value.limit = 20;
 
 const companyStore = useCompanyStore();
 const conversationStore = useConversationStore();
@@ -429,6 +429,8 @@ await getListCandidate({
 });
 
 const setCurrentPage = async (page: number) => {
+  window.scrollTo({ top: 0 });
+
   currentPage.value = page;
   await getListCandidate({
     ...query.value,

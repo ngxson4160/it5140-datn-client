@@ -13,20 +13,23 @@ export const useConversationStore = defineStore(EStoreName.CONVERSATION, {
     ) {
       const data = await useBaseFetch(
         `conversations/${conversationId}/messages`,
-        { query },
+        { query, loading: true },
       );
 
       return data;
     },
 
     async getListConversation(query?: IListConversation) {
-      const data = await useBaseFetch(`conversations`, { query });
+      const data = await useBaseFetch(`conversations`, {
+        query,
+        loading: true,
+      });
 
       return data;
     },
 
     async getDetailConversation(id: number) {
-      const data = await useBaseFetch(`conversations/${id}`);
+      const data = await useBaseFetch(`conversations/${id}`, { loading: true });
 
       return data.data;
     },
@@ -35,6 +38,7 @@ export const useConversationStore = defineStore(EStoreName.CONVERSATION, {
       const data = await useBaseFetch(`conversations`, {
         method: 'POST',
         body,
+        loading: true,
       });
 
       return data.data;

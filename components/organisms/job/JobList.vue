@@ -67,6 +67,8 @@ const listJob = ref<IJob[]>([]);
 const meta = ref<any>({});
 
 const setCurrentPage = async (page: number) => {
+  window.scrollTo({ top: 0 });
+
   currentPage.value = page;
   const data = await jobStore.getListJob({
     ...query.value,
