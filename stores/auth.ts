@@ -41,10 +41,7 @@ export const useAuthStore = defineStore(EStoreName.AUTH, {
     },
 
     async systemLogin(body: ISystemLogin) {
-      const data = await handleSignIn('/auth/sign-in', {
-        body,
-        loading: true,
-      });
+      const data = await handleSignIn('/auth/sign-in', body);
       // if (data.meta.statusCode === 200) {
       //   useNotificationSuccess({ title: 'Thành công!' });
       // }

@@ -3,9 +3,7 @@
     class="bg-[#007c32b3] h-[750px] flex flex-col items-center justify-center"
   >
     <div class="w-[1175px]">
-      <div
-        class="mt-[104px] mb-10 text-white text-[64px] font-bold text-center"
-      >
+      <div class="my-10 text-white text-[64px] font-bold text-center">
         <p>Tìm kiếm công việc mơ ước</p>
         <p>của bạn với Job Nest</p>
         <p class="text-lg">
