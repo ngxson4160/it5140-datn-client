@@ -41,6 +41,7 @@
           <template #default="scoped">
             <div class="flex justify-center">
               <img
+                :key="scoped.row.id"
                 :src="scoped.row.image"
                 class="border rounded-lg w-[152px] h-[90px]"
               />
@@ -86,8 +87,8 @@
         </el-table-column>
         <el-table-column width="150">
           <template #header><p class="text-center">Lượt thích</p></template>
-          <template #default>
-            <p class="text-center">Data</p>
+          <template #default="scoped">
+            <p class="text-center">{{ scoped.row.totalFollow }}</p>
           </template>
         </el-table-column>
         <el-table-column width="150">

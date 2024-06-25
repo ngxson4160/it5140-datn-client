@@ -317,7 +317,7 @@ const callGetListCandidate = async () => {
   meta.value = data.meta;
 };
 
-const handleShowPreviewCV = (data: any) => {
+const handleShowPreviewCV = async (data: any) => {
   const typeCV = data?.candidateInformation?.publicCvType;
   if (typeCV === EPublicCvType.ATTACHMENT_CV) {
     urlCVPreview.value = `${data?.candidateInformation?.publicAttachmentCv}`;
@@ -326,6 +326,7 @@ const handleShowPreviewCV = (data: any) => {
     showCVPreviewSystem.value = true;
     dataCvSystem.value = data;
   }
+  await companyStore.viewProfileCandidate(data.id);
 };
 </script>
 

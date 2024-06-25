@@ -104,11 +104,18 @@ import type { FormInstance, FormRules } from 'element-plus';
 
 const ruleForm = ref<FormInstance>();
 const rules = reactive<FormRules<any>>({
-  title: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
-  image: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
+  title: [
+    { required: true, message: 'Bắt buộc', trigger: 'change' },
+    { validator: validateEmptyString, message: 'Bắt buộc', trigger: 'blur' },
+  ],
+  image: [
+    { required: true, message: 'Bắt buộc', trigger: 'change' },
+    { validator: validateEmptyString, message: 'Bắt buộc', trigger: 'blur' },
+  ],
   content: [
     { required: true, message: 'Bắt buộc', trigger: 'change' },
     { validator: validateContent, message: 'Bắt buộc', trigger: 'change' },
+    { validator: validateEmptyString, message: 'Bắt buộc', trigger: 'blur' },
   ],
 });
 

@@ -70,6 +70,7 @@ const rules = reactive<FormRules<any>>({
       message: MESSAGE_VALIDATE.DESIRED_SALARY,
       trigger: 'blur',
     },
+    { validator: validateEmptyString, message: 'Bắt buộc', trigger: 'blur' },
   ],
   salaryMax: [
     { required: true, message: 'Bắt buộc', trigger: 'change' },
@@ -78,6 +79,7 @@ const rules = reactive<FormRules<any>>({
       message: MESSAGE_VALIDATE.DESIRED_SALARY,
       trigger: 'blur',
     },
+    { validator: validateEmptyString, message: 'Bắt buộc', trigger: 'blur' },
   ],
 });
 

@@ -101,7 +101,7 @@
         <el-table-column width="210">
           <template #header>
             <div class="flex cursor-pointer" @click="onOrderHiringEndDate">
-              <p class="mr-2">Thời gian nộp</p>
+              <p class="mr-2">Hạn nộp</p>
               <img
                 v-if="query.sortHiringEndDate === EOrderPaging.DESC"
                 class="w-[22px]"
@@ -330,6 +330,7 @@ const ruleForm = ref<FormInstance>();
 const rules = reactive<FormRules<any>>({
   jobHiringEndDateChose: [
     { required: true, message: 'Bắt buộc', trigger: 'change' },
+    { validator: validateEmptyString, message: 'Bắt buộc', trigger: 'blur' },
   ],
 });
 

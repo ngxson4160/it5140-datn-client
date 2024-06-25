@@ -79,5 +79,15 @@ export const useCompanyStore = defineStore(EStoreName.COMPANY, {
       });
       return data;
     },
+
+    async viewProfileCandidate(id: number) {
+      const data = await useBaseFetch(
+        `companies/candidates/${id}/view-profile`,
+        {
+          method: 'POST',
+        },
+      );
+      return data;
+    },
   },
 });

@@ -43,18 +43,45 @@
       </el-radio-group>
     </el-scrollbar>
 
-    <div class="flex mt-6 gap-x-10">
-      <div class="w-full">
-        <p class="mt-6">Họ và tên</p>
-        <el-input v-model="formData.candidateName" class="!w-full" />
+    <el-form
+      ref="ruleForm"
+      label-position="top"
+      :model="formData"
+      :rules="rules"
+    >
+      <div class="flex mt-6 gap-x-10">
+        <div class="w-full">
+          <!-- <p class="mt-6">Họ và tên</p> -->
+          <el-form-item
+            label="Họ và tên"
+            prop="candidateName"
+            class="w-full"
+            required
+          >
+            <el-input
+              v-model="formData.candidateName"
+              class="!w-full"
+              size="large"
+            />
+          </el-form-item>
+        </div>
       </div>
-    </div>
 
-    <p class="mt-6">Email</p>
-    <el-input v-model="formData.candidateEmail" />
+      <!-- <p class="mt-6">Email</p> -->
+      <el-form-item label="Email" prop="candidateEmail" class="w-full" required>
+        <el-input v-model="formData.candidateEmail" size="large" />
+      </el-form-item>
 
-    <p class="mt-6">Số điện thoại</p>
-    <el-input v-model="formData.candidatePhoneNumber" />
+      <!-- <p class="mt-6">Số điện thoại</p> -->
+      <el-form-item
+        label="Số điện thoại"
+        prop="candidatePhoneNumber"
+        class="w-full"
+        required
+      >
+        <el-input v-model="formData.candidatePhoneNumber" size="large" />
+      </el-form-item>
+    </el-form>
 
     <template #footer>
       <el-button
@@ -84,6 +111,8 @@
 </template>
 
 <script setup lang="ts">
+import type { FormInstance, FormRules } from 'element-plus';
+
 const props = defineProps({
   dialogVisible: {
     type: Boolean,
@@ -100,6 +129,22 @@ const props = defineProps({
 });
 
 const emits = defineEmits(['update:dialogVisible', 'onConfirm']);
+
+const ruleForm = ref<FormInstance>();
+const rules = reactive<FormRules<any>>({
+  candidateName: [
+    { required: true, message: 'Bắt buộc', trigger: 'change' },
+    { validator: validateEmptyString, message: 'Bắt buộc', trigger: 'blur' },
+  ],
+  candidateEmail: [
+    { required: true, message: 'Bắt buộc', trigger: 'change' },
+    { validator: validateEmptyString, message: 'Bắt buộc', trigger: 'blur' },
+  ],
+  candidatePhoneNumber: [
+    { required: true, message: 'Bắt buộc', trigger: 'change' },
+    { validator: validateEmptyString, message: 'Bắt buộc', trigger: 'blur' },
+  ],
+});
 
 const userStore = useUserStore();
 await userStore.getMyProfile();
@@ -130,8 +175,13 @@ const handleShowPreviewCV = (url: string) => {
 };
 
 const handleConfirm = () => {
-  emits('onConfirm', formData.value);
-  syncDialogVisible.value = false;
+  if (!ruleForm.value) return;
+  ruleForm.value.validate((valid) => {
+    if (valid) {
+      emits('onConfirm', formData.value);
+      syncDialogVisible.value = false;
+    }
+  });
 };
 </script>
 

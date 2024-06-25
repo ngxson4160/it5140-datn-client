@@ -52,7 +52,11 @@
             class="w-full"
             required
           >
-            <el-input v-model="formData.yearExperience" size="large" />
+            <!-- <el-input v-model="formData.yearExperience" size="large" /> -->
+            <select-job-experience
+              v-model="formData.yearExperience"
+              class="w-full"
+            />
           </el-form-item>
         </div>
 
@@ -153,9 +157,13 @@ const syncDialogVisible = computed({
 
 const ruleForm = ref<FormInstance>();
 const rules = reactive<FormRules<any>>({
-  target: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
+  target: [
+    { required: true, message: 'Bắt buộc', trigger: 'change' },
+    { validator: validateEmptyString, message: 'Bắt buộc', trigger: 'blur' },
+  ],
   desiredJobCategoryId: [
     { required: true, message: 'Bắt buộc', trigger: 'change' },
+    { validator: validateEmptyString, message: 'Bắt buộc', trigger: 'blur' },
   ],
   yearExperience: [
     { required: true, message: 'Bắt buộc', trigger: 'change' },
@@ -164,8 +172,12 @@ const rules = reactive<FormRules<any>>({
       message: MESSAGE_VALIDATE.YEAR_EXPERIENCE,
       trigger: 'change',
     },
+    { validator: validateEmptyString, message: 'Bắt buộc', trigger: 'blur' },
   ],
-  desiredJobLevel: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
+  desiredJobLevel: [
+    { required: true, message: 'Bắt buộc', trigger: 'change' },
+    { validator: validateEmptyString, message: 'Bắt buộc', trigger: 'blur' },
+  ],
   desiredSalary: [
     { required: true, message: 'Bắt buộc', trigger: 'change' },
     {
@@ -173,11 +185,16 @@ const rules = reactive<FormRules<any>>({
       message: MESSAGE_VALIDATE.DESIRED_SALARY,
       trigger: 'change',
     },
+    { validator: validateEmptyString, message: 'Bắt buộc', trigger: 'blur' },
   ],
   educationalLevel: [
     { required: true, message: 'Bắt buộc', trigger: 'change' },
+    { validator: validateEmptyString, message: 'Bắt buộc', trigger: 'blur' },
   ],
-  desiredJobMode: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
+  desiredJobMode: [
+    { required: true, message: 'Bắt buộc', trigger: 'change' },
+    { validator: validateEmptyString, message: 'Bắt buộc', trigger: 'blur' },
+  ],
 });
 
 const handleConfirm = () => {

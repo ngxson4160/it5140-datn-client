@@ -553,6 +553,7 @@ const ruleForm = ref<FormInstance>();
 const rules = reactive<FormRules<any>>({
   interviewScheduleDateChose: [
     { required: true, message: 'Bắt buộc', trigger: 'change' },
+    { validator: validateEmptyString, message: 'Bắt buộc', trigger: 'blur' },
   ],
 });
 const handleEditInterviewSchedule = () => {

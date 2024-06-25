@@ -168,8 +168,14 @@ const syncDialogVisible = computed({
 
 const ruleForm = ref<FormInstance>();
 const rules = reactive<FormRules<any>>({
-  firstName: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
-  lastName: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
+  firstName: [
+    { required: true, message: 'Bắt buộc', trigger: 'change' },
+    { validator: validateEmptyString, message: 'Bắt buộc', trigger: 'blur' },
+  ],
+  lastName: [
+    { required: true, message: 'Bắt buộc', trigger: 'change' },
+    { validator: validateEmptyString, message: 'Bắt buộc', trigger: 'blur' },
+  ],
   phoneNumber: [
     { required: true, message: 'Bắt buộc', trigger: 'change' },
     {
@@ -177,13 +183,32 @@ const rules = reactive<FormRules<any>>({
       message: MESSAGE_VALIDATE.PHONE_NUMBER,
       trigger: 'change',
     },
+    { validator: validateEmptyString, message: 'Bắt buộc', trigger: 'blur' },
   ],
-  dob: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
-  gender: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
-  maritalStatus: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
-  cityId: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
-  districtId: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
-  address: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
+  dob: [
+    { required: true, message: 'Bắt buộc', trigger: 'change' },
+    { validator: validateEmptyString, message: 'Bắt buộc', trigger: 'blur' },
+  ],
+  gender: [
+    { required: true, message: 'Bắt buộc', trigger: 'change' },
+    { validator: validateEmptyString, message: 'Bắt buộc', trigger: 'blur' },
+  ],
+  maritalStatus: [
+    { required: true, message: 'Bắt buộc', trigger: 'change' },
+    { validator: validateEmptyString, message: 'Bắt buộc', trigger: 'blur' },
+  ],
+  cityId: [
+    { required: true, message: 'Bắt buộc', trigger: 'change' },
+    { validator: validateEmptyString, message: 'Bắt buộc', trigger: 'blur' },
+  ],
+  districtId: [
+    { required: true, message: 'Bắt buộc', trigger: 'change' },
+    { validator: validateEmptyString, message: 'Bắt buộc', trigger: 'blur' },
+  ],
+  address: [
+    { required: true, message: 'Bắt buộc', trigger: 'change' },
+    { validator: validateEmptyString, message: 'Bắt buộc', trigger: 'blur' },
+  ],
 });
 
 const handleConfirm = () => {

@@ -126,7 +126,10 @@ const syncValue = computed({
 
 const ruleForm = ref<FormInstance>();
 const rules = reactive<FormRules<any>>({
-  cityId: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
+  cityId: [
+    { required: true, message: 'Bắt buộc', trigger: 'change' },
+    { validator: validateEmptyString, message: 'Bắt buộc', trigger: 'blur' },
+  ],
 });
 
 const addAddress = () => {

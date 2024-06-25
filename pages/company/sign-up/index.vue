@@ -152,8 +152,14 @@ const validatePassConfirm = (rule: any, value: any, callback: any) => {
 const ruleFormAccount = ref<FormInstance>();
 const ruleFormCompany = ref<FormInstance>();
 const ruleAccount = reactive<FormRules<any>>({
-  firstName: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
-  lastName: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
+  firstName: [
+    { required: true, message: 'Bắt buộc', trigger: 'change' },
+    { validator: validateEmptyString, message: 'Bắt buộc', trigger: 'blur' },
+  ],
+  lastName: [
+    { required: true, message: 'Bắt buộc', trigger: 'change' },
+    { validator: validateEmptyString, message: 'Bắt buộc', trigger: 'blur' },
+  ],
   email: [
     { required: true, message: 'Bắt buộc', trigger: 'change' },
     {
@@ -161,25 +167,38 @@ const ruleAccount = reactive<FormRules<any>>({
       message: MESSAGE_VALIDATE.EMAIL,
       trigger: 'change',
     },
+    { validator: validateEmptyString, message: 'Bắt buộc', trigger: 'blur' },
   ],
   password: [
     { required: true, message: 'Bắt buộc', trigger: 'change' },
     { min: 8, message: 'Tối thiểu 8 ký tự', trigger: 'change' },
+    { validator: validateEmptyString, message: 'Bắt buộc', trigger: 'blur' },
   ],
   confirmPassword: [
     { required: true, message: 'Bắt buộc', trigger: 'change' },
     { min: 8, message: 'Tối thiểu 8 ký tự', trigger: 'change' },
     { validator: validatePassConfirm, trigger: 'blur' },
+    { validator: validateEmptyString, message: 'Bắt buộc', trigger: 'blur' },
   ],
 });
 
 const ruleCompany = reactive<FormRules<any>>({
-  name: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
+  name: [
+    { required: true, message: 'Bắt buộc', trigger: 'change' },
+    { validator: validateEmptyString, message: 'Bắt buộc', trigger: 'blur' },
+  ],
   jobCategoryParentId: [
     { required: true, message: 'Bắt buộc', trigger: 'change' },
+    { validator: validateEmptyString, message: 'Bắt buộc', trigger: 'blur' },
   ],
-  primaryAddress: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
-  sizeType: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
+  primaryAddress: [
+    { required: true, message: 'Bắt buộc', trigger: 'change' },
+    { validator: validateEmptyString, message: 'Bắt buộc', trigger: 'blur' },
+  ],
+  sizeType: [
+    { required: true, message: 'Bắt buộc', trigger: 'change' },
+    { validator: validateEmptyString, message: 'Bắt buộc', trigger: 'blur' },
+  ],
   primaryPhoneNumber: [
     { required: true, message: 'Bắt buộc', trigger: 'change' },
     {
@@ -187,6 +206,7 @@ const ruleCompany = reactive<FormRules<any>>({
       message: MESSAGE_VALIDATE.PHONE_NUMBER,
       trigger: 'change',
     },
+    { validator: validateEmptyString, message: 'Bắt buộc', trigger: 'blur' },
   ],
 });
 

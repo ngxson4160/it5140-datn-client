@@ -223,7 +223,10 @@ company.value = data;
 
 const ruleForm = ref<FormInstance>();
 const rules = reactive<FormRules<any>>({
-  name: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
+  name: [
+    { required: true, message: 'Bắt buộc', trigger: 'change' },
+    { validator: validateEmptyString, message: 'Bắt buộc', trigger: 'blur' },
+  ],
   primaryEmail: [
     { required: true, message: 'Bắt buộc', trigger: 'change' },
     {
@@ -231,6 +234,7 @@ const rules = reactive<FormRules<any>>({
       message: MESSAGE_VALIDATE.EMAIL,
       trigger: 'change',
     },
+    { validator: validateEmptyString, message: 'Bắt buộc', trigger: 'blur' },
   ],
   taxCode: [
     { required: true, message: 'Bắt buộc', trigger: 'change' },
@@ -239,12 +243,20 @@ const rules = reactive<FormRules<any>>({
       message: MESSAGE_VALIDATE.TAX_CODE,
       trigger: 'change',
     },
+    { validator: validateEmptyString, message: 'Bắt buộc', trigger: 'blur' },
   ],
   jobCategoryParentId: [
     { required: true, message: 'Bắt buộc', trigger: 'change' },
+    { validator: validateEmptyString, message: 'Bắt buộc', trigger: 'blur' },
   ],
-  sizeType: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
-  primaryAddress: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
+  sizeType: [
+    { required: true, message: 'Bắt buộc', trigger: 'change' },
+    { validator: validateEmptyString, message: 'Bắt buộc', trigger: 'blur' },
+  ],
+  primaryAddress: [
+    { required: true, message: 'Bắt buộc', trigger: 'change' },
+    { validator: validateEmptyString, message: 'Bắt buộc', trigger: 'blur' },
+  ],
   primaryPhoneNumber: [
     { required: true, message: 'Bắt buộc', trigger: 'change' },
     {
@@ -252,8 +264,12 @@ const rules = reactive<FormRules<any>>({
       message: MESSAGE_VALIDATE.PHONE_NUMBER,
       trigger: 'change',
     },
+    { validator: validateEmptyString, message: 'Bắt buộc', trigger: 'blur' },
   ],
-  aboutUs: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
+  aboutUs: [
+    { required: true, message: 'Bắt buộc', trigger: 'change' },
+    { validator: validateEmptyString, message: 'Bắt buộc', trigger: 'blur' },
+  ],
 });
 
 const onUpdateCompany = () => {
