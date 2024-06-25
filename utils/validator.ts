@@ -38,3 +38,13 @@ export const validateContent = (rule: any, value: string): RuleResult => {
 
   return value !== '<p></p>';
 };
+
+export const validateEmptyString = (rule: any, value: any): RuleResult => {
+  if (!value) return true;
+
+  if (typeof value === 'string' && !value.trim()) {
+    return false;
+  }
+
+  return true;
+};

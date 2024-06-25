@@ -45,12 +45,7 @@
         </div>
 
         <div class="col-span-1">
-          <el-form-item
-            label="Ngày kết thúc"
-            prop="end"
-            class="w-full"
-            required
-          >
+          <el-form-item label="Ngày kết thúc" prop="end" class="w-full">
             <el-date-picker
               v-model="formData.end"
               class="!w-full"
@@ -113,11 +108,23 @@ const syncDialogVisible = computed({
 
 const ruleForm = ref<FormInstance>();
 const rules = reactive<FormRules<any>>({
-  position: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
-  companyName: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
-  start: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
-  end: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
-  description: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
+  position: [
+    { required: true, message: 'Bắt buộc', trigger: 'change' },
+    { validator: validateEmptyString, message: 'Bắt buộc', trigger: 'blur' },
+  ],
+  companyName: [
+    { required: true, message: 'Bắt buộc', trigger: 'change' },
+    { validator: validateEmptyString, message: 'Bắt buộc', trigger: 'blur' },
+  ],
+  start: [
+    { required: true, message: 'Bắt buộc', trigger: 'change' },
+    { validator: validateEmptyString, message: 'Bắt buộc', trigger: 'blur' },
+  ],
+  // end: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
+  description: [
+    { required: true, message: 'Bắt buộc', trigger: 'change' },
+    { validator: validateEmptyString, message: 'Bắt buộc', trigger: 'blur' },
+  ],
 });
 
 const handleConfirm = () => {

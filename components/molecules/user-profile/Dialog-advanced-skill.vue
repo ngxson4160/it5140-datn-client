@@ -56,7 +56,10 @@ const syncDialogVisible = computed({
 
 const ruleForm = ref<FormInstance>();
 const rules = reactive<FormRules<any>>({
-  name: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
+  name: [
+    { required: true, message: 'Bắt buộc', trigger: 'change' },
+    { validator: validateEmptyString, message: 'Bắt buộc', trigger: 'blur' },
+  ],
   // level: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
 });
 

@@ -107,8 +107,13 @@
                 <p class="font-bold">Số năm kinh nghiệm</p>
                 <p class="text-sm">
                   {{
-                    userStore.myProfile.candidateInformation?.yearExperience ||
-                    ''
+                    userStore.myProfile.candidateInformation?.yearExperience !==
+                    null
+                      ? CJobExperienceValue[
+                          userStore.myProfile.candidateInformation
+                            ?.yearExperience
+                        ].name
+                      : ''
                   }}
                 </p>
               </div>
@@ -713,7 +718,7 @@ import {
   CGender,
   CEducationLevel,
 } from '@/utils/constant/common';
-import { CJobLevel, CJobMode } from '@/utils/constant/job';
+import { CJobExperienceValue, CJobLevel, CJobMode } from '@/utils/constant/job';
 
 definePageMeta({
   layout: 'user-dashboard',
@@ -746,8 +751,8 @@ const formDataEditInformation = ref({
   phoneNumber: userStore.myProfile.phoneNumber,
   dob: userStore.myProfile.dob,
   gender: userStore.myProfile.gender,
-  cityId: userStore.myProfile.cityId,
-  districtId: userStore.myProfile.district.id,
+  cityId: userStore.myProfile?.cityId,
+  districtId: userStore.myProfile.district?.id,
   address: userStore.myProfile.address,
   maritalStatus: userStore.myProfile.maritalStatus,
 });

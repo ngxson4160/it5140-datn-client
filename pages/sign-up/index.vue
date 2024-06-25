@@ -109,8 +109,14 @@ const formSignUp = ref({
 
 const ruleForm = ref<FormInstance>();
 const rules = reactive<FormRules<any>>({
-  firstName: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
-  lastName: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
+  firstName: [
+    { required: true, message: 'Bắt buộc', trigger: 'change' },
+    { validator: validateEmptyString, message: 'Bắt buộc', trigger: 'blur' },
+  ],
+  lastName: [
+    { required: true, message: 'Bắt buộc', trigger: 'change' },
+    { validator: validateEmptyString, message: 'Bắt buộc', trigger: 'blur' },
+  ],
   phoneNumber: [
     { required: true, message: 'Bắt buộc', trigger: 'change' },
     {
@@ -118,6 +124,7 @@ const rules = reactive<FormRules<any>>({
       message: MESSAGE_VALIDATE.PHONE_NUMBER,
       trigger: 'change',
     },
+    { validator: validateEmptyString, message: 'Bắt buộc', trigger: 'blur' },
   ],
   email: [
     { required: true, message: 'Bắt buộc', trigger: 'change' },
@@ -126,10 +133,12 @@ const rules = reactive<FormRules<any>>({
       message: MESSAGE_VALIDATE.EMAIL,
       trigger: 'change',
     },
+    { validator: validateEmptyString, message: 'Bắt buộc', trigger: 'blur' },
   ],
   password: [
     { required: true, message: 'Bắt buộc', trigger: 'change' },
     { min: 8, message: 'Tối thiểu 8 ký tự', trigger: 'change' },
+    { validator: validateEmptyString, message: 'Bắt buộc', trigger: 'blur' },
   ],
 });
 

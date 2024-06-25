@@ -330,8 +330,14 @@ const data = ref<IJobCreate>({ ...initCreateJob });
 
 const ruleForm = ref<FormInstance>();
 const rules = reactive<FormRules<any>>({
-  title: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
-  jobCategoryId: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
+  title: [
+    { required: true, message: 'Bắt buộc', trigger: 'change' },
+    { validator: validateEmptyString, message: 'Bắt buộc', trigger: 'blur' },
+  ],
+  jobCategoryId: [
+    { required: true, message: 'Bắt buộc', trigger: 'change' },
+    { validator: validateEmptyString, message: 'Bắt buộc', trigger: 'blur' },
+  ],
   quantity: [
     { required: true, message: 'Bắt buộc', trigger: 'change' },
     {
@@ -339,24 +345,37 @@ const rules = reactive<FormRules<any>>({
       message: 'Số lượng không hợp lệ',
       trigger: 'change',
     },
+    { validator: validateEmptyString, message: 'Bắt buộc', trigger: 'blur' },
   ],
-  jobMode: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
+  jobMode: [
+    { required: true, message: 'Bắt buộc', trigger: 'change' },
+    { validator: validateEmptyString, message: 'Bắt buộc', trigger: 'blur' },
+  ],
   // gender: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
   level: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
-  yearExperience: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
+  yearExperience: [
+    { required: true, message: 'Bắt buộc', trigger: 'change' },
+    { validator: validateEmptyString, message: 'Bắt buộc', trigger: 'blur' },
+  ],
   description: [
     { required: true, message: 'Bắt buộc', trigger: 'change' },
     { validator: validateContent, message: 'Bắt buộc', trigger: 'change' },
+    { validator: validateEmptyString, message: 'Bắt buộc', trigger: 'blur' },
   ],
   requirement: [
     { required: true, message: 'Bắt buộc', trigger: 'change' },
     { validator: validateContent, message: 'Bắt buộc', trigger: 'change' },
+    { validator: validateEmptyString, message: 'Bắt buộc', trigger: 'blur' },
   ],
   benefits: [
     { required: true, message: 'Bắt buộc', trigger: 'change' },
     { validator: validateContent, message: 'Bắt buộc', trigger: 'change' },
+    { validator: validateEmptyString, message: 'Bắt buộc', trigger: 'blur' },
   ],
-  hiringEndDate: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
+  hiringEndDate: [
+    { required: true, message: 'Bắt buộc', trigger: 'change' },
+    { validator: validateEmptyString, message: 'Bắt buộc', trigger: 'blur' },
+  ],
 });
 
 const handleAddRegion = () => {
