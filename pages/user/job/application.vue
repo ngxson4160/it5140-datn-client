@@ -53,11 +53,12 @@
     <div class="col-span-3 bg-white p-4">
       <p class="text-lg font-bold mb-4">Việc làm liên quan</p>
       <div class="flex flex-col gap-y-2">
-        <card-job-home
-          v-for="(data, index) in listJobApply"
+        <card-job-recommend
+          v-for="(data, index) in jobRecommend"
           :key="index"
-          class="!h-[120px] w-full"
-          :data="data.job"
+          class="!h-[120px]"
+          :data="data"
+          width="400"
         />
       </div>
     </div>
@@ -79,6 +80,11 @@ const listJobApply = ref<IJobApplication[]>([]);
 const meta = ref<any>({});
 
 query.value.limit = 15;
+
+const jobStore = useJobStore();
+const jobRecommend = ref();
+const dataJobRecommend = await jobStore.getJobsRecommend();
+jobRecommend.value = dataJobRecommend;
 
 const userStore = useUserStore();
 const data = await userStore.getListJobApplication({
