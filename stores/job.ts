@@ -126,5 +126,10 @@ export const useJobStore = defineStore(EStoreName.JOB, {
         notification: true,
       });
     },
+
+    async getJobsRecommend() {
+      const { data } = await useBaseFetch(`/jobs/recommend`);
+      return data;
+    },
   },
 });

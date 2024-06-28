@@ -298,6 +298,16 @@
               </div>
             </div>
           </div>
+          <div v-if="jobRecommend" class="mt-6 px-4 py-4 bg-white round-lg">
+            <p class="px-2 text-xl font-bold mb-4">Gợi ý việc làm phù hợp</p>
+            <card-job-recommend
+              v-for="(data, index) in jobRecommend"
+              :key="index"
+              class="!h-[120px] w-full mb-2"
+              :data="data"
+              width="175"
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -332,7 +342,19 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  role: {
+    type: Number,
+    required: true,
+  },
 });
+
+const jobStore = useJobStore();
+const jobRecommend = ref();
+
+if (props.role === ERole.USER) {
+  const dataJobRecommend = await jobStore.getJobsRecommend();
+  jobRecommend.value = dataJobRecommend;
+}
 
 const router = useRouter();
 const showConfirmDeleteApplication = ref(false);

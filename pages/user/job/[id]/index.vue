@@ -1,5 +1,6 @@
 <template>
   <job-detail
+    :role="ERole.USER"
     :job="job"
     :company="company"
     @on-apply-job="showApplyJob = true"
