@@ -21,14 +21,14 @@
             class="h-16 text-green"
             src="@/assets/images/job-search-home.svg"
           />
-          <p class="text-xl font-bold mt-4">23+</p>
+          <p class="text-xl font-bold mt-4">99+</p>
           <p class="text-xl text-[#a3a8ad]">Công việc</p>
         </div>
         <div
           class="w-[365px] h-[200px] bg-white rounded-md flex flex-col justify-center items-center"
         >
           <img class="h-16 text-green" src="@/assets/images/company-home.svg" />
-          <p class="text-xl font-bold mt-4">23+</p>
+          <p class="text-xl font-bold mt-4">99+</p>
           <p class="text-xl text-[#a3a8ad]">Công ty</p>
         </div>
         <div
@@ -38,7 +38,7 @@
             class="h-16 text-green"
             src="@/assets/images/candidate-home.svg"
           />
-          <p class="text-xl font-bold mt-4">23+</p>
+          <p class="text-xl font-bold mt-4">99+</p>
           <p class="text-xl text-[#a3a8ad]">Ứng viên</p>
         </div>
       </div>
@@ -49,90 +49,11 @@
     <p class="text-green font-bold text-xl">Danh mục công việc hàng đầu</p>
 
     <div class="grid grid-cols-6 content-center gap-5 mt-10">
-      <div class="card-job-category">
-        <img class="h-10" src="@/assets/images/job-search-home.svg" />
-        <p class="text-center mb-2 mt-6 text-sm">
-          Công nghệ thông tin viễn thông
-        </p>
-        <p class="text-[#a3a8ad]">8 công việc</p>
-      </div>
-      <div class="card-job-category">
-        <img class="h-10" src="@/assets/images/job-search-home.svg" />
-        <p class="text-center mb-2 mt-6 text-sm">
-          Công nghệ thông tin viễn thông
-        </p>
-        <p class="text-[#a3a8ad]">8 công việc</p>
-      </div>
-      <div class="card-job-category">
-        <img class="h-10" src="@/assets/images/job-search-home.svg" />
-        <p class="text-center mb-2 mt-6 text-sm">
-          Công nghệ thông tin viễn thông
-        </p>
-        <p class="text-[#a3a8ad]">8 công việc</p>
-      </div>
-      <div class="card-job-category">
-        <img class="h-10" src="@/assets/images/job-search-home.svg" />
-        <p class="text-center mb-2 mt-6 text-sm">
-          Công nghệ thông tin viễn thông
-        </p>
-        <p class="text-[#a3a8ad]">8 công việc</p>
-      </div>
-      <div class="card-job-category">
-        <img class="h-10" src="@/assets/images/job-search-home.svg" />
-        <p class="text-center mb-2 mt-6 text-sm">
-          Công nghệ thông tin viễn thông
-        </p>
-        <p class="text-[#a3a8ad]">8 công việc</p>
-      </div>
-      <div class="card-job-category">
-        <img class="h-10" src="@/assets/images/job-search-home.svg" />
-        <p class="text-center mb-2 mt-6 text-sm">
-          Công nghệ thông tin viễn thông
-        </p>
-        <p class="text-[#a3a8ad]">8 công việc</p>
-      </div>
-      <div class="card-job-category">
-        <img class="h-10" src="@/assets/images/job-search-home.svg" />
-        <p class="text-center mb-2 mt-6 text-sm">
-          Công nghệ thông tin viễn thông
-        </p>
-        <p class="text-[#a3a8ad]">8 công việc</p>
-      </div>
-      <div class="card-job-category">
-        <img class="h-10" src="@/assets/images/job-search-home.svg" />
-        <p class="text-center mb-2 mt-6 text-sm">
-          Công nghệ thông tin viễn thông
-        </p>
-        <p class="text-[#a3a8ad]">8 công việc</p>
-      </div>
-      <div class="card-job-category">
-        <img class="h-10" src="@/assets/images/job-search-home.svg" />
-        <p class="text-center mb-2 mt-6 text-sm">
-          Công nghệ thông tin viễn thông
-        </p>
-        <p class="text-[#a3a8ad]">8 công việc</p>
-      </div>
-      <div class="card-job-category">
-        <img class="h-10" src="@/assets/images/job-search-home.svg" />
-        <p class="text-center mb-2 mt-6 text-sm">
-          Công nghệ thông tin viễn thông
-        </p>
-        <p class="text-[#a3a8ad]">8 công việc</p>
-      </div>
-      <div class="card-job-category">
-        <img class="h-10" src="@/assets/images/job-search-home.svg" />
-        <p class="text-center mb-2 mt-6 text-sm">
-          Công nghệ thông tin viễn thông
-        </p>
-        <p class="text-[#a3a8ad]">8 công việc</p>
-      </div>
-      <div class="card-job-category">
-        <img class="h-10" src="@/assets/images/job-search-home.svg" />
-        <p class="text-center mb-2 mt-6 text-sm">
-          Công nghệ thông tin viễn thông
-        </p>
-        <p class="text-[#a3a8ad]">8 công việc</p>
-      </div>
+      <card-job-category
+        v-for="el in mockDataJobCategory"
+        :key="el"
+        :data="el"
+      />
     </div>
     <el-button
       type="primary"
@@ -143,31 +64,26 @@
   </div>
 
   <div class="w-[1700px] bg-white h-[700px] mx-auto">
-    <p class="text-green text-center font-bold text-xl mt-10">
+    <p class="text-green text-center font-bold text-xl mt-10 pt-2">
       Công việc phổ biến
     </p>
     <div class="p-2 rounded-lg">
-      <div class="mt-10">
+      <p
+        class="text-end mt-6 mr-2 text-green cursor-pointer"
+        @click="router.push('/job/list')"
+      >
+        Xem tất cả
+      </p>
+      <div class="mt-2">
         <el-carousel
           height="550px"
           arrow="always"
           trigger="click"
           interval="4000"
         >
-          <el-carousel-item v-for="item in 4" :key="item">
+          <el-carousel-item v-for="item in listJob" :key="item">
             <div class="grid grid-cols-4 gap-4">
-              <card-job-home />
-              <card-job-home />
-              <card-job-home />
-              <card-job-home />
-              <card-job-home />
-              <card-job-home />
-              <card-job-home />
-              <card-job-home />
-              <card-job-home />
-              <card-job-home />
-              <card-job-home />
-              <card-job-home />
+              <card-job-home v-for="el in item" :key="el.id" :data="el" />
             </div>
           </el-carousel-item>
         </el-carousel>
@@ -179,16 +95,17 @@
     <p class="text-green font-bold text-xl text-center pt-14">
       Nhận xét về chúng tôi
     </p>
-    <div class="p-2 rounded-lg mt-14">
+    <div class="p-2 rounded-lg mt-6">
       <div class="mt-10 w-[1500px] mx-auto">
         <el-carousel
-          height="300px"
+          height="285px"
           arrow="always"
           trigger="click"
           :autoplay="false"
         >
-          <el-carousel-item v-for="item in 5" :key="item">
+          <el-carousel-item v-for="item in 2" :key="item">
             <div class="flex justify-center gap-6 w-full">
+              <card-review />
               <card-review />
               <card-review />
               <card-review />
@@ -209,11 +126,9 @@
           trigger="click"
           :autoplay="false"
         >
-          <el-carousel-item v-for="item in 5" :key="item">
+          <el-carousel-item v-for="item in listBlog" :key="item">
             <div class="flex justify-center gap-6 w-full">
-              <card-blog-home />
-              <card-blog-home />
-              <card-blog-home />
+              <card-blog-home v-for="el in item" :key="el" :data="el" />
             </div>
           </el-carousel-item>
         </el-carousel>
@@ -285,6 +200,76 @@ const props = defineProps({
     type: Number,
     default: ERole.USER,
   },
+});
+
+const mockDataJobCategory = [
+  {
+    title: 'Bán lẻ/Tiêu dùng',
+    totalJob: 12,
+  },
+  {
+    title: 'Bảo hiểm',
+    totalJob: 12,
+  },
+  {
+    title: 'Bất động sản',
+    totalJob: 12,
+  },
+  {
+    title: 'CEO & General Management',
+    totalJob: 12,
+  },
+  {
+    title: 'Chính Phủ/Phi lợi nhuận',
+    totalJob: 12,
+  },
+  {
+    title: 'Công nghệ thông tin/Viễn thông',
+    totalJob: 12,
+  },
+  {
+    title: 'Dược',
+    totalJob: 12,
+  },
+  {
+    title: 'Giáo dục',
+    totalJob: 12,
+  },
+  {
+    title: 'Hậu cần/Xuất nhập kho/Kho bãi',
+    totalJob: 12,
+  },
+  {
+    title: 'Khoa học & Kỹ thuật',
+    totalJob: 12,
+  },
+  {
+    title: 'Kinh doanh',
+    totalJob: 12,
+  },
+  {
+    title: 'Kiến Trúc/Xây dựng',
+    totalJob: 12,
+  },
+];
+
+const router = useRouter();
+const jobStore = useJobStore();
+const blogStore = useBlogStore();
+const listJob = ref<any[]>([[], [], []]);
+const listBlog = ref<any[]>([[], [], []]);
+const { data: dataJob, meta: metaJob } = await jobStore.getListJob({
+  limit: 36,
+});
+dataJob?.forEach((el: any, index: any) => {
+  const i = Math.floor(index / 12);
+  listJob.value[i].push(el);
+});
+
+const { data, error } = await blogStore.getListBlog({ limit: 9 });
+data?.forEach((el: any, index: any) => {
+  const i = Math.floor(index / 3);
+  listBlog.value[i].push(el);
 });
 
 const handleSearchJob = (data: ISearchJobHome) => {
