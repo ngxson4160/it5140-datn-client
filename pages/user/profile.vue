@@ -382,7 +382,7 @@
                     {{ workExperience?.position }}
                   </p>
                   <p>{{ workExperience?.companyName }}</p>
-                  <p>{{ workExperience?.description }}</p>
+                  <!-- <p>{{ workExperience?.description }}</p> -->
                 </div>
                 <div class="absolute top-0 left-[250px]">
                   <action

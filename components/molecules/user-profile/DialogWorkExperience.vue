@@ -61,7 +61,11 @@
         class="w-full"
         required
       >
-        <el-input v-model="formData.description" size="large" />
+        <!-- <el-input v-model="formData.description" size="large" /> -->
+        <content-editor
+          v-model:model-value="formData.description"
+          class="w-full"
+        />
       </el-form-item>
     </el-form>
 
@@ -123,6 +127,7 @@ const rules = reactive<FormRules<any>>({
   // end: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
   description: [
     { required: true, message: 'Bắt buộc', trigger: 'change' },
+    { validator: validateContent, message: 'Bắt buộc', trigger: 'change' },
     { validator: validateEmptyString, message: 'Bắt buộc', trigger: 'blur' },
   ],
 });

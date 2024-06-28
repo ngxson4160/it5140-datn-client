@@ -268,6 +268,7 @@ const rules = reactive<FormRules<any>>({
   ],
   aboutUs: [
     { required: true, message: 'Bắt buộc', trigger: 'change' },
+    { validator: validateContent, message: 'Bắt buộc', trigger: 'change' },
     { validator: validateEmptyString, message: 'Bắt buộc', trigger: 'blur' },
   ],
 });

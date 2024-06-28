@@ -349,12 +349,13 @@ onMounted(() => {
     if (conversationId.value === message.conversation.id) {
       listMessage.value.message.push(message);
 
-      if (currentScrollBottom) {
-        socket.emit('read_conversation', {
-          conversationId: message.conversation.id,
-        });
-        message.conversation.status = EUserHasConversationStatus.READ;
-      }
+      // newest updated
+      // if (currentScrollBottom) {
+      //   socket.emit('read_conversation', {
+      //     conversationId: message.conversation.id,
+      //   });
+      //   message.conversation.status = EUserHasConversationStatus.READ;
+      // }
     }
 
     if (listConversation.value.length === 0 && !conversationId.value) {

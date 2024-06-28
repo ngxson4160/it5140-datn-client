@@ -97,7 +97,15 @@
           TT: {{ CApplicationStatus[data.status].name }}
         </p>
 
-        <div class="mt-10 flex justify-between items-center hover:underline">
+        <!-- <div class="mt-5 flex gap-x-1"> <img src="@/assets/images/message-gray.svg" class="w-6 h-6"/><p>Nhắn tin</p></div> -->
+        <el-button
+          class="mt-4"
+          :icon="ChatSquare"
+          @click="redirectToMessagePage"
+        >
+          Nhắn tin
+        </el-button>
+        <div class="mt-1 flex justify-between items-center hover:underline">
           <div
             class="text-sm flex cursor-pointer"
             @click.stop="handleShowPreviewCV(data)"
@@ -139,6 +147,7 @@
 </template>
 
 <script setup lang="ts">
+import { ChatSquare } from '@element-plus/icons-vue';
 import { CApplicationStatus } from '~/utils/constant/common';
 
 const props = defineProps({
@@ -183,6 +192,19 @@ const handleShowPreviewCV = (data: any) => {
       candidateInformation: data.systemCv,
     };
   }
+};
+
+const conversationStore = useConversationStore();
+
+const redirectToMessagePage = async () => {
+  const isLogin = handleCheckLogin();
+  if (!isLogin) return;
+
+  const conversation = await conversationStore.createConversation({
+    withUserId: props.data?.job?.creator?.id,
+  });
+
+  router.push(`/user/message?id=${conversation.id}`);
 };
 </script>
 

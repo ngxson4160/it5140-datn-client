@@ -137,7 +137,8 @@
                 {{ workExperience?.position }}
               </p>
               <p>{{ workExperience?.companyName }}</p>
-              <p>{{ workExperience?.description }}</p>
+              <!-- <p>{{ workExperience?.description }}</p> -->
+              <div class="tiptap" v-html="workExperience?.description"></div>
             </div>
           </el-timeline-item>
         </el-timeline>

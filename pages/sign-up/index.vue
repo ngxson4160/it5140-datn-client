@@ -29,17 +29,13 @@
               </el-form-item>
             </div>
 
-            <div class="flex gap-x-6">
+            <!-- <div class="flex gap-x-6">
               <el-form-item
                 label="Công việc mong muốn"
                 prop="desiredJobCategoryId"
                 class="w-full"
                 required
               >
-                <!-- <el-input
-                  v-model="formSignUp.desiredJobCategoryId"
-                  size="large"
-                /> -->
                 <select-job-category
                   v-model="formSignUp.desiredJobCategoryId"
                   class="!w-full"
@@ -53,13 +49,12 @@
                 class="w-full"
                 required
               >
-                <!-- <el-input v-model="formSignUp.yearExperience" size="large" /> -->
                 <select-job-experience
                   v-model="formSignUp.yearExperience"
                   class="w-full"
                 />
               </el-form-item>
-            </div>
+            </div> -->
 
             <el-form-item label="Số điện thoại" prop="phoneNumber" required>
               <el-input v-model="formSignUp.phoneNumber" size="large" />
@@ -137,8 +132,8 @@ const formSignUp = ref({
   phoneNumber: undefined,
   email: undefined,
   password: undefined,
-  desiredJobCategoryId: undefined,
-  yearExperience: undefined,
+  // desiredJobCategoryId: undefined,
+  // yearExperience: undefined,
 });
 
 const ruleForm = ref<FormInstance>();
@@ -174,10 +169,10 @@ const rules = reactive<FormRules<any>>({
     { min: 8, message: 'Tối thiểu 8 ký tự', trigger: 'change' },
     { validator: validateEmptyString, message: 'Bắt buộc', trigger: 'blur' },
   ],
-  desiredJobCategoryId: [
-    { required: true, message: 'Bắt buộc', trigger: 'change' },
-  ],
-  yearExperience: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
+  // desiredJobCategoryId: [
+  //   { required: true, message: 'Bắt buộc', trigger: 'change' },
+  // ],
+  // yearExperience: [{ required: true, message: 'Bắt buộc', trigger: 'change' }],
 });
 
 const submit = () => {
