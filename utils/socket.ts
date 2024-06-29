@@ -8,7 +8,7 @@ if (cookieSystemData) {
   systemData.value = handleJWTDecrypt(cookieSystemData);
 }
 
-export const socket = io('http://localhost:3010', {
+export const socket = io(process.env.BASE_URL || 'http://localhost:3010', {
   extraHeaders: {
     userId: systemData.value?.id ?? 0,
   },
