@@ -41,7 +41,7 @@
     <p class="mt-10 mb-2 text-sm">Địa chỉ</p>
     <div
       v-for="(address, index) in syncValue.address"
-      :key="index"
+      :key="address.districtName"
       class="flex mb-2 gap-6 w-[1025px]"
     >
       <el-select v-model="address.districtName" class="w-[350px]">

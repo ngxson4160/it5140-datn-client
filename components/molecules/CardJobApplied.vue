@@ -153,7 +153,7 @@ import { CApplicationStatus } from '~/utils/constant/common';
 const props = defineProps({
   data: {
     type: Object,
-    default: () => InitJob,
+    required: true,
   },
   label: {
     type: Object,

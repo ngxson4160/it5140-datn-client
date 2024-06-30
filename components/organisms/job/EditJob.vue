@@ -296,7 +296,7 @@ const handleDisableDate = (data: any) => {
 const props = defineProps({
   value: {
     type: Object as PropType<IJobCreate>,
-    default: initCreateJob,
+    required: true,
   },
   isEdit: {
     type: Boolean,
