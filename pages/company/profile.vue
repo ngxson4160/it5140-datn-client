@@ -207,7 +207,7 @@ import { MESSAGE_VALIDATE } from '~/utils/constant/message-validate';
 
 definePageMeta({
   layout: 'company-dashboard',
-  // middleware: ['redirect'],
+
   roles: [ERole.COMPANY],
 });
 

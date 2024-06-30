@@ -4,7 +4,7 @@ export default defineNuxtRouteMiddleware((to) => {
     const systemData = handleJWTDecrypt(cookieSystemData);
 
     if (systemData && systemData.roles?.[0] === ERole.USER) {
-      return navigateTo('/user' + to.fullPath);
+      return navigateTo('/user');
     }
 
     if (systemData && systemData.roles?.[0] === ERole.COMPANY) {

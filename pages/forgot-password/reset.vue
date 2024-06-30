@@ -63,7 +63,7 @@ import { ref } from 'vue';
 
 import { object, string, type InferType } from 'yup';
 definePageMeta({
-  middleware: ['redirect'],
+  middleware: ['redirect-to-home-page'],
 });
 // data
 const authStore = useAuthStore();

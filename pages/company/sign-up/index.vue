@@ -97,12 +97,7 @@
       </el-form>
 
       <div class="flex justify-end mt-10">
-        <el-button
-          v-if="active !== 3"
-          :disabled="active === 0"
-          type="danger"
-          @click="handleBack"
-        >
+        <el-button v-if="active !== 3" type="danger" @click="handleBack">
           Quay lại
         </el-button>
         <el-button v-if="active !== 3" type="primary" @click="handleNext">
@@ -117,7 +112,7 @@
 import type { FormInstance, FormRules } from 'element-plus';
 import { MESSAGE_VALIDATE } from '~/utils/constant/message-validate';
 definePageMeta({
-  middleware: ['redirect'],
+  // middleware: ['redirect'],
 });
 const authStore = useAuthStore();
 
@@ -233,6 +228,8 @@ const handleNextCompany = (formEl: FormInstance | undefined) => {
 const handleBack = () => {
   if (active.value > 0) {
     active.value -= 1;
+  } else if (active.value === 0) {
+    router.push('/sign-up');
   }
 };
 

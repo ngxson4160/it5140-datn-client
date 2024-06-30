@@ -7,7 +7,7 @@ import type { CreateBlog } from '~/types/blog';
 
 definePageMeta({
   layout: 'company-dashboard',
-  // middleware: ['redirect'],
+
   roles: [ERole.COMPANY],
 });
 
