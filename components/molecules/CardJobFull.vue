@@ -91,7 +91,7 @@
 const props = defineProps({
   data: {
     type: Object,
-    default: () => InitJob,
+    required: true,
   },
   label: {
     type: Object,

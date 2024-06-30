@@ -7,7 +7,8 @@ export default defineNuxtConfig({
   ssr: false,
   runtimeConfig: {
     public: {
-      baseURL: process.env.BASE_URL || 'http://localhost:3009',
+      baseURL: process.env.BASE_URL || 'http://localhost:3010/api/v1',
+      webSocket: process.env.WEB_SOCKET || 'http://localhost:3010',
       awsURL: process.env.AWS_DOWNLOAD_URL || 'http://localhost:3009',
       nuxtAuthSecret:
         process.env.NUXT_AUTH_SECRET || '875F92F5BE94E32B6AE6CA7793736',

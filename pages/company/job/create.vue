@@ -263,7 +263,7 @@
 import type { FormInstance, FormRules } from 'element-plus';
 import type { IJobRegion } from '~/components/atoms/SelectJobRegion.vue';
 import { EGender } from '~/types/common';
-import type { IJobCreate } from '~/types/job';
+import { EJobStatus, type IJobCreate } from '~/types/job';
 
 definePageMeta({
   layout: 'company-dashboard',
@@ -326,7 +326,36 @@ const region = ref<IJobRegion[]>([
     ],
   },
 ]);
-const data = ref<IJobCreate>({ ...initCreateJob });
+
+const createJob: IJobCreate = {
+  title: '',
+  jobCategoryId: null,
+  salaryMin: 0,
+  salaryMax: 0,
+  jobMode: null,
+  level: null,
+  officeName: '',
+  address: [],
+  quantity: null,
+  totalViews: 0,
+  totalCandidate: 0,
+  benefits: '',
+  description: '',
+  requirement: '',
+  time: '',
+  gender: null,
+  yearExperience: null,
+  hiringStartDate: '',
+  hiringEndDate: '',
+  status: EJobStatus.PUBLIC,
+  allowNotification: true,
+  createdAt: '',
+  createdBy: '',
+  updatedAt: '',
+  updatedBy: '',
+  cityIds: [],
+};
+const data = ref<IJobCreate>(createJob);
 
 const ruleForm = ref<FormInstance>();
 const rules = reactive<FormRules<any>>({
