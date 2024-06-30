@@ -85,6 +85,7 @@
           size="large"
           @keydown.enter="handleCreateNewMessage"
           @click="handleReadConversation(conversationId)"
+          @focus="handleReadConversation(conversationId)"
         />
         <el-button type="primary" size="large" @click="handleCreateNewMessage">
           Gửi
@@ -331,7 +332,7 @@ const handleReadConversation = (id: number) => {
 };
 
 const handleScrollBarBottom = () => {
-  handleReadConversation(conversationId.value);
+  // handleReadConversation(conversationId.value);
 };
 
 const messageBoxHeight = ref(541);

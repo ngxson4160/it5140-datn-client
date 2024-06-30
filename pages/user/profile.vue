@@ -44,7 +44,7 @@
                 <p class="text-sm">
                   {{
                     userStore.myProfile.gender !== null
-                      ? CGender[userStore.myProfile?.gender].name
+                      ? CGender[userStore.myProfile?.gender]?.name
                       : ''
                   }}
                 </p>
@@ -69,7 +69,7 @@
                 <p class="text-sm">
                   {{
                     userStore.myProfile.maritalStatus !== null
-                      ? CMaritalStatus[userStore.myProfile?.maritalStatus].name
+                      ? CMaritalStatus[userStore.myProfile?.maritalStatus]?.name
                       : ''
                   }}
                 </p>
@@ -112,7 +112,7 @@
                       ? CJobExperienceValue[
                           userStore.myProfile.candidateInformation
                             ?.yearExperience
-                        ].name
+                        ]?.name
                       : ''
                   }}
                 </p>
@@ -127,7 +127,7 @@
                       ? CJobLevel[
                           userStore.myProfile.candidateInformation
                             .desiredJobLevel
-                        ].name
+                        ]?.name
                       : ''
                   }}
                 </p>
@@ -153,7 +153,7 @@
                   {{
                     userStore.myProfile?.educationalLevel !== null
                       ? CEducationLevel[userStore.myProfile.educationalLevel]
-                          .name
+                          ?.name
                       : ''
                   }}
                 </p>
@@ -167,7 +167,7 @@
                       ? CJobMode[
                           userStore.myProfile.candidateInformation
                             .desiredJobMode
-                        ].name
+                        ]?.name
                       : ''
                   }}
                 </p>
@@ -246,7 +246,7 @@
                         ? CJobLevel[
                             userStore.myProfile.candidateInformation
                               .desiredJobLevel
-                          ].name
+                          ]?.name
                         : ''
                     }}
                   </p>
