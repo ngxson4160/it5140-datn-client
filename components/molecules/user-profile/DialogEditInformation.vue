@@ -95,7 +95,7 @@
         </div>
 
         <div class="col-span-1">
-          {{ formData.district }}
+          <!-- {{ formData.district }} -->
           <el-form-item
             label="Quận/Huyện"
             prop="districtId"
@@ -222,7 +222,7 @@ const handleConfirm = () => {
 };
 
 const useCity = useCityStore();
-await useCity.getListCityAndDistrict();
+await useCity.getListCities();
 
 const listDistrict = ref<Array<{ id: number; name: string }>>();
 const handleChangeCity = () => {
