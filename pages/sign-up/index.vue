@@ -119,7 +119,7 @@ import { ref } from 'vue';
 import { MESSAGE_VALIDATE } from '~/utils/constant/message-validate';
 
 definePageMeta({
-  middleware: ['redirect'],
+  middleware: ['redirect-to-home-page'],
 });
 
 // data

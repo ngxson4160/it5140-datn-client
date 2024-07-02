@@ -113,7 +113,7 @@ export interface IJobRegion {
 }
 
 const useCity = useCityStore();
-await useCity.getListCityAndDistrict();
+await useCity.getListCities();
 
 const emits = defineEmits(['update:value', 'ruleForm', 'removeRegion']);
 

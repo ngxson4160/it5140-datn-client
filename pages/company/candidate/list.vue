@@ -372,7 +372,7 @@ import type { EApplicationClassify } from '~/utils/enum';
 
 definePageMeta({
   layout: 'company-dashboard',
-  // middleware: ['redirect'],
+
   roles: [ERole.COMPANY],
 });
 

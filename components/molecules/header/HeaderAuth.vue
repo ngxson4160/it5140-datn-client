@@ -1,9 +1,9 @@
 <template>
   <div
-    class="h-[80px] pr-[250px] pl-[100px] flex w-full justify-between items-center shadow-lg"
+    class="h-[80px] pr-[125px] pl-[100px] flex w-full justify-between items-center shadow-lg"
   >
     <div
-      class="text-4xl font-bold hover:cursor-pointer pr-[200px]"
+      class="text-4xl font-bold hover:cursor-pointer pr-[125px]"
       @click="router.push('/user')"
     >
       Job
@@ -55,11 +55,21 @@
     </div>
 
     <div class="flex items-center">
+      <div class="mr-2">
+        <p class="text-sm text-grey">Bạn muốn tuyển dụng?</p>
+        <div
+          class="flex items-center gap-x-1 hover:text-green"
+          @click="router.push('/company/sign-up')"
+        >
+          <p class="font-bold cursor-pointer">Đăng ký ngay</p>
+          <DArrowRight class="w-5" />
+        </div>
+      </div>
       <el-dropdown trigger="click">
         <el-badge
           :value="totalNotificationUnreal"
           :max="9"
-          class="mr-6 item cursor-pointer focus:outline-none"
+          class="mr-6 item cursor-pointer focus:outline-none border-l"
           :hidden="totalNotificationUnreal === 0"
           @click="handleUpdateReadNotification"
         >
@@ -111,7 +121,7 @@
         :value="totalConversationUnreal"
         :max="999"
         :hidden="totalConversationUnreal === 0"
-        class="mr-16 item cursor-pointer"
+        class="mr-6 item cursor-pointer"
         @click="router.push('/user/message')"
       >
         <img src="@/assets/images/message-gray.svg" class="w-8 mr-1" />
@@ -141,6 +151,7 @@
 </template>
 
 <script setup lang="ts">
+import { DArrowRight } from '@element-plus/icons-vue';
 import type { IGetListNotification } from '~/types/notification';
 
 const router = useRouter();

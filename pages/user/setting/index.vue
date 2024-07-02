@@ -12,7 +12,7 @@
 <script setup lang="ts">
 definePageMeta({
   layout: 'user-dashboard',
-  // middleware: ['redirect'],
+
   roles: [ERole.USER],
 });
 

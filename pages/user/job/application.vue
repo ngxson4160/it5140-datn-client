@@ -70,7 +70,7 @@ import type { IGetListJobApplication, IJobApplication } from '~/types/user';
 
 definePageMeta({
   layout: 'user-dashboard',
-  // middleware: ['redirect'],
+
   roles: [ERole.USER],
 });
 

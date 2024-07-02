@@ -6,7 +6,6 @@
 definePageMeta({
   roles: [ERole.USER],
   layout: 'user-dashboard',
-  // middleware: ['redirect'],
 });
 </script>
 

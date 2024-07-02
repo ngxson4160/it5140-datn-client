@@ -96,7 +96,7 @@ import { object, string, type InferType } from 'yup';
 import { useAuthStore } from '../stores/auth';
 
 definePageMeta({
-  middleware: ['redirect'],
+  // middleware: ['redirect-to-home-page'],
 });
 
 // data
