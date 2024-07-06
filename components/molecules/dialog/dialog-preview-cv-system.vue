@@ -71,7 +71,14 @@
           <div class="col-span-1">
             <p class="font-bold">Số năm kinh nghiệm</p>
             <p class="text-sm">
-              {{ data.candidateInformation?.yearExperience || '' }}
+              <!-- {{ data.candidateInformation?.yearExperience || '' }} -->
+              {{
+                data?.candidateInformation?.yearExperience ||
+                data?.candidateInformation?.yearExperience === 0
+                  ? CJobExperience[data.candidateInformation?.yearExperience]
+                      ?.name
+                  : ''
+              }}
             </p>
           </div>
 
@@ -281,7 +288,7 @@ import {
   CGender,
   CMaritalStatus,
 } from '~/utils/constant/common';
-import { CJobLevel, CJobMode } from '~/utils/constant/job';
+import { CJobExperience, CJobLevel, CJobMode } from '~/utils/constant/job';
 
 const props = defineProps({
   dialogVisible: {

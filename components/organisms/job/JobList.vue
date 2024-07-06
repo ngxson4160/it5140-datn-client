@@ -19,8 +19,8 @@
     <div v-else>
       <div class="flex flex-col items-center mt-2">
         <card-job-full
-          v-for="(job, index) in listJob"
-          :key="index"
+          v-for="job in listJob"
+          :key="job.id"
           class="mt-1 w-full"
           :data="job"
         />
