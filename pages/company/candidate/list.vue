@@ -71,7 +71,7 @@
         stripe
         row-class-name="custom-row-table"
       >
-        <el-table-column>
+        <el-table-column width="200">
           <template #header>
             <p>Tên ứng viên</p>
           </template>

@@ -117,7 +117,8 @@
             <p class="font-bold">Hình thức làm việc mong muốn</p>
             <p class="text-sm">
               {{
-                data?.candidateInformation?.desiredJobMode
+                data?.candidateInformation?.desiredJobMode ||
+                data?.candidateInformation?.desiredJobMode === 0
                   ? CJobMode[data.candidateInformation.desiredJobMode]?.name
                   : ''
               }}
