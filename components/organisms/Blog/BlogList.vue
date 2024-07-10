@@ -20,8 +20,8 @@
   <div v-else>
     <div class="w-fit grid grid-cols-3 mx-auto gap-x-4 gap-y-6">
       <card-blog
-        v-for="(el, index) in listBlog"
-        :key="index"
+        v-for="el in listBlog"
+        :key="el.id"
         :data="el"
         @on-click-hear="handleFollowBlog"
       />

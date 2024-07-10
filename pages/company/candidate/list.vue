@@ -71,7 +71,7 @@
         stripe
         row-class-name="custom-row-table"
       >
-        <el-table-column>
+        <el-table-column width="200">
           <template #header>
             <p>Tên ứng viên</p>
           </template>
@@ -336,7 +336,7 @@
 
     <dialog-confirm-action
       v-model:dialog-visible="showEditInterviewSchedule"
-      title="Chọn ngày kết thúc"
+      title="Chọn lịch hẹn"
       :auto-close-dialog="false"
       @on-confirm="handleEditInterviewSchedule"
     >
@@ -528,9 +528,11 @@ const onChangeCompanyRemark = async () => {
     { companyRemark: textRemark.value },
   );
 
-  const candidate = listCandidates.value.find(
-    (el) => el.jobId === jobIdClicked.value,
-  );
+  const candidate = listCandidates.value.find((el) => {
+    return (
+      el.jobId === jobIdClicked.value && el.id === applicationIdClick.value
+    );
+  });
 
   if (candidate) {
     candidate.companyRemark = textRemark.value;

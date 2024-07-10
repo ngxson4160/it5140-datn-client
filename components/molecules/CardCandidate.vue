@@ -56,14 +56,25 @@
           </div>
 
           <div
-            v-if="data.candidateInformation?.yearExperience"
+            v-if="
+              data.candidateInformation?.yearExperience ||
+              data.candidateInformation?.yearExperience === 0
+            "
             class="flex gap-x-1 justify-center items-center rounded-full bg-[#e0ebf7] px-2 py-[2px] text-xs"
           >
             <img src="@/assets/images/hourglass-gray.svg" class="w-5" />
             <p>
               {{
-                `${data.candidateInformation?.yearExperience} năm kinh nhiệm`
+                `${CJobExperience[data.candidateInformation?.yearExperience]?.name}`
               }}
+              <span
+                v-if="
+                  data.candidateInformation?.yearExperience !== 0 &&
+                  data.candidateInformation?.yearExperience !== 1
+                "
+              >
+                kinh nhiệm
+              </span>
             </p>
           </div>
 
@@ -127,7 +138,7 @@
 
 <script setup lang="ts">
 import { CEducationLevel } from '~/utils/constant/common';
-import { CJobLevel } from '~/utils/constant/job';
+import { CJobExperience, CJobLevel } from '~/utils/constant/job';
 import { EPublicCvType } from '~/utils/enum';
 
 const props = defineProps({
